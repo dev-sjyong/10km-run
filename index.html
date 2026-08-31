@@ -245,7 +245,7 @@
 
       const workoutMap = {
         '2026-08-31': { type: 'rest', name: '완전 휴식', short: '전날 러닝 회복', pace: '없음', rpe: '1', talk: '편안함', detail: '가벼운 일상 활동만 하고 무릎의 밤과 다음 날 반응을 확인하세요.' },
-        '2026-09-01': { type: 'walk', name: '실내 걷기 30분', short: '비가 오면 실내로', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '야외가 안전하면 평지 걷기, 비나 천둥번개가 있으면 실내 걷기로 바꾸세요.' },
+        '2026-09-01': { type: 'walk', name: '회복 걷기 30분', short: '평지에서 가볍게', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '야외 평지에서 편하게 걷습니다. 비가 오면 오늘은 쉬고 이 훈련을 다음 휴식일로 이동합니다.' },
         '2026-09-02': { type: 'run', name: 'Easy 3.5-4km', short: '무릎 반응 확인', pace: '7:20-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '평지에서 처음부터 끝까지 같은 강도로 달립니다. 속도보다 통증이 없는지가 성공 기준입니다.' },
         '2026-09-04': { type: 'run', name: 'Easy 4km', short: '균일한 페이스', pace: '7:15-7:35/km', rpe: '3-4', talk: '문장 대화 가능', detail: '6분대로 올리지 말고 4km를 안정적으로 끝내세요.' },
         '2026-09-05': { type: 'walk', name: '회복 걷기 20-30분', short: '평지에서 가볍게', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '다리가 무거우면 시간을 줄이거나 완전히 쉬어도 됩니다.' },
@@ -374,54 +374,78 @@
         const humid = weather.humidity >= 75;
         const windy = weather.wind >= 30;
         const cool = weather.max >= 15 && weather.max <= 22 && weather.rainChance < 30 && weather.wind < 25;
-        if (outdoor && (thunder || heavyRain)) return { level: 'danger', title: '야외 취소 권장', text: workout.type === 'quality' || workout.type === 'long' ? '트레드밀로 바꾸거나 하루 이동하세요. 다음 러닝과 최소 하루 간격을 둡니다.' : '실내 운동 또는 휴식으로 바꾸세요.' };
+        if (outdoor && (thunder || heavyRain)) return { level: 'danger', title: '비로 일정 이동', text: workout.type === 'race' ? '대회 운영 공지를 확인하고 기록보다 안전을 우선하세요.' : '오늘은 쉬고 이 훈련은 이후 예보가 괜찮은 첫 휴식일로 자동 이동됩니다.' };
         if (outdoor && hot && humid) return { level: 'warning', title: '고온다습 조정', text: '목표 페이스보다 15-30초/km 늦추고 RPE를 우선하세요. 이른 아침이나 해가 진 뒤가 낫습니다.' };
         if (outdoor && hot) return { level: 'warning', title: '더위 조정', text: '목표 페이스보다 15-30초/km 늦추고 수분을 준비하세요.' };
         if (outdoor && windy) return { level: 'warning', title: '강풍 주의', text: '노출된 구간을 피하고 페이스 대신 체감강도를 기준으로 달리세요.' };
-        if (outdoor && weather.rainChance >= 60) return { level: 'warning', title: '비 대비', text: '미끄러운 노면을 피하세요. 핵심 훈련이면 트레드밀 또는 하루 이동을 고려하세요.' };
+        if (outdoor && weather.rainChance >= 60) return { level: 'warning', title: '비로 일정 이동', text: workout.type === 'race' ? '대회 운영 공지를 확인하세요.' : '오늘은 쉬고 이 훈련은 이후 예보가 괜찮은 첫 휴식일로 자동 이동됩니다.' };
         if (outdoor && cool && (workout.type === 'quality' || workout.type === 'long')) return { level: 'good', title: '핵심 훈련 적합', text: '기온과 강수 조건이 좋습니다. 다만 무릎 상태가 우선입니다.' };
         if (outdoor) return { level: 'good', title: '야외 가능', text: '현재 예보상 큰 조정은 필요 없습니다. 당일 체감과 노면을 다시 확인하세요.' };
         return { level: 'good', title: '회복일', text: '날씨와 관계없이 예정된 회복을 지키세요.' };
       }
 
+      function isRainyWeather(weather) {
+        if (!weather) return false;
+        const rainCode = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(weather.code);
+        return rainCode || weather.rainChance >= 60;
+      }
+
+      function buildRainSwapMap() {
+        const swaps = {};
+        const reservedRestDays = new Set();
+        plan.forEach((workout, index) => {
+          if (workout.type === 'rest' || workout.type === 'race' || !isRainyWeather(weatherByDate[workout.date])) return;
+          let target = null;
+          for (let next = index + 1; next < plan.length; next++) {
+            const candidate = plan[next];
+            if (candidate.type !== 'rest' || reservedRestDays.has(candidate.date) || candidate.date === RACE_DATE) continue;
+            if (weatherByDate[candidate.date] && isRainyWeather(weatherByDate[candidate.date])) continue;
+            target = candidate;
+            break;
+          }
+          swaps[workout.date] = { kind: 'rain-rest', movedTo: target?.date || '' };
+          if (target) {
+            reservedRestDays.add(target.date);
+            swaps[target.date] = { kind: 'moved-workout', movedFrom: workout.date, workout };
+          }
+        });
+        return swaps;
+      }
+
       function adjustedWorkout(workout) {
+        const swap = buildRainSwapMap()[workout.date];
+        if (swap?.kind === 'rain-rest') {
+          const moveText = swap.movedTo ? `${formatDate(swap.movedTo, true)}로 이동했습니다.` : '대회 전 남은 휴식일이 없어 보충하지 않습니다.';
+          return { ...workout, type: 'rest', name: '비로 휴식', short: '예정 훈련 자동 이동', pace: '없음', rpe: '1-2', talk: '편안함', detail: `오늘 야외 훈련은 취소합니다. ${moveText}`, adjusted: true, rainRest: true, movedTo: swap.movedTo, originalName: workout.name, originalPace: workout.pace };
+        }
+
+        let scheduled = workout;
+        if (swap?.kind === 'moved-workout') {
+          scheduled = { ...swap.workout, date: workout.date, name: `${swap.workout.name} (이동)`, short: `${formatDate(swap.movedFrom, true)} 우천 이동`, detail: `${formatDate(swap.movedFrom, true)}에 비로 쉬면서 오늘로 이동된 훈련입니다. ${swap.workout.detail}`, adjusted: true, movedFrom: swap.movedFrom, originalName: swap.workout.name, originalPace: swap.workout.pace };
+        }
+
         const weather = weatherByDate[workout.date];
-        if (!weather || workout.type === 'rest') return workout;
-        const thunder = [95, 96, 99].includes(weather.code);
-        const heavyRain = weather.rainChance >= 70 && weather.rain >= 10;
-        const likelyRain = weather.rainChance >= 60;
+        if (!weather || scheduled.type === 'rest') return scheduled;
         const hot = weather.max >= 28 || weather.apparent >= 30;
         const humid = weather.humidity >= 75;
         const windy = weather.wind >= 30;
-        const base = { ...workout, originalName: workout.name, originalPace: workout.pace, originalDetail: workout.detail, adjusted: true };
-
-        if ((thunder || heavyRain) && workout.type !== 'race') {
-          if (workout.type === 'walk') return { ...base, name: '실내 걷기 30분', short: '천둥번개·폭우 실내 대체', pace: '편안한 실내 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '야외 운동을 취소합니다. 실내에서 30분 편하게 걷고, 공간이 없으면 완전히 쉬세요.' };
-          if (workout.type === 'quality') return { ...base, name: `트레드밀: ${workout.name}`, short: '천둥번개·폭우 실내 대체', detail: `${workout.detail} 경사도는 0-1%로 두고, 트레드밀을 이용할 수 없으면 Easy 실내 유산소 30분으로 낮추세요.` };
-          if (workout.type === 'long') return { ...base, name: '실내 Long Easy', short: '폭우 실내 대체', pace: 'RPE 4-5 기준', detail: `트레드밀에서 예정 거리를 편하게 달립니다. 지루하거나 무릎이 불편하면 20-30분씩 두 구간으로 나누고 사이에 3분 걸으세요. 트레드밀이 없으면 실내 자전거 45-60분으로 바꿉니다.` };
-          return { ...base, name: `트레드밀: ${workout.name}`, short: '천둥번개·폭우 실내 대체', detail: `${workout.detail} 경사도 0-1%의 트레드밀에서 진행하세요. 트레드밀이 없으면 실내 자전거 또는 빠른 걷기 30-40분으로 바꿉니다.` };
-        }
-
-        if (likelyRain && workout.type !== 'race') {
-          if (workout.type === 'walk') return { ...base, name: '실내 걷기 30분', short: '우천 실내 대체', pace: '편안한 실내 걷기', detail: '젖은 노면 대신 실내에서 편하게 걷습니다.' };
-          return { ...base, name: `우천 대안: ${workout.name}`, short: '트레드밀 우선', detail: `${workout.detail} 비가 실제로 내리면 같은 구성으로 트레드밀에서 진행하고, 노면이 마르면 원래 계획대로 야외에서 달리세요.` };
-        }
+        const base = { ...scheduled, originalName: scheduled.originalName || scheduled.name, originalPace: scheduled.originalPace || scheduled.pace, originalDetail: scheduled.originalDetail || scheduled.detail, adjusted: true };
 
         if (hot && humid) {
-          if (workout.type === 'walk') return { ...base, name: '선선한 시간 걷기', short: '고온다습 조정', pace: '편안한 걷기', detail: '이른 아침이나 해가 진 뒤 20-30분 걷습니다. 체감온도가 높으면 실내로 바꾸세요.' };
-          if (workout.type === 'quality') return { ...base, name: `${workout.name} RPE 기준`, short: '고온다습 페이스 완화', pace: '기존 목표보다 10-20초/km 느리게', detail: `${workout.detail} 단, 숫자 페이스를 억지로 맞추지 말고 RPE ${workout.rpe}를 넘으면 즉시 늦추세요. 가능하면 이른 아침이나 트레드밀을 이용합니다.` };
-          if (workout.type === 'race') return { ...base, name: 'Disney Run 10K 더위 전략', short: '체감온도 기준 출발 조정', pace: '초반 목표보다 5-10초/km 느리게', detail: '첫 2km를 보수적으로 출발하고 급수대를 활용하세요. 기록보다 과열 방지가 우선입니다.' };
-          return { ...base, name: `${workout.name} 완화`, short: '고온다습 RPE 조정', pace: '기존 목표보다 15-30초/km 느리게', detail: `${workout.detail} 이른 아침이나 해가 진 뒤 달리고, RPE ${workout.rpe}를 기준으로 속도를 낮추세요.` };
+          if (scheduled.type === 'walk') return { ...base, name: '선선한 시간 걷기', short: '고온다습 조정', pace: '편안한 걷기', detail: '이른 아침이나 해가 진 뒤 20-30분 걷습니다. 너무 덥다면 이 걷기는 생략해도 됩니다.' };
+          if (scheduled.type === 'quality') return { ...base, name: `${scheduled.name} RPE 기준`, short: '고온다습 페이스 완화', pace: '기존 목표보다 10-20초/km 느리게', detail: `${scheduled.detail} 단, 숫자 페이스를 억지로 맞추지 말고 RPE ${scheduled.rpe}를 넘으면 즉시 늦추세요. 가능하면 이른 아침에 진행합니다.` };
+          if (scheduled.type === 'race') return { ...base, name: 'Disney Run 10K 더위 전략', short: '체감온도 기준 출발 조정', pace: '초반 목표보다 5-10초/km 느리게', detail: '첫 2km를 보수적으로 출발하고 급수대를 활용하세요. 기록보다 과열 방지가 우선입니다.' };
+          return { ...base, name: `${scheduled.name} 완화`, short: '고온다습 RPE 조정', pace: '기존 목표보다 15-30초/km 느리게', detail: `${scheduled.detail} 이른 아침이나 해가 진 뒤 달리고, RPE ${scheduled.rpe}를 기준으로 속도를 낮추세요.` };
         }
 
         if (hot) {
-          if (workout.type === 'quality') return { ...base, name: `${workout.name} 더위 조정`, short: '목표 페이스 완화', pace: '기존 목표보다 10-20초/km 느리게', detail: `${workout.detail} 선선한 시간에 진행하고 세트 사이 회복을 30-60초 늘려도 됩니다.` };
-          if (workout.type === 'race') return { ...base, name: 'Disney Run 10K 더위 전략', short: '초반 보수적 운영', pace: '초반 목표보다 5초/km 느리게', detail: '첫 2km를 보수적으로 시작하고 급수대를 활용하세요.' };
-          if (workout.type !== 'walk') return { ...base, name: `${workout.name} 더위 조정`, short: 'RPE 기준 완화', pace: '기존 목표보다 15-30초/km 느리게', detail: `${workout.detail} 선선한 시간에 달리고 수분을 준비하세요.` };
+          if (scheduled.type === 'quality') return { ...base, name: `${scheduled.name} 더위 조정`, short: '목표 페이스 완화', pace: '기존 목표보다 10-20초/km 느리게', detail: `${scheduled.detail} 선선한 시간에 진행하고 세트 사이 회복을 30-60초 늘려도 됩니다.` };
+          if (scheduled.type === 'race') return { ...base, name: 'Disney Run 10K 더위 전략', short: '초반 보수적 운영', pace: '초반 목표보다 5초/km 느리게', detail: '첫 2km를 보수적으로 시작하고 급수대를 활용하세요.' };
+          if (scheduled.type !== 'walk') return { ...base, name: `${scheduled.name} 더위 조정`, short: 'RPE 기준 완화', pace: '기존 목표보다 15-30초/km 느리게', detail: `${scheduled.detail} 선선한 시간에 달리고 수분을 준비하세요.` };
         }
 
-        if (windy && workout.type !== 'walk') return { ...base, name: `${workout.name} 강풍 조정`, short: '페이스 대신 RPE', pace: `RPE ${workout.rpe} 기준`, detail: `${workout.detail} 바람을 정면으로 받는 구간과 노출된 하천 코스를 피하고 시계 페이스는 무시하세요.` };
-        return workout;
+        if (windy && scheduled.type !== 'walk') return { ...base, name: `${scheduled.name} 강풍 조정`, short: '페이스 대신 RPE', pace: `RPE ${scheduled.rpe} 기준`, detail: `${scheduled.detail} 바람을 정면으로 받는 구간과 노출된 하천 코스를 피하고 시계 페이스는 무시하세요.` };
+        return scheduled;
       }
 
       function weatherMarkup(date, workout, compact = false) {
@@ -449,18 +473,24 @@
         return plan.find(item => item.date === now) || plan[0];
       }
 
+      function adjustmentOriginMarkup(item, effective) {
+        if (!effective.adjusted) return '';
+        if (effective.movedFrom) return `<p class="instruction"><strong>이동 원본:</strong> ${esc(formatDate(effective.movedFrom, true))} / ${esc(effective.originalName)} / ${esc(effective.originalPace)}</p>`;
+        return `<p class="instruction"><strong>기준 계획:</strong> ${esc(item.name)} / ${esc(item.pace)}</p>`;
+      }
+
       function renderToday() {
         const item = getTodayWorkout();
         const effective = adjustedWorkout(item);
         const done = isDone(item.date);
         $('#todayDate').textContent = formatDate(item.date, true);
         $('#todayCard').innerHTML = `
-          <p class="eyebrow">${item.type === 'race' ? 'RACE DAY' : item.type === 'rest' ? 'RECOVERY' : 'TODAY'}</p>
+          <p class="eyebrow">${effective.type === 'race' ? 'RACE DAY' : effective.type === 'rest' ? 'RECOVERY' : 'TODAY'}</p>
           <h3 class="today-title">${esc(effective.name)}</h3>
           <p class="today-plan">${esc(effective.detail)}</p>
           <div class="meta-row"><span class="tag accent">${esc(effective.pace)}</span><span class="tag">RPE ${esc(effective.rpe)}</span><span class="tag">${esc(effective.talk)}</span>${effective.adjusted ? '<span class="tag warning">날씨 자동 조정</span>' : ''}</div>
-          ${weatherMarkup(item.date, item, true)}
-          ${effective.adjusted ? `<p class="today-plan" style="margin-top:12px"><strong>기준 계획:</strong> ${esc(item.name)} / ${esc(item.pace)}</p>` : ''}
+          ${weatherMarkup(item.date, effective, true)}
+          ${adjustmentOriginMarkup(item, effective).replace('class="instruction"', 'class="today-plan" style="margin-top:12px"')}
           <div class="today-actions"><button class="btn primary ${done ? 'done' : ''}" type="button" data-toggle="${item.date}">${done ? '오늘 훈련 완료' : '완료로 기록'}</button><button class="btn" type="button" data-open-date="${item.date}">기록</button></div>`;
       }
 
@@ -482,7 +512,7 @@
         const now = todayISO();
         let items = plan.filter(item => {
           if (currentFilter === 'upcoming') return item.date >= now;
-          if (currentFilter === 'run') return ['run', 'long', 'quality', 'race'].includes(item.type);
+          if (currentFilter === 'run') return ['run', 'long', 'quality', 'race'].includes(adjustedWorkout(item).type);
           if (currentFilter === 'done') return isDone(item.date);
           return true;
         });
@@ -508,13 +538,13 @@
             <summary>
               <div class="datebox"><strong>${date.getDate()}</strong><span>${weekday[date.getDay()]}요일</span></div>
               <div><div class="workout-name">${esc(effective.name)}</div><span class="workout-sub">${esc(summary || effective.short)}</span></div>
-              <div class="status-mark ${done ? 'is-done' : ''}">${done ? '완료' : item.type === 'rest' ? '회복' : '예정'}</div>
+              <div class="status-mark ${done ? 'is-done' : ''}">${done ? '완료' : effective.type === 'rest' ? '회복' : effective.movedFrom ? '이동' : '예정'}</div>
             </summary>
             <div class="detail">
               <div class="detail-grid"><div class="detail-item"><span>권장 페이스</span><strong>${esc(effective.pace)}</strong></div><div class="detail-item"><span>체감강도</span><strong>RPE ${esc(effective.rpe)}</strong></div><div class="detail-item"><span>Talk test</span><strong>${esc(effective.talk)}</strong></div><div class="detail-item"><span>목적</span><strong>${esc(effective.short)}</strong></div></div>
               <p class="instruction">${esc(effective.detail)}</p>
-              ${effective.adjusted ? `<p class="instruction"><strong>기준 계획:</strong> ${esc(item.name)} / ${esc(item.pace)}</p>` : ''}
-              ${weatherMarkup(item.date, item, false)}
+              ${adjustmentOriginMarkup(item, effective)}
+              ${weatherMarkup(item.date, effective, false)}
               ${recordForm(item)}
             </div>
           </details>`;
@@ -524,7 +554,7 @@
       function renderStats() {
         const left = dayDiff(todayISO(), RACE_DATE);
         $('#daysLeft').textContent = left > 0 ? `D-${left}` : left === 0 ? '오늘' : '완료';
-        const training = plan.filter(item => item.type !== 'rest');
+        const training = plan.filter(item => adjustedWorkout(item).type !== 'rest');
         const completed = training.filter(item => isDone(item.date)).length;
         $('#completedCount').textContent = `${completed}/${training.length}`;
       }
