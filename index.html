@@ -1,70 +1,661 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#f5f5f7">
-<title>10km D-58 상세 훈련</title>
-<style>
-:root{--bg:#f5f5f7;--card:#fff;--text:#111;--muted:#6e6e73;--line:#e5e5ea;--green:#34c759;--blue:#007aff;--orange:#ff9500;--red:#ff3b30;--purple:#af52de}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
-body{padding-bottom:max(28px,env(safe-area-inset-bottom))}
-.wrap{max-width:620px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 14px 50px}
-.hero,.panel{background:var(--card);border-radius:22px;padding:19px 17px;box-shadow:0 1px 8px rgba(0,0,0,.055)}
-.hero h1{font-size:29px;line-height:1.15;margin:0 0 7px;letter-spacing:-.7px}.sub{font-size:14px;color:var(--muted);line-height:1.55}
-.profile{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.pill{background:#f2f2f7;border-radius:13px;padding:10px;font-size:13px;line-height:1.35}.pill b{display:block;font-size:15px;margin-bottom:2px}
-.progress{height:13px;background:#ececf0;border-radius:999px;overflow:hidden;margin-top:15px}.bar{height:100%;width:0;background:var(--green);transition:.25s}.stats{display:flex;justify-content:space-between;align-items:end;margin-top:7px}.stats b{font-size:20px}.stats span{font-size:12px;color:var(--muted)}
-.sectionTitle{font-size:20px;font-weight:800;margin:20px 2px 9px}.todayCard{background:#111;color:#fff;border-radius:22px;padding:18px}.todayDate{font-size:13px;opacity:.68}.todayType{font-size:22px;font-weight:850;margin-top:4px}.todayDesc{font-size:17px;line-height:1.5;margin-top:8px}.todayQuick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.quick{background:#242426;border-radius:13px;padding:10px}.quick small{display:block;opacity:.65;font-size:11px;margin-bottom:3px}.quick b{font-size:14px;line-height:1.3}.todayActions{display:flex;gap:8px;margin-top:13px}.todayActions button{flex:1;border:0;border-radius:13px;padding:12px;font-size:15px;font-weight:750}.doneBtn{background:var(--green);color:#fff}.detailBtn{background:#2c2c2e;color:#fff}
-.guide{margin-top:14px}.guide summary{cursor:pointer;font-weight:800;font-size:15px;list-style:none}.guide summary::-webkit-details-marker{display:none}.guide summary:after{content:'펼치기';float:right;font-size:12px;font-weight:600;opacity:.65}.guide[open] summary:after{content:'접기'}
-.guideGrid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:11px}.g{background:#f7f7f8;border-radius:13px;padding:11px;color:#111}.g strong{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}.g span{font-size:14px;line-height:1.45}.todayCard .g{background:#242426;color:#fff}.todayCard .g strong{color:#aaa}
-.rules{margin-top:14px}.rule{padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.45}.rule:last-child{border:0}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px}.easy{background:var(--green)}.moderate{background:var(--orange)}.hard{background:var(--red)}
-.sectionHead{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 9px}.sectionHead h2{font-size:20px;margin:0}.filter{border:0;background:var(--card);border-radius:12px;padding:9px 11px;font-size:13px}
-.phaseHead{font-size:16px;font-weight:850;margin:20px 2px 7px}.phaseGoal{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
-.card{background:var(--card);border-radius:18px;padding:15px;margin:9px 0;box-shadow:0 1px 4px rgba(0,0,0,.035)}.card.today{outline:2px solid var(--blue)}.card.done{opacity:.57}.cardTop{display:grid;grid-template-columns:30px 1fr;gap:11px}.cb{width:27px;height:27px;accent-color:var(--green)}.rowTop{display:flex;justify-content:space-between;gap:8px;align-items:center}.date{font-size:15px;font-weight:850}.tag{font-size:11px;background:#f1f1f3;padding:5px 7px;border-radius:999px;white-space:nowrap}.desc{font-size:15px;line-height:1.48;margin-top:6px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.metric{background:#f7f7f8;border-radius:11px;padding:9px}.metric small{font-size:10px;color:var(--muted);display:block}.metric b{font-size:13px;line-height:1.3;display:block;margin-top:2px}
-.card details{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}.card summary{cursor:pointer;font-size:13px;font-weight:800;list-style:none}.card summary::-webkit-details-marker{display:none}.card summary:after{content:'＋';float:right;font-size:18px;font-weight:400}.card details[open] summary:after{content:'−'}
-.log{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}.logTitle{font-size:13px;font-weight:850;margin-bottom:8px}.inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field label{display:block;font-size:10px;color:var(--muted);margin:0 0 4px 2px}.field input,.field select{width:100%;border:1px solid var(--line);background:#fafafa;border-radius:11px;padding:10px;font-size:14px}.field.full{grid-column:1/-1}.calc{background:#eef7ff;border-radius:11px;padding:10px;font-size:13px;margin-top:8px}.note{width:100%;min-height:64px;border:1px solid var(--line);background:#fafafa;border-radius:11px;padding:10px;font-size:14px;resize:vertical}.foot{font-size:12px;color:var(--muted);line-height:1.55;margin:18px 2px 0}.backup{display:flex;gap:8px;margin-top:12px}.backup button{flex:1;border:0;background:#fff;border-radius:12px;padding:10px;font-size:13px}.hiddenFile{display:none}
-@media (max-width:390px){.profile,.todayQuick,.metrics,.inputs{grid-template-columns:1fr}.field.full{grid-column:auto}.hero h1{font-size:26px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101411" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Disney 10K">
+  <title>Disney Run 2026 10K 훈련</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f3f5f2;
+      --surface: #fbfcfa;
+      --surface-2: #e8ece7;
+      --text: #172019;
+      --muted: #5e6a61;
+      --line: #d3dad2;
+      --accent: #236b47;
+      --accent-strong: #195238;
+      --accent-soft: #dcebe2;
+      --warning: #8b5a13;
+      --warning-soft: #f7ead0;
+      --danger: #9d3733;
+      --danger-soft: #f6dfdc;
+      --radius: 16px;
+      --shadow: 0 12px 34px rgba(32, 55, 40, .08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101411;
+        --surface: #171c18;
+        --surface-2: #202721;
+        --text: #edf2ed;
+        --muted: #aab6ad;
+        --line: #303a32;
+        --accent: #75ba8d;
+        --accent-strong: #9acdab;
+        --accent-soft: #203a2a;
+        --warning: #e6b86e;
+        --warning-soft: #3b2f1e;
+        --danger: #ef9690;
+        --danger-soft: #422624;
+        --shadow: 0 14px 38px rgba(0, 0, 0, .24);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    .shell { width: min(100%, 760px); margin: 0 auto; padding: max(18px, env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom)); }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 6px 2px 22px; }
+    .brand { font-weight: 800; letter-spacing: -.035em; font-size: 18px; }
+    .race-date { color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .hero { border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+    .hero-main { padding: 23px 20px 19px; }
+    .eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .06em; }
+    h1 { margin: 0; font-size: clamp(28px, 8vw, 44px); line-height: 1.08; letter-spacing: -.055em; }
+    .hero-copy { margin: 11px 0 0; color: var(--muted); max-width: 35ch; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .stat { padding: 15px 12px; min-width: 0; }
+    .stat + .stat { border-left: 1px solid var(--line); }
+    .stat-label { display: block; color: var(--muted); font-size: 11px; margin-bottom: 3px; }
+    .stat-value { display: block; font-weight: 800; font-size: clamp(16px, 4.5vw, 21px); letter-spacing: -.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .section { margin-top: 30px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 0 2px 12px; }
+    h2 { margin: 0; font-size: 22px; line-height: 1.2; letter-spacing: -.04em; }
+    .section-note { color: var(--muted); font-size: 12px; text-align: right; }
+    .today { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .today-title { margin: 5px 0 7px; font-size: 24px; line-height: 1.25; letter-spacing: -.04em; }
+    .today-plan { color: var(--muted); margin: 0; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
+    .tag { display: inline-flex; align-items: center; min-height: 29px; padding: 5px 10px; border-radius: 999px; background: var(--surface-2); color: var(--text); font-size: 12px; font-weight: 700; }
+    .tag.accent { background: var(--accent-soft); color: var(--accent-strong); }
+    .tag.warning { background: var(--warning-soft); color: var(--warning); }
+    .tag.danger { background: var(--danger-soft); color: var(--danger); }
+    .weather-panel { margin-top: 16px; padding: 14px; border-radius: 12px; background: var(--surface-2); }
+    .weather-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .weather-head strong { font-size: 14px; }
+    .weather-head span { color: var(--muted); font-size: 12px; }
+    .weather-advice { margin: 7px 0 0; font-size: 14px; }
+    .weather-error { color: var(--danger); }
+    .today-actions { display: grid; grid-template-columns: 1fr auto; gap: 9px; margin-top: 16px; }
+    .btn { min-height: 48px; border: 0; border-radius: 12px; padding: 11px 15px; font-weight: 800; cursor: pointer; color: var(--text); background: var(--surface-2); transition: transform .14s ease, background-color .2s ease; }
+    .btn:active { transform: scale(.98); }
+    .btn.primary { background: var(--accent); color: #f7fbf8; }
+    .btn.primary.done { background: var(--accent-soft); color: var(--accent-strong); }
+    .btn.small { min-height: 40px; padding: 8px 12px; font-size: 13px; }
+    .btn:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+    .filters { display: flex; gap: 8px; overflow-x: auto; padding: 1px 2px 10px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; min-height: 39px; padding: 8px 13px; color: var(--muted); background: var(--surface); font-weight: 750; font-size: 13px; }
+    .filter.active { color: #f7fbf8; background: var(--accent); border-color: var(--accent); }
+    .week-label { margin: 24px 2px 9px; color: var(--muted); font-size: 13px; font-weight: 800; }
+    .schedule { display: grid; gap: 10px; }
+    .workout { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .workout[open] { box-shadow: var(--shadow); }
+    .workout summary { display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 78px; padding: 13px 14px; cursor: pointer; list-style: none; }
+    .workout summary::-webkit-details-marker { display: none; }
+    .datebox { text-align: center; line-height: 1.15; }
+    .datebox strong { display: block; font-size: 20px; letter-spacing: -.04em; }
+    .datebox span { color: var(--muted); font-size: 11px; }
+    .workout-name { font-weight: 800; letter-spacing: -.02em; overflow-wrap: anywhere; }
+    .workout-sub { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; font-weight: 500; overflow-wrap: anywhere; }
+    .status-mark { min-width: 43px; color: var(--muted); font-size: 11px; font-weight: 800; text-align: right; }
+    .status-mark.is-done { color: var(--accent); }
+    .detail { border-top: 1px solid var(--line); padding: 17px 14px 15px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 0 0 14px; }
+    .detail-item { padding: 11px; border-radius: 12px; background: var(--surface-2); }
+    .detail-item span { display: block; color: var(--muted); font-size: 11px; }
+    .detail-item strong { display: block; margin-top: 3px; font-size: 13px; line-height: 1.4; }
+    .instruction { margin: 0 0 15px; font-size: 14px; }
+    .card-weather { margin: 0 0 15px; padding: 12px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-strong); font-size: 13px; }
+    .record-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; }
+    label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    label.full { grid-column: 1 / -1; }
+    input, textarea, select { width: 100%; border: 1px solid var(--line); border-radius: 11px; color: var(--text); background: var(--bg); padding: 11px 12px; font-size: 16px; }
+    textarea { min-height: 82px; resize: vertical; }
+    .record-actions { display: grid; grid-template-columns: 1fr auto; gap: 9px; margin-top: 12px; }
+    .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .guide { margin-top: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .guide summary { padding: 16px; font-weight: 800; cursor: pointer; }
+    .guide-body { padding: 0 16px 17px; color: var(--muted); font-size: 14px; }
+    .guide-body p { margin: 8px 0; }
+    .archive { display: grid; gap: 8px; }
+    .archive-row { display: grid; grid-template-columns: 86px 1fr; gap: 12px; padding: 12px 2px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .archive-row:last-child { border-bottom: 0; }
+    .archive-row span:first-child { font-weight: 800; }
+    .empty { padding: 24px 4px; color: var(--muted); text-align: center; font-size: 14px; }
+    .toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); width: max-content; max-width: calc(100% - 32px); padding: 11px 15px; border-radius: 12px; background: var(--text); color: var(--bg); font-size: 13px; font-weight: 750; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; z-index: 5; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    [hidden] { display: none !important; }
+    @media (min-width: 650px) {
+      .shell { padding-left: 24px; padding-right: 24px; }
+      .hero-main { padding: 31px 30px 25px; }
+      .today { padding: 24px; }
+      .workout summary { padding-left: 18px; padding-right: 18px; }
+      .detail { padding: 20px 18px 18px; }
+      .detail-grid { grid-template-columns: repeat(4, 1fr); }
+      .record-grid { grid-template-columns: repeat(4, 1fr); }
+      label.full { grid-column: 1 / -1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
 </head>
-<body><div class="wrap">
-<div class="hero">
-<h1>10km D-58 상세 훈련</h1>
-<div class="sub">2026.08.13 시작 · 2026.10.10 대회<br>목표: 10km Sub-60 도전 · 8/15 실제 기록 반영 · 속도는 보조 기준, <b>RPE와 대화 가능 여부를 우선</b></div>
-<div class="profile"><div class="pill"><b>현재 기준</b>185cm · 105~106kg</div><div class="pill"><b>러닝 상태</b>5km 연속주는 아직 어려움</div><div class="pill"><b>통증</b>현재 없음</div><div class="pill"><b>구성</b>주 3회 러닝 · 주 2회 걷기 · 주 2회 휴식</div></div>
-<div class="progress"><div id="bar" class="bar"></div></div><div class="stats"><b id="pct">0%</b><span id="count">0 / 59 완료</span></div>
-</div>
-<div class="sectionTitle">오늘의 훈련</div><div id="todayBox"></div>
-<div class="sectionTitle">강도 기준</div><div class="panel rules">
-<div class="rule"><span class="dot easy"></span><b>Easy / RPE 3~5:</b> 숨은 조금 차지만 문장으로 대화 가능. 대부분의 훈련은 여기.</div>
-<div class="rule"><span class="dot moderate"></span><b>스피드 / RPE 6~7:</b> 짧은 말은 가능하지만 긴 문장은 어려움. 주 1회만.</div>
-<div class="rule"><span class="dot hard"></span><b>테스트·대회 / RPE 7~8+:</b> 마지막 구간에만 사용. 초반부터 이 강도로 시작하지 않기.</div>
-<div class="rule"><b>트레드밀:</b> 표기 속도는 출발점. 호흡이 기준보다 힘들면 0.3~0.5km/h 낮춘다.</div>
-</div>
-<div class="sectionHead"><h2>전체 일정</h2><button class="filter" id="filterBtn" onclick="toggleFilter()">미완료만</button></div><div id="list"></div>
-<div class="backup"><button onclick="exportData()">기록 백업</button><button onclick="document.getElementById('importFile').click()">기록 복원</button><input id="importFile" class="hiddenFile" type="file" accept="application/json" onchange="importData(event)"></div>
-<div class="foot">완료 체크와 기록은 이 기기의 Safari에 저장됩니다. GitHub Pages의 같은 주소에서 파일만 교체하면 기존 체크 데이터는 그대로 유지됩니다. 통증 때문에 보행 자세가 달라지거나, 가슴통증·심한 어지럼·평소와 다른 심한 호흡곤란이 생기면 운동을 중단하세요.</div>
-</div>
-<script>
-const DATA = [{"date":"2026-08-13","dateLabel":"08/13","weekday":"목","type":"러닝","desc":"걷기 7분 → 2분 달리기 + 2분 걷기 × 8 → 걷기 5분","intensity":"Easy","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"러닝 충격과 호흡에 점진적으로 적응","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"걷기 7분 → 2분 달리기 + 2분 걷기 × 8 → 걷기 5분","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"달리기 RPE 4~5/10 · 걷기 RPE 2/10","talk":"달릴 때 짧은 문장 가능. 헐떡이면 과함","speed":"달리기 6.5~7.5km/h · 걷기 4.8~5.5km/h","pace":"달리기 8:00~9:14/km","success":"첫날은 8세트 모두 같은 느낌으로 끝내는 것이 목표.","adjust":"2번째 절반부터 숨이 급격히 차면 다음 세트부터 0.3~0.5km/h 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-14","dateLabel":"08/14","weekday":"금","type":"걷기","desc":"빠르게 걷기 40분","intensity":"5.0~5.7km/h · 대화 가능한 강도","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-15","dateLabel":"08/15","weekday":"토","type":"러닝","desc":"3분 달리기 + 2분 걷기 × 6","intensity":"Easy","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"러닝 충격과 호흡에 점진적으로 적응","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"3분 달리기 + 2분 걷기 × 6","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"달리기 RPE 4~5/10 · 걷기 RPE 2/10","talk":"달릴 때 짧은 문장 가능. 헐떡이면 과함","speed":"달리기 6.5~7.6km/h · 걷기 4.8~5.5km/h","pace":"달리기 7:54~9:14/km","success":"마지막 세트에도 자세와 호흡이 유지되면 성공.","adjust":"2번째 절반부터 숨이 급격히 차면 다음 세트부터 0.3~0.5km/h 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-16","dateLabel":"08/16","weekday":"일","type":"휴식","desc":"완전 휴식","intensity":"회복 최우선","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"8/15 고강도 구간의 피로를 회복하고 다리 충격 적응 시간을 확보","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기만 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"추가 운동을 하지 않고 다리 피로가 줄어들면 성공.","adjust":"근육 뻐근함은 괜찮지만 국소 통증이 있으면 8/17 걷기도 쉬기.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-08-17","dateLabel":"08/17","weekday":"월","type":"회복 걷기","desc":"편한 걷기 20~30분 · 상태 좋으면 최대 40분","intensity":"4.5~5.2km/h · RPE 2~3","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"러닝 피로를 풀면서 혈류만 유지","warmup":"아주 편하게 5분","main":"편한 걷기 20~30분. 다리가 가볍고 통증이 없으면 최대 40분.","cooldown":"마지막 5분은 더 천천히","rpe":"RPE 2~3/10","talk":"편하게 긴 문장으로 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"끝났을 때 시작 전보다 다리가 가벼운 느낌이면 성공.","adjust":"다리가 무겁거나 정강이·무릎·아킬레스가 아프면 20분 이하 또는 완전 휴식.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-18","dateLabel":"08/18","weekday":"화","type":"러닝 · 재도전","desc":"3분 달리기 + 2분 걷기 × 6 재도전","intensity":"달리기 RPE 4~6 · 마지막까지 여유 유지","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"속도를 낮춰 6세트를 균일하게 완성하는 능력 만들기","warmup":"편하게 걷기 7분. 첫 달리기 전까지 호흡이 완전히 편해야 함.","main":"3분 달리기 + 2분 걷기 × 6. 첫 2세트는 특히 천천히 시작.","cooldown":"천천히 걷기 5~7분","rpe":"1~2세트 4/10 → 3~4세트 4~5/10 → 마지막도 최대 6/10","talk":"달리면서 짧은 문장 가능. 몇 단어만 가능하면 너무 빠름","speed":"달리기 8.0~8.5km/h · 걷기 4.8~5.5km/h","pace":"달리기 7:04~7:30/km","success":"6세트 모두 비슷한 페이스로 완료 + 마지막 RPE 6 이하 + 한 세트 더 할 여유.","adjust":"RPE 6을 넘으면 즉시 7.7~8.0km/h까지 낮추기. 6:30/km보다 빠르게 달리지 않기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-19","dateLabel":"08/19","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-08-20","dateLabel":"08/20","weekday":"목","type":"러닝","desc":"5분 달리기 + 2분 걷기 × 5","intensity":"8/18 성공 시 진행 · RPE 4~6","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"한 번에 달리는 시간을 3분에서 5분으로 늘리되 강도는 유지","warmup":"편하게 걷기 7분","main":"5분 달리기 + 2분 걷기 × 5","cooldown":"천천히 걷기 5~7분","rpe":"달리기 RPE 4~5/10 · 마지막 최대 6/10","talk":"짧은 문장 가능","speed":"달리기 7.8~8.4km/h · 걷기 4.8~5.5km/h","pace":"달리기 7:09~7:42/km","success":"5세트를 균일하게 끝내고 마지막에도 1~2분 더 뛸 여유가 있으면 성공.","adjust":"8/18 마지막 RPE가 7 이상이거나 세트가 무너지면 이 훈련 대신 3분+2분×6을 한 번 더 반복.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-21","dateLabel":"08/21","weekday":"금","type":"회복 걷기","desc":"가볍게 걷기 30분","intensity":"4.5~5.2km/h · 회복 목적","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"5분 러닝 적응 후 다리 회복","warmup":"편하게 5분","main":"가볍게 걷기 30분","cooldown":"편하게 5분","rpe":"RPE 2~3/10","talk":"편하게 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"피로가 더 쌓이지 않고 다리가 풀리면 성공.","adjust":"다리가 무거우면 20분으로 줄이거나 휴식.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-22","dateLabel":"08/22","weekday":"토","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-08-23","dateLabel":"08/23","weekday":"일","type":"러닝","desc":"8분 달리기 + 2분 걷기 × 4","intensity":"RPE 4~6 · 속도보다 시간","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"연속 러닝 시간을 8분까지 늘리는 적응","warmup":"편하게 걷기 7분","main":"8분 달리기 + 2분 걷기 × 4","cooldown":"천천히 걷기 5~7분","rpe":"초반 4/10 · 마지막 최대 6/10","talk":"짧은 문장 가능","speed":"달리기 7.7~8.3km/h · 걷기 4.8~5.5km/h","pace":"달리기 7:14~7:48/km","success":"4세트 모두 같은 움직임으로 끝내고 마지막에도 자세가 유지되면 성공.","adjust":"5분+2분×5가 힘들었다면 8분으로 넘어가지 말고 5분+2분×5를 반복.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-24","dateLabel":"08/24","weekday":"월","type":"걷기","desc":"빠르게 걷기 30~40분","intensity":"5.0~5.7km/h · 다리가 무거우면 편하게","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 30~40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-25","dateLabel":"08/25","weekday":"화","type":"러닝","desc":"10분 달리기 + 2분 걷기 × 4","intensity":"RPE 4~6","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"10분 연속 러닝을 반복해 지구력 확보","warmup":"편하게 걷기 7분","main":"10분 달리기 + 2분 걷기 × 4","cooldown":"천천히 걷기 5~7분","rpe":"달리기 RPE 4~5/10 · 마지막 최대 6/10","talk":"짧은 문장 가능","speed":"달리기 7.6~8.2km/h · 걷기 4.8~5.5km/h","pace":"달리기 7:19~7:54/km","success":"걷기 2분 안에 호흡이 안정되고 4회 모두 완성하면 성공.","adjust":"마지막 세트가 무너지면 다음 러닝에서 같은 단계 반복.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-26","dateLabel":"08/26","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-08-27","dateLabel":"08/27","weekday":"목","type":"러닝","desc":"12분 달리기 + 2분 걷기 × 3","intensity":"RPE 4~6","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"연속주 시간을 늘리되 속도는 Easy로 유지","warmup":"편하게 걷기 7분","main":"12분 달리기 + 2분 걷기 × 3","cooldown":"천천히 걷기 5~7분","rpe":"달리기 RPE 4~5/10 · 마지막 최대 6/10","talk":"짧은 문장 가능","speed":"달리기 7.5~8.2km/h · 걷기 4.8~5.5km/h","pace":"달리기 7:19~8:00/km","success":"첫 구간과 마지막 구간의 페이스 차이가 크지 않으면 성공.","adjust":"숨이 급격히 차면 0.3~0.5km/h 낮춰 세트 완성을 우선.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-28","dateLabel":"08/28","weekday":"금","type":"걷기","desc":"빠르게 걷기 30~40분","intensity":"5.0~5.7km/h · 대화 가능한 강도","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 30~40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-29","dateLabel":"08/29","weekday":"토","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-08-30","dateLabel":"08/30","weekday":"일","type":"롱 Run/Walk","desc":"15분 달리기 → 2분 걷기 → 15분 달리기","intensity":"RPE 4~5 · 총 시간보다 안정성","phase":"1단계 · 러닝 적응","phaseGoal":"달리는 속도보다 반복 충격과 호흡에 적응","purpose":"두 번의 긴 연속주로 30분 러닝 능력에 접근","warmup":"편하게 걷기 7분","main":"15분 달리기 → 2분 걷기 → 15분 달리기","cooldown":"천천히 걷기 5~10분","rpe":"RPE 4~5/10","talk":"짧은 문장 가능","speed":"달리기 7.4~8.1km/h","pace":"달리기 7:24~8:06/km","success":"두 번째 15분도 첫 번째와 비슷한 자세·호흡으로 끝내면 성공.","adjust":"첫 15분부터 RPE 6 이상이면 10분 달리기 + 2분 걷기 × 3으로 변경.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-08-31","dateLabel":"08/31","weekday":"월","type":"걷기","desc":"빠르게 걷기 30~40분","intensity":"5.0~5.7km/h · 다리가 무거우면 편하게","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 30~40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-01","dateLabel":"09/01","weekday":"화","type":"러닝","desc":"20분 연속 → 2분 걷기 → 10분 러닝","intensity":"Easy","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"20분 연속 → 2분 걷기 → 10분 러닝","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"6.9~8.0km/h","pace":"7:30~8:42/km","success":"20분 구간을 끊지 않는 것이 우선.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-02","dateLabel":"09/02","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-03","dateLabel":"09/03","weekday":"목","type":"연속주","desc":"25~30분 연속주 도전","intensity":"Easy","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"25~30분 연속주 도전","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.0~8.1km/h","pace":"7:24~8:34/km","success":"마지막 5분에도 보폭과 자세가 유지되면 성공.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-04","dateLabel":"09/04","weekday":"금","type":"회복 걷기","desc":"가볍게 걷기 30분","intensity":"회복 목적 · 4.5~5.2km/h","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"러닝 사이 회복 + 가벼운 유산소","warmup":"4.0~4.5km/h로 5분","main":"가볍게 걷기 30분","cooldown":"4.0~4.5km/h로 5분","rpe":"RPE 2~3/10","talk":"편하게 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"끝났을 때 시작 전보다 다리가 가벼운 느낌이면 적절.","adjust":"다리가 무거우면 20~30분으로 줄여도 됨.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-05","dateLabel":"09/05","weekday":"토","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-06","dateLabel":"09/06","weekday":"일","type":"5km 도전","desc":"5km 거리 완주 도전. 힘들면 1분 걷고 다시 달리기","intensity":"기록 측정 아님","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"5km 거리 완주 도전. 힘들면 1분 걷고 다시 달리기","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.0~8.0km/h","pace":"7:30~8:34/km","success":"필요하면 1분 걷기. 기록은 보지 않기.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-07","dateLabel":"09/07","weekday":"월","type":"걷기","desc":"빠르게 걷기 30~40분","intensity":"5.0~5.7km/h · 다리가 무거우면 편하게","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 30~40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-08","dateLabel":"09/08","weekday":"화","type":"Easy Run","desc":"Easy 4km","intensity":"편하게","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 4km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.0~8.2km/h","pace":"7:19~8:34/km","success":"4km 전체를 같은 호흡으로.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-09","dateLabel":"09/09","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-10","dateLabel":"09/10","weekday":"목","type":"5km 연속주","desc":"5km 안 걷고 뛰기 도전","intensity":"속도 무관","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"5km 안 걷고 뛰기 도전","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.1~8.2km/h","pace":"7:19~8:27/km","success":"걷지 않고 5km 완료가 목표. 기록은 중요하지 않음.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-11","dateLabel":"09/11","weekday":"금","type":"회복 걷기","desc":"가볍게 걷기 30~40분","intensity":"5km 연속주 다음 날 회복 목적","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"러닝 사이 회복 + 가벼운 유산소","warmup":"4.0~4.5km/h로 5분","main":"가볍게 걷기 30~40분","cooldown":"4.0~4.5km/h로 5분","rpe":"RPE 2~3/10","talk":"편하게 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"끝났을 때 시작 전보다 다리가 가벼운 느낌이면 적절.","adjust":"다리가 무거우면 20~30분으로 줄여도 됨.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-12","dateLabel":"09/12","weekday":"토","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-13","dateLabel":"09/13","weekday":"일","type":"롱런","desc":"Easy 6km","intensity":"편하게","phase":"2단계 · 5km 연속주","phaseGoal":"5km 거리와 25~40분 연속 달리기 확보","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 6km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.0~8.0km/h","pace":"7:30~8:34/km","success":"처음 2km를 가장 느리게 시작.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-14","dateLabel":"09/14","weekday":"월","type":"걷기","desc":"빠르게 걷기 30~40분","intensity":"5.0~5.7km/h · 다리가 무거우면 편하게","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 30~40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-15","dateLabel":"09/15","weekday":"화","type":"Easy Run","desc":"Easy 5km","intensity":"편하게","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 5km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.1~8.2km/h","pace":"7:19~8:27/km","success":"다음 스피드 훈련을 위해 여유를 남기기.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-16","dateLabel":"09/16","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-17","dateLabel":"09/17","weekday":"목","type":"스피드","desc":"1km Easy → 2분 빠르게/2분 천천히 × 5 → 1km Easy","intensity":"빠른 구간 6:20~6:40/km","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"빠른 페이스를 짧게 경험해 심폐와 다리 회전 적응","warmup":"걷기 5분 → Easy 조깅 1km. 몸이 충분히 따뜻해진 뒤 시작.","main":"1km Easy → [2분 빠르게 + 2분 아주 천천히] × 5 → 1km Easy","cooldown":"Easy 조깅/걷기 5~10분","rpe":"빠른 구간 RPE 6~7/10","talk":"빠른 구간은 몇 단어 가능, 회복 구간에서는 문장 가능","speed":"빠른 구간 9.0~9.5km/h · Easy 7.0~8.0km/h","pace":"빠른 구간 6:40~6:19/km","success":"5회 모두 비슷한 속도로 끝내면 성공.","adjust":"1~2회차부터 버거우면 8.7~9.0km/h로 낮추고 5회를 완성.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-18","dateLabel":"09/18","weekday":"금","type":"회복 걷기","desc":"가볍게 걷기 30분","intensity":"스피드 훈련 다음 날 회복 목적","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"러닝 사이 회복 + 가벼운 유산소","warmup":"4.0~4.5km/h로 5분","main":"가볍게 걷기 30분","cooldown":"4.0~4.5km/h로 5분","rpe":"RPE 2~3/10","talk":"편하게 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"끝났을 때 시작 전보다 다리가 가벼운 느낌이면 적절.","adjust":"다리가 무거우면 20~30분으로 줄여도 됨.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-19","dateLabel":"09/19","weekday":"토","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-20","dateLabel":"09/20","weekday":"일","type":"롱런","desc":"Easy 7~7.5km","intensity":"편하게","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 7~7.5km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.1~8.1km/h","pace":"7:24~8:27/km","success":"후반 2km에서 속도가 자연스럽게 조금 오르는 것은 괜찮음.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-21","dateLabel":"09/21","weekday":"월","type":"걷기","desc":"빠르게 걷기 30~40분","intensity":"5.0~5.7km/h · 다리가 무거우면 편하게","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"유산소 기반 강화. 하체 근력운동 대신 넣은 걷기 날.","warmup":"4.3~4.8km/h로 5분","main":"빠르게 걷기 30~40분","cooldown":"4.3~4.8km/h로 5분","rpe":"RPE 3~4/10","talk":"대화 가능, 노래는 조금 어려운 정도","speed":"5.0~5.7km/h","pace":"10:32~12:00/km","success":"호흡은 올라오지만 30~40분을 안정적으로 끝내면 성공.","adjust":"전날 러닝 피로가 있으면 4.5~5.2km/h로 낮추기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-22","dateLabel":"09/22","weekday":"화","type":"Easy Run","desc":"Easy 5km","intensity":"편하게","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 5km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.2~8.2km/h","pace":"7:19~8:20/km","success":"인터벌 전 몸을 가볍게 만드는 날.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-23","dateLabel":"09/23","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-24","dateLabel":"09/24","weekday":"목","type":"1km 인터벌","desc":"1km Easy → 1km × 3회(6:15~6:25/km), 사이 3분 회복 → 1km Easy","intensity":"균일한 페이스","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"Sub-60에 필요한 6분대 초반 페이스 적응","warmup":"걷기 5분 → Easy 1km → 20초 가벼운 가속 2회","main":"1km Easy → 1km × 3회(각 6:15~6:25/km) · 사이 3분 걷기/아주 느린 조깅 → 1km Easy","cooldown":"걷기 5~10분","rpe":"인터벌 RPE 7/10","talk":"1km 구간에서는 짧은 단어/구, 회복 후 호흡 정상화","speed":"인터벌 9.35~9.60km/h · Easy 7.0~8.0km/h","pace":"인터벌 6:25~6:15/km","success":"3개 구간 편차가 약 10초/km 이내면 매우 좋음.","adjust":"첫 1km가 너무 힘들면 6:30~6:40/km로 낮춰 3회 모두 완성.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-25","dateLabel":"09/25","weekday":"금","type":"회복 걷기","desc":"가볍게 걷기 30분","intensity":"인터벌 다음 날 회복 목적","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"러닝 사이 회복 + 가벼운 유산소","warmup":"4.0~4.5km/h로 5분","main":"가볍게 걷기 30분","cooldown":"4.0~4.5km/h로 5분","rpe":"RPE 2~3/10","talk":"편하게 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"끝났을 때 시작 전보다 다리가 가벼운 느낌이면 적절.","adjust":"다리가 무거우면 20~30분으로 줄여도 됨.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-26","dateLabel":"09/26","weekday":"토","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-27","dateLabel":"09/27","weekday":"일","type":"롱런","desc":"Easy 8.5~9km","intensity":"가장 중요한 장거리","phase":"3단계 · 지구력 + 속도","phaseGoal":"Easy는 천천히, 주 1회만 빠른 구간","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 8.5~9km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.1~8.1km/h","pace":"7:24~8:27/km","success":"대회 전 핵심 장거리. 완주가 목적.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-28","dateLabel":"09/28","weekday":"월","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-09-29","dateLabel":"09/29","weekday":"화","type":"Easy+가속주","desc":"Easy 4km + 20초 가속주 × 4","intensity":"무리 금지","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"5km 테스트 전 다리 회전만 깨우기","warmup":"걷기 5분 → Easy 4km 시작","main":"Easy 4km 후 20초 가속주 × 4. 각 가속 사이 60~90초 걷기/조깅.","cooldown":"걷기 5분","rpe":"Easy 4/10 · 가속주 6~7/10","talk":"가속주는 대화 기준보다 자세와 리듬에 집중","speed":"Easy 7.2~8.2km/h · 가속주 약 9.5~10.5km/h(전력질주 금지)","pace":"가속주는 약 6:19~5:43/km","success":"4회 모두 부드럽고 힘이 남는 느낌으로 마무리.","adjust":"종아리/정강이가 뻣뻣하면 가속주를 생략.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-09-30","dateLabel":"09/30","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-10-01","dateLabel":"10/01","weekday":"목","type":"5km 테스트","desc":"워밍업 후 5km 지속 가능한 최대 속도로 기록 측정","intensity":"Sub-60 판정","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"대회 목표 페이스 결정용 5km 실전 테스트","warmup":"걷기 5분 → Easy 조깅 10분 → 20초 가속주 3회 → 3분 회복","main":"5km 지속 가능한 최대 노력. 첫 1km는 과하게 시작하지 말고, 2~4km 일정하게, 마지막 1km 여유가 있으면 가속.","cooldown":"걷기 10분. 기록과 RPE를 메모.","rpe":"평균 RPE 7~8/10","talk":"중반부터 짧은 말만 가능","speed":"Sub-60 준비가 됐다면 평균 약 10.0km/h 전후가 기준. 준비가 덜 됐으면 속도 강제 금지.","pace":"판정: 28:30↓ 적극 도전 · 28:31~29:30 도전 · 29:31~30:30 공격적 · 30:31~32:00 62~65분 권장","success":"완주 + 후반 급격한 페이스 붕괴 없이 기록 확보.","adjust":"2km 이전부터 RPE 9/10이면 즉시 속도를 낮추고 테스트를 훈련으로 전환.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-10-02","dateLabel":"10/02","weekday":"금","type":"휴식","desc":"완전 휴식","intensity":"회복","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-10-03","dateLabel":"10/03","weekday":"토","type":"걷기","desc":"가벼운 걷기","intensity":"회복","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"러닝 사이 회복 + 가벼운 유산소","warmup":"4.0~4.5km/h로 5분","main":"가벼운 걷기","cooldown":"4.0~4.5km/h로 5분","rpe":"RPE 2~3/10","talk":"편하게 대화 가능","speed":"4.5~5.2km/h","pace":"11:32~13:20/km","success":"끝났을 때 시작 전보다 다리가 가벼운 느낌이면 적절.","adjust":"다리가 무거우면 20~30분으로 줄여도 됨.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-10-04","dateLabel":"10/04","weekday":"일","type":"Easy Run","desc":"Easy 6km","intensity":"편하게","phase":"4단계 · 기록 확인","phaseGoal":"5km 테스트로 Sub-60 가능성 판단","purpose":"10km를 버틸 유산소 지구력 확보","warmup":"편하게 걷기 5~7분. 어깨 힘을 빼고 보폭을 짧게 시작.","main":"Easy 6km","cooldown":"천천히 걷기 5분. 호흡이 평소 수준으로 돌아오게 마무리.","rpe":"RPE 4~5/10","talk":"대화 가능한 Easy 강도","speed":"7.2~8.2km/h","pace":"7:19~8:20/km","success":"테스트 후 회복 확인. 절대 기록 욕심 금지.","adjust":"숨이 차서 문장이 끊기면 0.3~0.5km/h 낮추기. 필요하면 1분 걷고 재개.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-10-05","dateLabel":"10/05","weekday":"월","type":"휴식","desc":"완전 휴식","intensity":"테이퍼","phase":"5단계 · 테이퍼","phaseGoal":"운동량을 줄이고 대회 컨디션 만들기","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-10-06","dateLabel":"10/06","weekday":"화","type":"Easy+GP","desc":"Easy 4km + 1분 6:00/km × 4","intensity":"가볍게","phase":"5단계 · 테이퍼","phaseGoal":"운동량을 줄이고 대회 컨디션 만들기","purpose":"대회 목표 페이스 감각만 확인하고 피로는 남기지 않기","warmup":"걷기 5분 → Easy 조깅 10분","main":"Easy 총 4km 안에서 1분 6:00/km × 4. 사이 2분 이상 Easy.","cooldown":"걷기 5분","rpe":"GP 구간 RPE 6/10 이하","talk":"1분이 끝난 뒤 금방 호흡 회복","speed":"Easy 7.2~8.2km/h · GP 10.0km/h","pace":"GP 6:00/km","success":"목표페이스가 빠르지만 통제 가능하게 느껴지면 성공.","adjust":"다리가 무거우면 GP를 6:10~6:20/km로 낮추거나 3회만.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-10-07","dateLabel":"10/07","weekday":"수","type":"휴식","desc":"완전 휴식","intensity":"테이퍼","phase":"5단계 · 테이퍼","phaseGoal":"운동량을 줄이고 대회 컨디션 만들기","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-10-08","dateLabel":"10/08","weekday":"목","type":"Easy+가속주","desc":"Easy 20분 + 20초 가속주 × 3","intensity":"가볍게","phase":"5단계 · 테이퍼","phaseGoal":"운동량을 줄이고 대회 컨디션 만들기","purpose":"대회 이틀 전 다리만 가볍게 깨우기","warmup":"편하게 걷기 5분","main":"Easy 20분 + 20초 가속주 × 3. 가속 사이 충분히 회복.","cooldown":"걷기 5분","rpe":"전체 RPE 3~4/10 · 가속주 6/10","talk":"전체적으로 여유 있어야 함","speed":"Easy 7.0~8.0km/h · 가속주 9.5~10.5km/h","pace":"가속주 약 6:19~5:43/km","success":"끝났을 때 운동 전보다 몸이 가벼우면 성공.","adjust":"조금이라도 피곤하면 가속주 생략하고 15~20분 Easy만.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."},{"date":"2026-10-09","dateLabel":"10/09","weekday":"금","type":"휴식","desc":"완전 휴식","intensity":"대회 전 완전 휴식","phase":"5단계 · 테이퍼","phaseGoal":"운동량을 줄이고 대회 컨디션 만들기","purpose":"피로 회복과 러닝 충격 적응","warmup":"없음","main":"완전 휴식. 일상생활 수준의 가벼운 걷기는 가능.","cooldown":"없음","rpe":"RPE 1~2/10","talk":"편안함","speed":"별도 운동 없음","pace":"-","success":"운동을 추가하지 않고 회복에 집중하면 성공.","adjust":"다리가 뻐근하면 10~20분 정도 아주 가볍게 걷는 것은 가능.","warning":"빠진 러닝을 휴식일에 몰아서 보충하지 않기."},{"date":"2026-10-10","dateLabel":"10/10","weekday":"토","type":"🏁 10km 대회","desc":"10km 레이스. Sub-60 도전 목표","intensity":"초반 2km 6:05~6:10/km","phase":"5단계 · 테이퍼","phaseGoal":"운동량을 줄이고 대회 컨디션 만들기","purpose":"10km 완주 + 컨디션이 허용하면 Sub-60 도전","warmup":"대회 20~25분 전 걷기/아주 가벼운 조깅 8~10분 → 20초 가속 2~3회 → 출발 5분 전 정리","main":"0~2km 6:05~6:10/km → 2~5km 약 6:00/km → 5~8km 5:55~6:00/km → 8km 이후 상태가 좋으면 조금씩 가속","cooldown":"결승 후 바로 멈추지 말고 5~10분 천천히 걷기","rpe":"초반 5~6/10 → 중반 6~7/10 → 마지막 2km 8/10+","talk":"초반 문장 가능, 중반 짧은 문장, 마지막은 몇 단어 정도","speed":"초반 9.7~9.9km/h · 목표구간 약 10.0km/h","pace":"목표 평균 5:59/km 이하","success":"A: 59:59↓ · B: 62~65분 · C: 걷지 않고 완주","adjust":"첫 2km가 예상보다 힘들면 즉시 6:15~6:25/km로 낮춰 후반을 살리기.","warning":"찌르는 듯한 통증, 절뚝거림, 가슴통증, 심한 어지럼이 있으면 중단."}];
-let onlyIncomplete=false;
-const kDone=d=>'run58_done_'+d, kNote=d=>'run58_note_'+d, kDist=d=>'run58_dist_'+d, kTime=d=>'run58_time_'+d, kRpe=d=>'run58_rpe_'+d, kWeight=d=>'run58_weight_'+d, kPain=d=>'run58_pain_'+d;
-const get=k=>localStorage.getItem(k)||''; const set=(k,v)=>{ if(v==='') localStorage.removeItem(k); else localStorage.setItem(k,v); };
-function isDone(i){return get(kDone(i.date))==='1'}
-function localToday(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
-function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function guideHtml(i,dark=false){return `<div class="guideGrid"><div class="g"><strong>목적</strong><span>${i.purpose}</span></div><div class="g"><strong>워밍업</strong><span>${i.warmup}</span></div><div class="g"><strong>본운동</strong><span>${i.main}</span></div><div class="g"><strong>쿨다운</strong><span>${i.cooldown}</span></div><div class="g"><strong>완료 기준</strong><span>${i.success}</span></div><div class="g"><strong>너무 힘들 때</strong><span>${i.adjust}</span></div></div>`}
-function renderToday(){const box=document.getElementById('todayBox'),t=localToday();let i=DATA.find(x=>x.date===t)||DATA.find(x=>x.date>=t&&!isDone(x))||DATA.find(x=>!isDone(x));if(!i){box.innerHTML='<div class="panel">모든 일정 완료!</div>';return}const done=isDone(i);box.innerHTML=`<div class="todayCard"><div class="todayDate">${i.dateLabel} (${i.weekday}) · ${i.phase}</div><div class="todayType">${done?'오늘 훈련 완료 ✅':i.type}</div><div class="todayDesc">${i.desc}</div><div class="todayQuick"><div class="quick"><small>권장 속도</small><b>${i.speed}</b></div><div class="quick"><small>체감강도</small><b>${i.rpe}</b></div><div class="quick"><small>야외 페이스</small><b>${i.pace}</b></div><div class="quick"><small>호흡 기준</small><b>${i.talk}</b></div></div><details class="guide"><summary>오늘 운동 자세히</summary>${guideHtml(i,true)}</details><div class="todayActions">${done?`<button class="detailBtn" onclick="scrollToDate('${i.date}')">기록 보기</button>`:`<button class="doneBtn" onclick="setDone('${i.date}',true)">완료</button><button class="detailBtn" onclick="scrollToDate('${i.date}')">기록</button>`}</div></div>`}
-function calcPace(date){const dist=parseFloat(get(kDist(date))), mins=parseFloat(get(kTime(date)));const el=document.getElementById('pace_'+date);if(!el)return;if(!(dist>0&&mins>0)){el.textContent='거리와 시간을 입력하면 평균 페이스가 계산됩니다.';return}const p=mins/dist,mm=Math.floor(p),ss=Math.round((p-mm)*60);el.textContent=`평균 페이스: ${mm}:${String(ss===60?0:ss).padStart(2,'0')}/km${ss===60?' (반올림)':''}`}
-function cardHtml(i,t){return `<div class="card ${isDone(i)?'done':''} ${i.date===t?'today':''}" id="d_${i.date}"><div class="cardTop"><input class="cb" type="checkbox" ${isDone(i)?'checked':''} onchange="setDone('${i.date}',this.checked)"><div><div class="rowTop"><div class="date">${i.dateLabel} (${i.weekday})</div><div class="tag">${i.type}</div></div><div class="desc">${i.desc}</div><div class="metrics"><div class="metric"><small>권장 속도</small><b>${i.speed}</b></div><div class="metric"><small>강도</small><b>${i.rpe}</b></div><div class="metric"><small>페이스</small><b>${i.pace}</b></div><div class="metric"><small>Talk test</small><b>${i.talk}</b></div></div></div></div><details><summary>운동 방법 자세히</summary>${guideHtml(i)}</details><div class="log"><div class="logTitle">실제 기록</div><div class="inputs"><div class="field"><label>거리 km</label><input inputmode="decimal" value="${esc(get(kDist(i.date)))}" oninput="set(kDist('${i.date}'),this.value);calcPace('${i.date}')"></div><div class="field"><label>시간 분</label><input inputmode="decimal" value="${esc(get(kTime(i.date)))}" oninput="set(kTime('${i.date}'),this.value);calcPace('${i.date}')"></div><div class="field"><label>실제 RPE</label><select onchange="set(kRpe('${i.date}'),this.value)">${['','1','2','3','4','5','6','7','8','9','10'].map(v=>`<option value="${v}" ${get(kRpe(i.date))===v?'selected':''}>${v||'선택'}</option>`).join('')}</select></div><div class="field"><label>체중 kg</label><input inputmode="decimal" value="${esc(get(kWeight(i.date)))}" oninput="set(kWeight('${i.date}'),this.value)"></div><div class="field full"><label>통증</label><select onchange="set(kPain('${i.date}'),this.value)">${['','없음','가벼움','운동에 영향','중단 필요'].map(v=>`<option value="${v}" ${get(kPain(i.date))===v?'selected':''}>${v||'선택'}</option>`).join('')}</select></div><div class="field full"><label>메모</label><textarea class="note" oninput="set(kNote('${i.date}'),this.value)" placeholder="컨디션, 실제 속도, 무릎/정강이 상태 등">${esc(get(kNote(i.date)))}</textarea></div></div><div class="calc" id="pace_${i.date}"></div></div></div>`}
-function renderList(){const list=document.getElementById('list'),t=localToday();list.innerHTML='';let phase='';DATA.forEach(i=>{if(onlyIncomplete&&isDone(i))return;if(i.phase!==phase){phase=i.phase;list.insertAdjacentHTML('beforeend',`<div class="phaseHead">${i.phase}<div class="phaseGoal">${i.phaseGoal}</div></div>`)}list.insertAdjacentHTML('beforeend',cardHtml(i,t));calcPace(i.date)})}
-function setDone(date,v){set(kDone(date),v?'1':'');render()}
-function updateProgress(){const done=DATA.filter(isDone).length,p=Math.round(done/DATA.length*100);document.getElementById('bar').style.width=p+'%';document.getElementById('pct').textContent=p+'%';document.getElementById('count').textContent=`${done} / ${DATA.length} 완료`}
-function toggleFilter(){onlyIncomplete=!onlyIncomplete;document.getElementById('filterBtn').textContent=onlyIncomplete?'전체 보기':'미완료만';renderList()}
-function scrollToDate(d){const e=document.getElementById('d_'+d);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
-function exportData(){const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('run58_'))o[k]=localStorage.getItem(k)}const b=new Blob([JSON.stringify(o,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='10km-training-backup.json';a.click();URL.revokeObjectURL(u)}
-function importData(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);Object.entries(o).forEach(([k,v])=>{if(k.startsWith('run58_'))localStorage.setItem(k,v)});render();alert('기록을 복원했습니다.')}catch(e){alert('백업 파일을 읽지 못했습니다.')}};r.readAsText(f)}
-function render(){renderToday();renderList();updateProgress()}render();
-</script></body></html>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">Disney Run 10K</div>
+      <div class="race-date">2026.10.24 인천</div>
+    </header>
+
+    <section class="hero" aria-labelledby="main-title">
+      <div class="hero-main">
+        <p class="eyebrow">SUB-60 TRAINING</p>
+        <h1 id="main-title">10km를 위한<br>현실적인 55일</h1>
+        <p class="hero-copy">수원 날씨와 무릎 상태를 확인하며 5:59/km 목표에 차분히 접근합니다.</p>
+      </div>
+      <div class="hero-stats" aria-label="훈련 현황">
+        <div class="stat"><span class="stat-label">대회까지</span><span class="stat-value" id="daysLeft">-</span></div>
+        <div class="stat"><span class="stat-label">완료</span><span class="stat-value" id="completedCount">-</span></div>
+        <div class="stat"><span class="stat-label">목표 페이스</span><span class="stat-value">5:59/km</span></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="today-heading">
+      <div class="section-head"><h2 id="today-heading">오늘의 훈련</h2><span class="section-note" id="todayDate"></span></div>
+      <div class="today" id="todayCard" aria-live="polite"></div>
+    </section>
+
+    <section class="section" aria-labelledby="schedule-heading">
+      <div class="section-head"><h2 id="schedule-heading">전체 일정</h2><span class="section-note">날짜를 눌러 기록</span></div>
+      <div class="filters" role="group" aria-label="일정 필터">
+        <button class="filter active" data-filter="upcoming" type="button">앞으로</button>
+        <button class="filter" data-filter="all" type="button">전체</button>
+        <button class="filter" data-filter="run" type="button">러닝</button>
+        <button class="filter" data-filter="done" type="button">완료</button>
+      </div>
+      <div id="schedule"></div>
+    </section>
+
+    <section class="section" aria-labelledby="guide-heading">
+      <div class="section-head"><h2 id="guide-heading">훈련 기준</h2></div>
+      <details class="guide">
+        <summary>페이스와 날씨 조정 원칙</summary>
+        <div class="guide-body">
+          <p><strong>Easy</strong> 7:10-7:40/km, RPE 3-5. 문장으로 대화할 수 있어야 합니다.</p>
+          <p><strong>Long Easy</strong> 7:15-7:50/km, RPE 4-5. 기록보다 편한 완주가 목적입니다.</p>
+          <p><strong>Tempo</strong> 6:15-6:30/km, RPE 6-7. 목표 페이스 훈련은 5:55-6:05/km입니다.</p>
+          <p>28°C 이상이거나 체감온도가 높으면 15-30초/km 늦추고 RPE를 우선합니다. 천둥번개와 폭우에는 야외 러닝을 취소합니다.</p>
+        </div>
+      </details>
+      <details class="guide">
+        <summary>무릎 통증 중단 기준</summary>
+        <div class="guide-body">
+          <p>러닝 중 무릎 앞 통증이 2-3/10 이상이거나 점점 심해지면 그날 훈련을 종료합니다. 다음 날까지 통증이 남으면 다음 러닝을 건너뜁니다.</p>
+          <p>빠진 훈련은 보충하지 않습니다. 붓기, 잠김, 꺾임 또는 걷기 통증이 있으면 의료진의 진료를 고려하세요.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section" aria-labelledby="archive-heading" id="archiveSection" hidden>
+      <div class="section-head"><h2 id="archive-heading">이전 저장 기록</h2><span class="section-note">기존 run58 데이터</span></div>
+      <div class="archive" id="archive"></div>
+    </section>
+
+    <section class="section" aria-labelledby="tools-heading">
+      <div class="section-head"><h2 id="tools-heading">기록 관리</h2></div>
+      <div class="tools">
+        <button class="btn" id="exportBtn" type="button">기록 백업</button>
+        <button class="btn" id="importBtn" type="button">기록 복원</button>
+        <input class="sr-only" id="importFile" type="file" accept="application/json,.json">
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const RACE_DATE = '2026-10-24';
+      const PLAN_START = '2026-08-31';
+      const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=37.2636&longitude=127.0286&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max&hourly=relative_humidity_2m&timezone=Asia%2FSeoul&forecast_days=16';
+      const WEATHER_CACHE_KEY = 'run58_weather_cache_v1';
+      const weekday = ['일', '월', '화', '수', '목', '금', '토'];
+
+      const workoutMap = {
+        '2026-08-31': { type: 'rest', name: '완전 휴식', short: '전날 러닝 회복', pace: '없음', rpe: '1', talk: '편안함', detail: '가벼운 일상 활동만 하고 무릎의 밤과 다음 날 반응을 확인하세요.' },
+        '2026-09-01': { type: 'walk', name: '실내 걷기 30분', short: '비가 오면 실내로', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '야외가 안전하면 평지 걷기, 비나 천둥번개가 있으면 실내 걷기로 바꾸세요.' },
+        '2026-09-02': { type: 'run', name: 'Easy 3.5-4km', short: '무릎 반응 확인', pace: '7:20-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '평지에서 처음부터 끝까지 같은 강도로 달립니다. 속도보다 통증이 없는지가 성공 기준입니다.' },
+        '2026-09-04': { type: 'run', name: 'Easy 4km', short: '균일한 페이스', pace: '7:15-7:35/km', rpe: '3-4', talk: '문장 대화 가능', detail: '6분대로 올리지 말고 4km를 안정적으로 끝내세요.' },
+        '2026-09-05': { type: 'walk', name: '회복 걷기 20-30분', short: '평지에서 가볍게', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '다리가 무거우면 시간을 줄이거나 완전히 쉬어도 됩니다.' },
+        '2026-09-06': { type: 'long', name: 'Easy 4.5km', short: '첫 주 거리 마무리', pace: '7:15-7:40/km', rpe: '4', talk: '문장 대화 가능', detail: '마지막 1km도 속도를 올리지 않고 같은 강도로 마칩니다.' },
+        '2026-09-08': { type: 'run', name: 'Easy 4.5km', short: '5km 기반 만들기', pace: '7:10-7:35/km', rpe: '3-4', talk: '문장 대화 가능', detail: '보폭을 짧게 유지하고 편안하게 연속주를 완성하세요.' },
+        '2026-09-09': { type: 'walk', name: '회복 걷기 30분', short: '러닝 사이 회복', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '평지에서 가볍게 걷고 무릎 상태를 확인하세요.' },
+        '2026-09-10': { type: 'quality', name: '4분 Steady x 4', short: '세트 사이 2분 천천히', pace: '6:30-6:40/km', rpe: '5-6', talk: '짧은 문장', detail: '1km Easy 후 4분 Steady와 2분 회복을 4회 반복하고 쿨다운합니다. 6:00/km로 달리지 마세요.' },
+        '2026-09-12': { type: 'walk', name: '가벼운 걷기 30분', short: '롱런 전 몸 풀기', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '피로가 남아 있으면 완전 휴식으로 바꿉니다.' },
+        '2026-09-13': { type: 'long', name: 'Long Easy 5.5km', short: '거리 적응', pace: '7:15-7:45/km', rpe: '4-5', talk: '문장 대화 가능', detail: '기록을 보지 말고 마지막까지 여유 있게 완주하세요.' },
+        '2026-09-15': { type: 'run', name: 'Easy 5km', short: '연속주 안정화', pace: '7:10-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '평지에서 편안한 호흡을 유지합니다.' },
+        '2026-09-16': { type: 'walk', name: '회복 걷기 30분', short: '가볍게 순환', pace: '편안한 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '계단과 경사는 피하고 평지에서 걷습니다.' },
+        '2026-09-17': { type: 'quality', name: 'Tempo 1.5km x 2', short: '세트 사이 3분 회복', pace: '6:20-6:30/km', rpe: '6-7', talk: '몇 단어 가능', detail: '1km Easy 후 1.5km Tempo를 2회 실시하고 충분히 쿨다운합니다.' },
+        '2026-09-19': { type: 'walk', name: '가벼운 걷기 30분', short: '롱런 전 회복', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '통증이나 피로가 있으면 쉬세요.' },
+        '2026-09-20': { type: 'long', name: 'Long Easy 6.5km', short: '6km 기반 완성', pace: '7:15-7:45/km', rpe: '4-5', talk: '문장 대화 가능', detail: '마지막까지 편한 호흡과 짧은 보폭을 유지하세요.' },
+        '2026-09-22': { type: 'run', name: 'Easy 5km', short: '품질 훈련 준비', pace: '7:10-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '다음 핵심 훈련을 위해 여유 있게 마칩니다.' },
+        '2026-09-23': { type: 'walk', name: '회복 걷기 30분', short: '평지 회복', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '피로가 있으면 시간을 줄입니다.' },
+        '2026-09-24': { type: 'quality', name: '1km x 3', short: '세트 사이 3분 회복', pace: '6:05-6:15/km', rpe: '7', talk: '몇 단어 가능', detail: '1km Easy 후 1km를 3회 달립니다. 첫 세트를 가장 빠르게 달리지 말고 세 세트를 일정하게 맞추세요.' },
+        '2026-09-26': { type: 'walk', name: '가벼운 걷기 30분', short: '롱런 전 회복', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '다리가 무거우면 완전 휴식합니다.' },
+        '2026-09-27': { type: 'long', name: 'Long Easy 7.5km', short: '첫 7km 이상', pace: '7:15-7:45/km', rpe: '4-5', talk: '문장 대화 가능', detail: '보급 없이도 편안하게 끝낼 수 있는 강도로 달리세요.' },
+        '2026-09-29': { type: 'run', name: 'Easy 5km', short: '회복 중심', pace: '7:10-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '전 주 롱런 피로를 확인하며 편하게 달립니다.' },
+        '2026-09-30': { type: 'walk', name: '회복 걷기 30분', short: '진행주 전 회복', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '평지에서 가볍게 걷습니다.' },
+        '2026-10-01': { type: 'quality', name: '진행주 5km', short: '7:10에서 6:20까지', pace: '2km 7:10, 2km 6:40, 1km 6:20', rpe: '5-7', talk: '점차 짧아짐', detail: '첫 2km를 억제하고 단계적으로 올립니다. 마지막 1km만 6:20/km에 접근하세요.' },
+        '2026-10-03': { type: 'walk', name: '가벼운 걷기 20-30분', short: '롱런 전 회복', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '피로가 있으면 완전 휴식합니다.' },
+        '2026-10-04': { type: 'long', name: 'Long Easy 8-8.5km', short: '10km 완주 기반', pace: '7:15-7:45/km', rpe: '4-5', talk: '문장 대화 가능', detail: '기록 도전 없이 8km 이상을 안정적으로 완주하세요.' },
+        '2026-10-06': { type: 'run', name: 'Easy 4-5km', short: '가볍게 회복', pace: '7:10-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '거리는 당일 컨디션에 따라 4km 또는 5km로 선택합니다.' },
+        '2026-10-07': { type: 'walk', name: '회복 걷기 30분', short: '핵심 훈련 준비', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '다리가 가벼워지는 정도로만 걷습니다.' },
+        '2026-10-08': { type: 'quality', name: '1km x 4', short: '세트 사이 2분30초-3분', pace: '6:00-6:10/km', rpe: '7', talk: '몇 단어 가능', detail: '1km Easy 후 1km를 4회 달립니다. 네 세트 모두 6:10 이내이면서 마지막까지 통제되는 것이 목표입니다.' },
+        '2026-10-10': { type: 'rest', name: '완전 휴식', short: '최장 거리 전 회복', pace: '없음', rpe: '1', talk: '편안함', detail: '수면과 수분 섭취에 집중하세요.' },
+        '2026-10-11': { type: 'long', name: 'Long Easy 9-9.5km', short: '가장 긴 훈련', pace: '7:15-7:50/km', rpe: '4-5', talk: '문장 대화 가능', detail: '절대 기록에 도전하지 않습니다. 9km를 편하게 끝내는 것이 성공입니다.' },
+        '2026-10-13': { type: 'run', name: 'Easy 5km', short: '최종 확인 전 회복', pace: '7:10-7:40/km', rpe: '3-4', talk: '문장 대화 가능', detail: '피로를 남기지 않도록 편하게 끝냅니다.' },
+        '2026-10-14': { type: 'walk', name: '가벼운 걷기 20-30분', short: '몸 풀기', pace: '편안한 걷기', rpe: '2', talk: '자유로운 대화', detail: '무릎과 다리 상태를 확인합니다.' },
+        '2026-10-15': { type: 'quality', name: '목표 페이스 3km', short: 'Sub-60 최종 확인', pace: '6:00-6:05/km', rpe: '7', talk: '몇 단어 가능', detail: '1km Easy 후 3km 목표 페이스, 1km Easy로 마칩니다. 완전히 탈진하면 대회 목표를 조정하세요.' },
+        '2026-10-17': { type: 'rest', name: '완전 휴식', short: '피로 제거', pace: '없음', rpe: '1', talk: '편안함', detail: '수면과 식사를 안정적으로 유지합니다.' },
+        '2026-10-18': { type: 'long', name: 'Easy 7km', short: '마지막 거리 자극', pace: '7:15-7:40/km', rpe: '4', talk: '문장 대화 가능', detail: '거리만 확인하고 속도를 올리지 않습니다.' },
+        '2026-10-20': { type: 'run', name: 'Easy 4km + 가속주 4회', short: '20초 가속, 완전 회복', pace: 'Easy 7:10-7:40/km', rpe: '4-6', talk: 'Easy 구간 대화 가능', detail: 'Easy 4km 후 20초 가속주를 4회 합니다. 가속 사이에는 충분히 걷거나 조깅하세요.' },
+        '2026-10-21': { type: 'rest', name: '완전 휴식', short: '테이퍼', pace: '없음', rpe: '1', talk: '편안함', detail: '훈련을 추가하지 말고 회복하세요.' },
+        '2026-10-22': { type: 'quality', name: 'Easy 20분 + 1분 x 3', short: '사이 2분 Easy', pace: '빠른 1분 5:55-6:00/km', rpe: '4-7', talk: 'Easy 구간 대화 가능', detail: '짧게 목표 페이스 감각만 확인합니다. 총 운동량을 늘리지 마세요.' },
+        '2026-10-23': { type: 'rest', name: '완전 휴식', short: '대회 전날', pace: '없음', rpe: '1', talk: '편안함', detail: '장비와 이동 계획을 확인하고 일찍 쉽니다.' },
+        '2026-10-24': { type: 'race', name: 'Disney Run 10K', short: '인천, 목표 59:59', pace: '0-2km 6:05, 2-8km 5:55-6:00', rpe: '7-9', talk: '레이스 강도', detail: '초반 2km를 억제하고 2-8km에서 목표 페이스를 유지합니다. 마지막 2km는 남은 체력으로 달리세요.' }
+      };
+
+      const keyAliases = {
+        done: ['run58_done_'], note: ['run58_note_'], distance: ['run58_distance_', 'run58_dist_', 'run58_actualDistance_'],
+        time: ['run58_time_', 'run58_duration_', 'run58_actualTime_'], rpe: ['run58_rpe_'],
+        weight: ['run58_weight_'], pain: ['run58_pain_'], condition: ['run58_condition_']
+      };
+
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const pad = number => String(number).padStart(2, '0');
+      const toISO = date => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+      const parseDate = iso => new Date(`${iso}T12:00:00`);
+      const todayISO = () => toISO(new Date());
+      const dayDiff = (a, b) => Math.ceil((parseDate(b) - parseDate(a)) / 86400000);
+      const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+
+      function dateRange(start, end) {
+        const dates = [];
+        for (let date = parseDate(start); date <= parseDate(end); date.setDate(date.getDate() + 1)) dates.push(toISO(date));
+        return dates;
+      }
+
+      const plan = dateRange(PLAN_START, RACE_DATE).map(date => {
+        const item = workoutMap[date] || { type: 'rest', name: '휴식', short: '러닝 사이 회복', pace: '없음', rpe: '1-2', talk: '편안함', detail: '예정된 러닝을 보충하지 말고 회복에 집중하세요.' };
+        return { date, ...item };
+      });
+
+      function readField(field, date) {
+        for (const prefix of keyAliases[field]) {
+          const value = localStorage.getItem(prefix + date);
+          if (value !== null) return value;
+        }
+        return '';
+      }
+
+      function writeField(field, date, value) {
+        localStorage.setItem(keyAliases[field][0] + date, value);
+      }
+
+      function isDone(date) {
+        return ['true', '1', 'done', '완료'].includes(String(readField('done', date)).toLowerCase());
+      }
+
+      function toggleDone(date) {
+        writeField('done', date, String(!isDone(date)));
+        renderAll();
+        toast(isDone(date) ? '완료로 저장했어요.' : '완료 표시를 취소했어요.');
+      }
+
+      function recordSummary(date) {
+        const parts = [];
+        const distance = readField('distance', date);
+        const time = readField('time', date);
+        const rpe = readField('rpe', date);
+        const pain = readField('pain', date);
+        if (distance) parts.push(`${distance}km`);
+        if (time) parts.push(`${time}분`);
+        if (rpe) parts.push(`RPE ${rpe}`);
+        if (pain) parts.push(`통증 ${pain}`);
+        return parts.join(' / ');
+      }
+
+      let weatherByDate = {};
+      let weatherState = 'loading';
+      let weatherMessage = '';
+      let currentFilter = 'upcoming';
+
+      function weatherLabel(code) {
+        if ([0].includes(code)) return '맑음';
+        if ([1, 2].includes(code)) return '대체로 맑음';
+        if ([3].includes(code)) return '흐림';
+        if ([45, 48].includes(code)) return '안개';
+        if ([51, 53, 55, 56, 57].includes(code)) return '이슬비';
+        if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return '비';
+        if ([71, 73, 75, 77, 85, 86].includes(code)) return '눈';
+        if ([95, 96, 99].includes(code)) return '천둥번개';
+        return '날씨 정보';
+      }
+
+      function weatherDecision(weather, workout) {
+        if (!weather) return null;
+        const outdoor = ['run', 'long', 'quality', 'race', 'walk'].includes(workout.type);
+        const thunder = [95, 96, 99].includes(weather.code);
+        const heavyRain = weather.rainChance >= 70 && weather.rain >= 10;
+        const hot = weather.max >= 28 || weather.apparent >= 30;
+        const humid = weather.humidity >= 75;
+        const windy = weather.wind >= 30;
+        const cool = weather.max >= 15 && weather.max <= 22 && weather.rainChance < 30 && weather.wind < 25;
+        if (outdoor && (thunder || heavyRain)) return { level: 'danger', title: '야외 취소 권장', text: workout.type === 'quality' || workout.type === 'long' ? '트레드밀로 바꾸거나 하루 이동하세요. 다음 러닝과 최소 하루 간격을 둡니다.' : '실내 운동 또는 휴식으로 바꾸세요.' };
+        if (outdoor && hot && humid) return { level: 'warning', title: '고온다습 조정', text: '목표 페이스보다 15-30초/km 늦추고 RPE를 우선하세요. 이른 아침이나 해가 진 뒤가 낫습니다.' };
+        if (outdoor && hot) return { level: 'warning', title: '더위 조정', text: '목표 페이스보다 15-30초/km 늦추고 수분을 준비하세요.' };
+        if (outdoor && windy) return { level: 'warning', title: '강풍 주의', text: '노출된 구간을 피하고 페이스 대신 체감강도를 기준으로 달리세요.' };
+        if (outdoor && weather.rainChance >= 60) return { level: 'warning', title: '비 대비', text: '미끄러운 노면을 피하세요. 핵심 훈련이면 트레드밀 또는 하루 이동을 고려하세요.' };
+        if (outdoor && cool && (workout.type === 'quality' || workout.type === 'long')) return { level: 'good', title: '핵심 훈련 적합', text: '기온과 강수 조건이 좋습니다. 다만 무릎 상태가 우선입니다.' };
+        if (outdoor) return { level: 'good', title: '야외 가능', text: '현재 예보상 큰 조정은 필요 없습니다. 당일 체감과 노면을 다시 확인하세요.' };
+        return { level: 'good', title: '회복일', text: '날씨와 관계없이 예정된 회복을 지키세요.' };
+      }
+
+      function adjustedWorkout(workout) {
+        const weather = weatherByDate[workout.date];
+        if (!weather || workout.type === 'rest') return workout;
+        const thunder = [95, 96, 99].includes(weather.code);
+        const heavyRain = weather.rainChance >= 70 && weather.rain >= 10;
+        const likelyRain = weather.rainChance >= 60;
+        const hot = weather.max >= 28 || weather.apparent >= 30;
+        const humid = weather.humidity >= 75;
+        const windy = weather.wind >= 30;
+        const base = { ...workout, originalName: workout.name, originalPace: workout.pace, originalDetail: workout.detail, adjusted: true };
+
+        if ((thunder || heavyRain) && workout.type !== 'race') {
+          if (workout.type === 'walk') return { ...base, name: '실내 걷기 30분', short: '천둥번개·폭우 실내 대체', pace: '편안한 실내 걷기', rpe: '2-3', talk: '자유로운 대화', detail: '야외 운동을 취소합니다. 실내에서 30분 편하게 걷고, 공간이 없으면 완전히 쉬세요.' };
+          if (workout.type === 'quality') return { ...base, name: `트레드밀: ${workout.name}`, short: '천둥번개·폭우 실내 대체', detail: `${workout.detail} 경사도는 0-1%로 두고, 트레드밀을 이용할 수 없으면 Easy 실내 유산소 30분으로 낮추세요.` };
+          if (workout.type === 'long') return { ...base, name: '실내 Long Easy', short: '폭우 실내 대체', pace: 'RPE 4-5 기준', detail: `트레드밀에서 예정 거리를 편하게 달립니다. 지루하거나 무릎이 불편하면 20-30분씩 두 구간으로 나누고 사이에 3분 걸으세요. 트레드밀이 없으면 실내 자전거 45-60분으로 바꿉니다.` };
+          return { ...base, name: `트레드밀: ${workout.name}`, short: '천둥번개·폭우 실내 대체', detail: `${workout.detail} 경사도 0-1%의 트레드밀에서 진행하세요. 트레드밀이 없으면 실내 자전거 또는 빠른 걷기 30-40분으로 바꿉니다.` };
+        }
+
+        if (likelyRain && workout.type !== 'race') {
+          if (workout.type === 'walk') return { ...base, name: '실내 걷기 30분', short: '우천 실내 대체', pace: '편안한 실내 걷기', detail: '젖은 노면 대신 실내에서 편하게 걷습니다.' };
+          return { ...base, name: `우천 대안: ${workout.name}`, short: '트레드밀 우선', detail: `${workout.detail} 비가 실제로 내리면 같은 구성으로 트레드밀에서 진행하고, 노면이 마르면 원래 계획대로 야외에서 달리세요.` };
+        }
+
+        if (hot && humid) {
+          if (workout.type === 'walk') return { ...base, name: '선선한 시간 걷기', short: '고온다습 조정', pace: '편안한 걷기', detail: '이른 아침이나 해가 진 뒤 20-30분 걷습니다. 체감온도가 높으면 실내로 바꾸세요.' };
+          if (workout.type === 'quality') return { ...base, name: `${workout.name} RPE 기준`, short: '고온다습 페이스 완화', pace: '기존 목표보다 10-20초/km 느리게', detail: `${workout.detail} 단, 숫자 페이스를 억지로 맞추지 말고 RPE ${workout.rpe}를 넘으면 즉시 늦추세요. 가능하면 이른 아침이나 트레드밀을 이용합니다.` };
+          if (workout.type === 'race') return { ...base, name: 'Disney Run 10K 더위 전략', short: '체감온도 기준 출발 조정', pace: '초반 목표보다 5-10초/km 느리게', detail: '첫 2km를 보수적으로 출발하고 급수대를 활용하세요. 기록보다 과열 방지가 우선입니다.' };
+          return { ...base, name: `${workout.name} 완화`, short: '고온다습 RPE 조정', pace: '기존 목표보다 15-30초/km 느리게', detail: `${workout.detail} 이른 아침이나 해가 진 뒤 달리고, RPE ${workout.rpe}를 기준으로 속도를 낮추세요.` };
+        }
+
+        if (hot) {
+          if (workout.type === 'quality') return { ...base, name: `${workout.name} 더위 조정`, short: '목표 페이스 완화', pace: '기존 목표보다 10-20초/km 느리게', detail: `${workout.detail} 선선한 시간에 진행하고 세트 사이 회복을 30-60초 늘려도 됩니다.` };
+          if (workout.type === 'race') return { ...base, name: 'Disney Run 10K 더위 전략', short: '초반 보수적 운영', pace: '초반 목표보다 5초/km 느리게', detail: '첫 2km를 보수적으로 시작하고 급수대를 활용하세요.' };
+          if (workout.type !== 'walk') return { ...base, name: `${workout.name} 더위 조정`, short: 'RPE 기준 완화', pace: '기존 목표보다 15-30초/km 느리게', detail: `${workout.detail} 선선한 시간에 달리고 수분을 준비하세요.` };
+        }
+
+        if (windy && workout.type !== 'walk') return { ...base, name: `${workout.name} 강풍 조정`, short: '페이스 대신 RPE', pace: `RPE ${workout.rpe} 기준`, detail: `${workout.detail} 바람을 정면으로 받는 구간과 노출된 하천 코스를 피하고 시계 페이스는 무시하세요.` };
+        return workout;
+      }
+
+      function weatherMarkup(date, workout, compact = false) {
+        if (weatherState === 'loading') return compact ? '<div class="weather-panel"><div class="weather-advice">수원 예보를 불러오는 중입니다.</div></div>' : '<div class="card-weather">수원 예보를 불러오는 중입니다.</div>';
+        const weather = weatherByDate[date];
+        if (!weather) {
+          const text = date > todayISO() ? '상세 예보는 약 16일 전부터 자동 표시됩니다.' : (weatherMessage || '예보가 없습니다.');
+          return compact ? `<div class="weather-panel"><div class="weather-advice ${weatherState === 'error' ? 'weather-error' : ''}">${esc(text)}</div></div>` : `<div class="card-weather">${esc(text)}</div>`;
+        }
+        const decision = weatherDecision(weather, workout);
+        const summary = `${weatherLabel(weather.code)} ${Math.round(weather.min)}-${Math.round(weather.max)}°C, 비 ${Math.round(weather.rainChance)}%, 습도 ${Math.round(weather.humidity)}%`;
+        if (compact) return `<div class="weather-panel"><div class="weather-head"><strong>수원 ${esc(summary)}</strong><span>${esc(decision.title)}</span></div><p class="weather-advice">${esc(decision.text)}</p></div>`;
+        return `<div class="card-weather"><strong>${esc(decision.title)}</strong><br>${esc(summary)}<br>${esc(decision.text)}</div>`;
+      }
+
+      function formatDate(date, full = false) {
+        const value = parseDate(date);
+        return full ? `${value.getMonth() + 1}월 ${value.getDate()}일 ${weekday[value.getDay()]}요일` : `${value.getMonth() + 1}/${value.getDate()}`;
+      }
+
+      function getTodayWorkout() {
+        const now = todayISO();
+        if (now < PLAN_START) return plan[0];
+        if (now > RACE_DATE) return plan[plan.length - 1];
+        return plan.find(item => item.date === now) || plan[0];
+      }
+
+      function renderToday() {
+        const item = getTodayWorkout();
+        const effective = adjustedWorkout(item);
+        const done = isDone(item.date);
+        $('#todayDate').textContent = formatDate(item.date, true);
+        $('#todayCard').innerHTML = `
+          <p class="eyebrow">${item.type === 'race' ? 'RACE DAY' : item.type === 'rest' ? 'RECOVERY' : 'TODAY'}</p>
+          <h3 class="today-title">${esc(effective.name)}</h3>
+          <p class="today-plan">${esc(effective.detail)}</p>
+          <div class="meta-row"><span class="tag accent">${esc(effective.pace)}</span><span class="tag">RPE ${esc(effective.rpe)}</span><span class="tag">${esc(effective.talk)}</span>${effective.adjusted ? '<span class="tag warning">날씨 자동 조정</span>' : ''}</div>
+          ${weatherMarkup(item.date, item, true)}
+          ${effective.adjusted ? `<p class="today-plan" style="margin-top:12px"><strong>기준 계획:</strong> ${esc(item.name)} / ${esc(item.pace)}</p>` : ''}
+          <div class="today-actions"><button class="btn primary ${done ? 'done' : ''}" type="button" data-toggle="${item.date}">${done ? '오늘 훈련 완료' : '완료로 기록'}</button><button class="btn" type="button" data-open-date="${item.date}">기록</button></div>`;
+      }
+
+      function recordForm(item) {
+        return `
+          <div class="record-grid">
+            <label>실제 거리 (km)<input data-field="distance" data-date="${item.date}" inputmode="decimal" value="${esc(readField('distance', item.date))}" placeholder="예: 5.0"></label>
+            <label>실제 시간 (분)<input data-field="time" data-date="${item.date}" inputmode="decimal" value="${esc(readField('time', item.date))}" placeholder="예: 34"></label>
+            <label>실제 RPE<select data-field="rpe" data-date="${item.date}"><option value="">선택</option>${[1,2,3,4,5,6,7,8,9,10].map(n => `<option value="${n}" ${readField('rpe', item.date) === String(n) ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+            <label>통증 (0-10)<select data-field="pain" data-date="${item.date}"><option value="">선택</option>${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<option value="${n}" ${readField('pain', item.date) === String(n) ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+            <label>체중 (kg)<input data-field="weight" data-date="${item.date}" inputmode="decimal" value="${esc(readField('weight', item.date))}" placeholder="선택 입력"></label>
+            <label>컨디션<select data-field="condition" data-date="${item.date}"><option value="">선택</option>${['좋음','보통','피곤','통증'].map(value => `<option value="${value}" ${readField('condition', item.date) === value ? 'selected' : ''}>${value}</option>`).join('')}</select></label>
+            <label class="full">메모<textarea data-field="note" data-date="${item.date}" placeholder="무릎, 호흡, 신발, 날씨를 기록하세요.">${esc(readField('note', item.date))}</textarea></label>
+          </div>
+          <div class="record-actions"><button class="btn primary ${isDone(item.date) ? 'done' : ''}" type="button" data-toggle="${item.date}">${isDone(item.date) ? '완료 취소' : '완료로 기록'}</button><button class="btn" type="button" data-save="${item.date}">저장</button></div>`;
+      }
+
+      function renderSchedule() {
+        const now = todayISO();
+        let items = plan.filter(item => {
+          if (currentFilter === 'upcoming') return item.date >= now;
+          if (currentFilter === 'run') return ['run', 'long', 'quality', 'race'].includes(item.type);
+          if (currentFilter === 'done') return isDone(item.date);
+          return true;
+        });
+        if (!items.length) {
+          $('#schedule').innerHTML = '<div class="empty">이 조건에 맞는 일정이 없습니다.</div>';
+          return;
+        }
+        let previousWeek = '';
+        $('#schedule').innerHTML = items.map(item => {
+          const effective = adjustedWorkout(item);
+          const date = parseDate(item.date);
+          const monday = new Date(date); monday.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+          const weekKey = toISO(monday);
+          let weekLabel = '';
+          if (weekKey !== previousWeek) {
+            const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+            weekLabel = `<div class="week-label">${monday.getMonth() + 1}/${monday.getDate()} - ${sunday.getMonth() + 1}/${sunday.getDate()}</div>`;
+            previousWeek = weekKey;
+          }
+          const done = isDone(item.date);
+          const summary = recordSummary(item.date);
+          return `${weekLabel}<details class="workout" data-workout-date="${item.date}">
+            <summary>
+              <div class="datebox"><strong>${date.getDate()}</strong><span>${weekday[date.getDay()]}요일</span></div>
+              <div><div class="workout-name">${esc(effective.name)}</div><span class="workout-sub">${esc(summary || effective.short)}</span></div>
+              <div class="status-mark ${done ? 'is-done' : ''}">${done ? '완료' : item.type === 'rest' ? '회복' : '예정'}</div>
+            </summary>
+            <div class="detail">
+              <div class="detail-grid"><div class="detail-item"><span>권장 페이스</span><strong>${esc(effective.pace)}</strong></div><div class="detail-item"><span>체감강도</span><strong>RPE ${esc(effective.rpe)}</strong></div><div class="detail-item"><span>Talk test</span><strong>${esc(effective.talk)}</strong></div><div class="detail-item"><span>목적</span><strong>${esc(effective.short)}</strong></div></div>
+              <p class="instruction">${esc(effective.detail)}</p>
+              ${effective.adjusted ? `<p class="instruction"><strong>기준 계획:</strong> ${esc(item.name)} / ${esc(item.pace)}</p>` : ''}
+              ${weatherMarkup(item.date, item, false)}
+              ${recordForm(item)}
+            </div>
+          </details>`;
+        }).join('');
+      }
+
+      function renderStats() {
+        const left = dayDiff(todayISO(), RACE_DATE);
+        $('#daysLeft').textContent = left > 0 ? `D-${left}` : left === 0 ? '오늘' : '완료';
+        const training = plan.filter(item => item.type !== 'rest');
+        const completed = training.filter(item => isDone(item.date)).length;
+        $('#completedCount').textContent = `${completed}/${training.length}`;
+      }
+
+      function renderArchive() {
+        const oldDates = dateRange('2026-08-13', '2026-08-30');
+        const found = oldDates.filter(date => isDone(date) || ['note','distance','time','rpe','weight','pain','condition'].some(field => readField(field, date)));
+        $('#archiveSection').hidden = !found.length;
+        $('#archive').innerHTML = found.map(date => {
+          const notes = [isDone(date) ? '완료' : '', recordSummary(date), readField('condition', date), readField('note', date)].filter(Boolean).join(' / ');
+          return `<div class="archive-row"><span>${esc(formatDate(date, true))}</span><span>${esc(notes)}</span></div>`;
+        }).join('');
+      }
+
+      function renderAll() {
+        renderStats();
+        renderToday();
+        renderSchedule();
+        renderArchive();
+        $$('.filter').forEach(button => button.classList.toggle('active', button.dataset.filter === currentFilter));
+      }
+
+      function toast(message) {
+        const element = $('#toast');
+        element.textContent = message;
+        element.classList.add('show');
+        clearTimeout(toast.timer);
+        toast.timer = setTimeout(() => element.classList.remove('show'), 2200);
+      }
+
+      function parseWeather(data) {
+        const humidityGroups = {};
+        (data.hourly?.time || []).forEach((time, index) => {
+          const date = time.slice(0, 10);
+          const hour = Number(time.slice(11, 13));
+          if (hour >= 6 && hour <= 22) (humidityGroups[date] ||= []).push(data.hourly.relative_humidity_2m[index]);
+        });
+        return Object.fromEntries((data.daily?.time || []).map((date, index) => {
+          const humidities = humidityGroups[date] || [];
+          const humidity = humidities.length ? humidities.reduce((sum, value) => sum + value, 0) / humidities.length : 0;
+          return [date, { code: data.daily.weather_code[index], max: data.daily.temperature_2m_max[index], min: data.daily.temperature_2m_min[index], apparent: data.daily.apparent_temperature_max[index], rainChance: data.daily.precipitation_probability_max[index] ?? 0, rain: data.daily.precipitation_sum[index] ?? 0, wind: data.daily.wind_speed_10m_max[index] ?? 0, humidity }];
+        }));
+      }
+
+      async function loadWeather(force = false) {
+        weatherState = 'loading';
+        renderAll();
+        try {
+          if (!force) {
+            const cached = JSON.parse(localStorage.getItem(WEATHER_CACHE_KEY) || 'null');
+            if (cached && Date.now() - cached.fetchedAt < 30 * 60 * 1000 && cached.data) {
+              weatherByDate = cached.data;
+              weatherState = 'ready';
+              renderAll();
+              return;
+            }
+          }
+          const response = await fetch(WEATHER_URL, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          weatherByDate = parseWeather(data);
+          weatherState = 'ready';
+          localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify({ fetchedAt: Date.now(), data: weatherByDate }));
+        } catch (error) {
+          weatherState = 'error';
+          weatherMessage = navigator.onLine ? '수원 예보를 불러오지 못했습니다. 잠시 후 다시 열어주세요.' : '오프라인입니다. 연결되면 예보가 자동 갱신됩니다.';
+          try {
+            const cached = JSON.parse(localStorage.getItem(WEATHER_CACHE_KEY) || 'null');
+            if (cached?.data) { weatherByDate = cached.data; weatherState = 'ready'; }
+          } catch (_) {}
+        }
+        renderAll();
+      }
+
+      function exportRecords() {
+        const records = {};
+        for (let index = 0; index < localStorage.length; index++) {
+          const key = localStorage.key(index);
+          if (key && key.startsWith('run58_') && key !== WEATHER_CACHE_KEY) records[key] = localStorage.getItem(key);
+        }
+        const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), records }, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url; link.download = `disney-run-10k-backup-${todayISO()}.json`; link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        toast('기록 백업 파일을 만들었어요.');
+      }
+
+      async function importRecords(file) {
+        try {
+          const data = JSON.parse(await file.text());
+          const records = data.records || data;
+          const entries = Object.entries(records).filter(([key]) => key.startsWith('run58_') && key !== WEATHER_CACHE_KEY);
+          if (!entries.length) throw new Error('No records');
+          entries.forEach(([key, value]) => localStorage.setItem(key, String(value)));
+          renderAll();
+          toast(`${entries.length}개 기록을 복원했어요.`);
+        } catch (_) { toast('올바른 백업 파일이 아닙니다.'); }
+      }
+
+      document.addEventListener('click', event => {
+        const toggle = event.target.closest('[data-toggle]');
+        if (toggle) { event.preventDefault(); toggleDone(toggle.dataset.toggle); return; }
+        const save = event.target.closest('[data-save]');
+        if (save) { toast('기록을 저장했어요.'); return; }
+        const open = event.target.closest('[data-open-date]');
+        if (open) {
+          const details = $(`[data-workout-date="${open.dataset.openDate}"]`);
+          if (details) { details.open = true; details.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+          return;
+        }
+        const filter = event.target.closest('[data-filter]');
+        if (filter) { currentFilter = filter.dataset.filter; renderAll(); }
+      });
+
+      document.addEventListener('input', event => {
+        const input = event.target.closest('[data-field]');
+        if (input) writeField(input.dataset.field, input.dataset.date, input.value);
+      });
+      document.addEventListener('change', event => {
+        const input = event.target.closest('[data-field]');
+        if (input) { writeField(input.dataset.field, input.dataset.date, input.value); renderStats(); renderArchive(); }
+      });
+      $('#exportBtn').addEventListener('click', exportRecords);
+      $('#importBtn').addEventListener('click', () => $('#importFile').click());
+      $('#importFile').addEventListener('change', event => { if (event.target.files[0]) importRecords(event.target.files[0]); event.target.value = ''; });
+      window.addEventListener('online', () => loadWeather(true), { once: true });
+
+      renderAll();
+      loadWeather();
+    })();
+  </script>
+</body>
+</html>
