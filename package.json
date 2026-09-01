@@ -1,0 +1,12 @@
+{
+  "name": "10km-run-weather-scheduler",
+  "private": true,
+  "scripts": {
+    "cf:dev": "wrangler dev",
+    "cf:deploy": "wrangler deploy",
+    "cf:kv:create": "wrangler kv namespace create WEATHER_STATE"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
