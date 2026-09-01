@@ -2,423 +2,434 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#070b14" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <title>STYLE RUN 2026 - SUB 60</title>
+  <title>STYLE RUN 2026 · SUB 60</title>
 
   <style>
-    :root {
-      --bg: #070b14;
-      --card: #111827;
-      --card2: #172033;
-      --line: #263247;
-
-      --text: #f8fafc;
-      --sub: #94a3b8;
-
-      --blue: #38bdf8;
-      --green: #4ade80;
-      --yellow: #facc15;
-      --orange: #fb923c;
-      --red: #fb7185;
-      --purple: #c084fc;
-
-      --radius: 20px;
+    :root{
+      --bg:#070b14;
+      --card:#111827;
+      --card2:#172033;
+      --line:#263247;
+      --text:#f8fafc;
+      --sub:#94a3b8;
+      --blue:#38bdf8;
+      --green:#4ade80;
+      --yellow:#facc15;
+      --red:#fb7185;
+      --radius:20px
     }
 
-    * {
-      box-sizing: border-box;
+    *{box-sizing:border-box}
+
+    html{background:var(--bg)}
+
+    body{
+      margin:0;
+      background:radial-gradient(circle at top,#16213c 0,#070b14 420px);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+      line-height:1.5;
+      padding-bottom:calc(60px + env(safe-area-inset-bottom))
     }
 
-    html {
-      background: var(--bg);
+    button,input,textarea{font:inherit}
+
+    .app{
+      max-width:760px;
+      margin:0 auto;
+      padding:calc(18px + env(safe-area-inset-top)) 14px 40px
     }
 
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top, #16213c 0, #070b14 420px);
-      color: var(--text);
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Apple SD Gothic Neo",
-        "Noto Sans KR",
-        sans-serif;
-      line-height: 1.5;
-      padding-bottom: calc(60px + env(safe-area-inset-bottom));
+    .hero{padding:12px 4px 18px}
+
+    .hero-small{
+      color:var(--green);
+      font-weight:900;
+      font-size:14px
     }
 
-    button,
-    input,
-    textarea {
-      font: inherit;
+    .hero h1{
+      margin:5px 0 4px;
+      font-size:clamp(31px,9vw,46px);
+      line-height:1.05
     }
 
-    .app {
-      max-width: 760px;
-      margin: 0 auto;
-      padding:
-        calc(18px + env(safe-area-inset-top))
-        14px
-        40px;
+    .hero p{
+      margin:8px 0 0;
+      color:var(--sub)
     }
 
-    .hero {
-      padding: 12px 4px 18px;
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:18px
     }
 
-    .hero-small {
-      color: var(--green);
-      font-weight: 900;
-      font-size: 14px;
-      letter-spacing: .4px;
+    .summary{
+      background:rgba(17,24,39,.9);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:13px 8px;
+      text-align:center
     }
 
-    h1 {
-      margin: 5px 0 4px;
-      font-size: clamp(31px, 9vw, 46px);
-      line-height: 1.05;
+    .summary .value{
+      font-size:22px;
+      font-weight:900
     }
 
-    .hero p {
-      margin: 8px 0 0;
-      color: var(--sub);
+    .summary .label{
+      margin-top:2px;
+      color:var(--sub);
+      font-size:11px
     }
 
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 18px;
+    .panel{
+      background:rgba(17,24,39,.92);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:16px;
+      margin:12px 0
     }
 
-    .summary {
-      background: rgba(17, 24, 39, .9);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 13px 8px;
-      text-align: center;
-    }
-
-    .summary .value {
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .summary .label {
-      margin-top: 2px;
-      color: var(--sub);
-      font-size: 11px;
-    }
-
-    .panel {
-      background: rgba(17, 24, 39, .92);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin: 12px 0;
-    }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-weight: 900;
-      margin-bottom: 9px;
+    .panel-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      font-weight:900;
+      margin-bottom:9px
     }
 
     .weather-desc,
-    .legend {
-      color: var(--sub);
-      font-size: 13px;
-      line-height: 1.7;
+    .legend{
+      color:var(--sub);
+      font-size:13px;
+      line-height:1.7
     }
 
-    .btn {
-      border: 0;
-      border-radius: 12px;
-      padding: 10px 13px;
-      background: #25324a;
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
+    .btn{
+      border:0;
+      border-radius:12px;
+      padding:10px 13px;
+      background:#25324a;
+      color:#fff;
+      font-weight:800;
+      cursor:pointer
     }
 
-    .btn:active {
-      transform: scale(.98);
+    .btn:active{transform:scale(.98)}
+    .btn.primary{background:#0369a1}
+    .btn.on{background:#166534}
+    .btn.off{background:#7f1d1d}
+
+    .auto-box{
+      margin-top:12px;
+      padding:12px;
+      border:1px solid #334155;
+      border-radius:14px;
+      background:#0b1220
     }
 
-    .btn.primary {
-      background: #0369a1;
+    .auto-status{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px
     }
 
-    .section-title {
-      margin: 24px 4px 10px;
-      font-size: 21px;
-      font-weight: 900;
+    .auto-status strong{font-size:14px}
+
+    .auto-rules{
+      margin-top:8px;
+      color:var(--sub);
+      font-size:12px;
+      line-height:1.65
     }
 
-    .week-label {
-      margin: 26px 4px 9px;
-      color: var(--blue);
-      font-weight: 900;
-      font-size: 15px;
+    .section-title{
+      margin:24px 4px 10px;
+      font-size:21px;
+      font-weight:900
     }
 
-    .workout {
-      position: relative;
-      background: rgba(17, 24, 39, .94);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 15px;
-      margin: 9px 0;
-      overflow: hidden;
+    .week-label{
+      margin:26px 4px 9px;
+      color:var(--blue);
+      font-weight:900;
+      font-size:15px
     }
 
-    .workout.today {
-      border: 2px solid var(--blue);
-      box-shadow: 0 0 0 2px rgba(56,189,248,.08);
+    .workout{
+      position:relative;
+      background:rgba(17,24,39,.94);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:15px;
+      margin:9px 0;
+      overflow:hidden
     }
 
-    .workout.completed {
-      opacity: .72;
+    .workout.today{
+      border:2px solid var(--blue)
     }
 
-    .workout.completed::after {
-      content: "✓";
-      position: absolute;
-      right: 15px;
-      top: 13px;
-      color: var(--green);
-      font-size: 25px;
-      font-weight: 900;
+    .workout.completed{
+      opacity:.72
     }
 
-    .workout.race {
-      border: 2px solid #e11d48;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(190,24,93,.28),
-          rgba(17,24,39,.98)
-        );
+    .workout.completed::after{
+      content:"✓";
+      position:absolute;
+      right:15px;
+      top:13px;
+      color:var(--green);
+      font-size:25px;
+      font-weight:900
     }
 
-    .workout-top {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding-right: 28px;
+    .workout.race{
+      border:2px solid #e11d48;
+      background:linear-gradient(
+        135deg,
+        rgba(190,24,93,.28),
+        rgba(17,24,39,.98)
+      )
     }
 
-    .date-box {
-      min-width: 62px;
-      text-align: center;
-      background: var(--card2);
-      border-radius: 14px;
-      padding: 7px 6px;
+    .workout.moved{
+      border-color:#b45309
     }
 
-    .date-box .monthday {
-      font-weight: 900;
-      font-size: 18px;
+    .workout-top{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding-right:28px
     }
 
-    .date-box .weekday {
-      font-size: 11px;
-      color: var(--sub);
+    .date-box{
+      min-width:68px;
+      text-align:center;
+      background:var(--card2);
+      border-radius:14px;
+      padding:7px 6px
     }
 
-    .workout-main {
-      flex: 1;
-      min-width: 0;
+    .date-box .monthday{
+      font-weight:900;
+      font-size:18px
     }
 
-    .workout-title {
-      font-size: 17px;
-      font-weight: 900;
+    .date-box .weekday{
+      font-size:11px;
+      color:var(--sub)
     }
 
-    .workout-desc {
-      margin-top: 5px;
-      color: #dbeafe;
-      white-space: pre-line;
-      font-size: 14px;
+    .date-box .original-date{
+      margin-top:3px;
+      font-size:9px;
+      color:#fbbf24
     }
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 9px;
+    .workout-main{
+      flex:1;
+      min-width:0
     }
 
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: #1e293b;
-      color: #cbd5e1;
-      font-size: 11px;
-      font-weight: 800;
+    .workout-title{
+      font-size:17px;
+      font-weight:900
     }
 
-    .chip.easy {
-      color: var(--green);
+    .workout-desc{
+      margin-top:5px;
+      color:#dbeafe;
+      white-space:pre-line;
+      font-size:14px
     }
 
-    .chip.quality {
-      color: var(--yellow);
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:9px
     }
 
-    .chip.long {
-      color: var(--blue);
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      padding:5px 8px;
+      border-radius:999px;
+      background:#1e293b;
+      color:#cbd5e1;
+      font-size:11px;
+      font-weight:800
     }
 
-    .chip.race {
-      color: #f0abfc;
+    .chip.easy{color:var(--green)}
+    .chip.quality{color:var(--yellow)}
+    .chip.long{color:var(--blue)}
+    .chip.race{color:#f0abfc}
+    .chip.rest{color:var(--sub)}
+    .chip.moved{color:#fbbf24}
+    .chip.locked{color:#fda4af}
+
+    .move-banner{
+      margin-top:11px;
+      padding:9px 11px;
+      border-radius:12px;
+      background:#2a1d08;
+      border:1px solid #92400e;
+      color:#fde68a;
+      font-size:12px;
+      font-weight:750
     }
 
-    .chip.rest {
-      color: var(--sub);
+    .weather{
+      margin-top:12px;
+      padding:10px 11px;
+      border-radius:13px;
+      background:#0b1220;
+      border:1px solid #1e293b
     }
 
-    .weather {
-      margin-top: 12px;
-      padding: 10px 11px;
-      border-radius: 13px;
-      background: #0b1220;
-      border: 1px solid #1e293b;
+    .weather-line{
+      font-weight:800;
+      font-size:13px
     }
 
-    .weather-line {
-      font-weight: 800;
-      font-size: 13px;
+    .weather-advice{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--sub)
     }
 
-    .weather-advice {
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--sub);
+    .weather-advice.warning{color:#fbbf24}
+    .weather-advice.danger{color:#fb7185}
+
+    .complete-row{
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px
     }
 
-    .weather-advice.warning {
-      color: #fbbf24;
+    .check-wrap,
+    .lock-wrap{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:13px
     }
 
-    .weather-advice.danger {
-      color: #fb7185;
+    .complete-row input[type="checkbox"]{
+      width:20px;
+      height:20px;
+      accent-color:#22c55e
     }
 
-    .complete-row {
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
+    .lock-wrap input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      accent-color:#f43f5e
     }
 
-    .complete-row input {
-      width: 20px;
-      height: 20px;
-      accent-color: #22c55e;
+    details{
+      margin-top:11px;
+      border-top:1px solid var(--line);
+      padding-top:10px
     }
 
-    details {
-      margin-top: 11px;
-      border-top: 1px solid var(--line);
-      padding-top: 10px;
+    summary{
+      color:var(--sub);
+      cursor:pointer;
+      font-weight:800
     }
 
-    summary {
-      color: var(--sub);
-      cursor: pointer;
-      font-weight: 800;
-      user-select: none;
+    .record-grid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:9px
     }
 
-    .record-grid {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 9px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 11px;
-      color: var(--sub);
-      margin: 0 0 4px 2px;
+    .field label{
+      display:block;
+      font-size:11px;
+      color:var(--sub);
+      margin:0 0 4px 2px
     }
 
     input,
-    textarea {
-      width: 100%;
-      border: 1px solid #334155;
-      background: #0b1220;
-      color: white;
-      border-radius: 11px;
-      padding: 10px;
-      outline: none;
+    textarea{
+      width:100%;
+      border:1px solid #334155;
+      background:#0b1220;
+      color:#fff;
+      border-radius:11px;
+      padding:10px;
+      outline:none
     }
 
-    input:focus,
-    textarea:focus {
-      border-color: var(--blue);
+    textarea{
+      resize:vertical;
+      min-height:75px
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 75px;
+    .record-note{
+      grid-column:1/-1
     }
 
-    .record-note {
-      grid-column: 1 / -1;
+    .target-box{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px
     }
 
-    .target-box {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+    .target{
+      background:#0b1220;
+      border-radius:14px;
+      padding:12px 8px;
+      text-align:center
     }
 
-    .target {
-      background: #0b1220;
-      border-radius: 14px;
-      padding: 12px 8px;
-      text-align: center;
+    .target strong{
+      display:block;
+      font-size:18px
     }
 
-    .target strong {
-      display: block;
-      font-size: 18px;
+    .target span{
+      color:var(--sub);
+      font-size:11px
     }
 
-    .target span {
-      color: var(--sub);
-      font-size: 11px;
+    .backup{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px
     }
 
-    .backup {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .footer{
+      text-align:center;
+      margin-top:30px;
+      color:#64748b;
+      font-size:12px
     }
 
-    .footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #64748b;
-      font-size: 12px;
-    }
+    @media(max-width:460px){
+      .summary .value{font-size:18px}
 
-    @media (max-width: 460px) {
-      .summary .value {
-        font-size: 18px;
+      .complete-row{
+        align-items:flex-start;
+        flex-direction:column
       }
     }
   </style>
@@ -429,7 +440,6 @@
 <div class="app">
 
   <section class="hero">
-
     <div class="hero-small">
       🏁 STYLE RUN 2026
     </div>
@@ -461,21 +471,24 @@
       </div>
 
     </div>
-
   </section>
 
 
   <section class="panel">
 
     <div class="panel-title">
-      <span>🌤 수원 훈련 날씨</span>
+
+      <span>
+        🌤 날씨 기반 자동 일정
+      </span>
 
       <button
         class="btn"
         onclick="loadWeather(true)"
       >
-        새로고침
+        예보 새로고침
       </button>
+
     </div>
 
     <div id="weatherStatus">
@@ -483,9 +496,44 @@
     </div>
 
     <div class="weather-desc">
-      Open-Meteo 수원 예보를 자동으로 가져옵니다.
-      예보 범위 밖의 날짜는 대기 상태로 표시되며,
-      날짜가 가까워지면 자동으로 채워집니다.
+      훈련은 수원 예보, 대회는 서울 예보를 사용합니다.
+      Open-Meteo의 실제 예보 범위 안에서만 일정이 자동 조정됩니다.
+    </div>
+
+
+    <div class="auto-box">
+
+      <div class="auto-status">
+
+        <strong id="autoLabel">
+          자동 재배치
+        </strong>
+
+        <button
+          id="autoToggle"
+          class="btn"
+          onclick="toggleAutoWeather()"
+        >
+          -
+        </button>
+
+      </div>
+
+
+      <div class="auto-rules">
+
+        • 강수확률 70% 이상 또는 뇌우 → 다음 적합한 날 탐색<br>
+
+        • QUALITY/LONG 전후 최소 1일 회복 확보<br>
+
+        • 완료한 훈련·날짜 고정 훈련·10/18 대회는 이동하지 않음<br>
+
+        • 이동 때문에 뒤 일정이 겹치면 이후 훈련도 자동으로 재배치<br>
+
+        • 예보가 바뀌면 다시 계산되므로 중요한 일정은 ‘날짜 고정’ 사용
+
+      </div>
+
     </div>
 
   </section>
@@ -517,11 +565,15 @@
     </div>
 
     <p class="legend">
+
       Easy는 기록 도전이 아닙니다.<br>
+
       더운 날에는 페이스보다 RPE를 우선합니다.<br>
-      무릎 통증이 2~3/10 이상이거나
-      달릴수록 증가하면 즉시 종료합니다.<br>
-      빠진 훈련은 보충하지 않습니다.
+
+      무릎 통증이 2~3/10 이상이거나 달릴수록 증가하면 즉시 종료합니다.<br>
+
+      빠진 훈련을 몰아서 보충하지 않습니다.
+
     </p>
 
   </section>
@@ -530,6 +582,7 @@
   <div class="section-title">
     📅 STYLE RUN 훈련 일정
   </div>
+
 
   <div id="schedule"></div>
 
@@ -571,9 +624,8 @@
     </div>
 
     <p class="legend">
-      기존 앱에서 사용하던 run58_* localStorage 키를
-      그대로 유지합니다.
-      같은 GitHub Pages 주소라면 기존 기록도 유지됩니다.
+      기존 run58_* localStorage 키를 유지합니다.
+      같은 GitHub Pages 주소에서 index.html만 교체하면 기존 기록은 최대한 유지됩니다.
     </p>
 
   </section>
@@ -588,11 +640,9 @@
 
 <script>
 
-/* =====================================================
-   기본 설정
-===================================================== */
+const RACE_DATE =
+  "2026-10-18";
 
-const RACE_DATE = "2026-10-18";
 
 const SUWON = {
   latitude: 37.2636,
@@ -600,9 +650,12 @@ const SUWON = {
 };
 
 
-/*
-  기존 데이터 호환성 유지
-*/
+const SEOUL = {
+  latitude: 37.5145,
+  longitude: 127.1059
+};
+
+
 const STORAGE_KEYS = {
 
   done:
@@ -628,12 +681,28 @@ const STORAGE_KEYS = {
 };
 
 
-const weatherCacheKey =
-  "run58_weather_cache_v1";
+const WEATHER_CACHE_KEY =
+  "run58_weather_cache_v3";
+
+
+const AUTO_KEY =
+  "run58_weather_auto_enabled_v3";
+
+
+const LOCK_KEY =
+  "run58_lock_";
+
+
+const LOCK_DATE_KEY =
+  "run58_lock_date_";
+
+
+const ACTUAL_DATE_KEY =
+  "run58_actual_date_";
 
 
 /* =====================================================
-   STYLE RUN 훈련표
+   훈련표
 ===================================================== */
 
 const workouts = [
@@ -647,6 +716,7 @@ const workouts = [
       "무릎 및 다리 피로 확인"
   },
 
+
   {
     date: "2026-09-02",
     type: "easy",
@@ -657,6 +727,7 @@ const workouts = [
       "첫 1km를 가장 천천히"
   },
 
+
   {
     date: "2026-09-04",
     type: "easy",
@@ -665,6 +736,7 @@ const workouts = [
       "7:10~7:30/km\n" +
       "일정한 페이스 유지"
   },
+
 
   {
     date: "2026-09-07",
@@ -685,6 +757,7 @@ const workouts = [
       "편안한 연속주"
   },
 
+
   {
     date: "2026-09-11",
     type: "quality",
@@ -695,6 +768,7 @@ const workouts = [
       "Cooldown\n\n" +
       "6분 초반까지 과속하지 않기"
   },
+
 
   {
     date: "2026-09-14",
@@ -715,6 +789,7 @@ const workouts = [
       "RPE 4~5"
   },
 
+
   {
     date: "2026-09-18",
     type: "quality",
@@ -726,6 +801,7 @@ const workouts = [
       "1.5km @ 6:20~6:30/km\n" +
       "Cooldown"
   },
+
 
   {
     date: "2026-09-21",
@@ -746,6 +822,7 @@ const workouts = [
       "회복성 러닝"
   },
 
+
   {
     date: "2026-09-25",
     type: "quality",
@@ -755,8 +832,9 @@ const workouts = [
       "1km @ 6:05~6:15/km × 3\n" +
       "세트 사이 3분 걷기/조깅\n" +
       "Cooldown\n\n" +
-      "목표: 세 세트 페이스를 최대한 일정하게"
+      "세 세트 페이스를 최대한 일정하게"
   },
+
 
   {
     date: "2026-09-28",
@@ -790,6 +868,7 @@ const workouts = [
       "30:30+ → 실전 페이스 재검토"
   },
 
+
   {
     date: "2026-10-05",
     type: "long",
@@ -810,6 +889,7 @@ const workouts = [
       "다리 피로 회복"
   },
 
+
   {
     date: "2026-10-09",
     type: "quality",
@@ -821,6 +901,7 @@ const workouts = [
       "Cooldown\n\n" +
       "마지막 세트까지 페이스 유지가 핵심"
   },
+
 
   {
     date: "2026-10-12",
@@ -840,9 +921,10 @@ const workouts = [
     desc:
       "Easy 4km\n" +
       "20초 가속주 × 4\n" +
-      "가속주 사이 60~90초 회복\n\n" +
+      "가속주 사이 60~90초 회복\n" +
       "전력질주 금지"
   },
+
 
   {
     date: "2026-10-14",
@@ -853,6 +935,7 @@ const workouts = [
       "다리 피로 회복"
   },
 
+
   {
     date: "2026-10-15",
     type: "quality",
@@ -860,9 +943,10 @@ const workouts = [
     desc:
       "Easy 20분\n" +
       "1분 @ 5:55~6:05/km × 3\n" +
-      "사이 2분 Easy\n\n" +
+      "사이 2분 Easy\n" +
       "훈련 효과보다 페이스 감각 유지"
   },
+
 
   {
     date: "2026-10-16",
@@ -872,6 +956,7 @@ const workouts = [
       "러닝 금지\n" +
       "수면과 수분 섭취"
   },
+
 
   {
     date: "2026-10-17",
@@ -891,19 +976,16 @@ const workouts = [
     desc:
       "SUB 60 도전\n\n" +
 
-      "0~2km\n" +
-      "6:05/km 전후\n\n" +
+      "0~2km : 6:05/km 전후\n" +
 
-      "2~5km\n" +
-      "5:58~6:00/km\n\n" +
+      "2~5km : 5:58~6:00/km\n" +
 
-      "5~8km\n" +
-      "5:55~6:00/km\n\n" +
+      "5~8km : 5:55~6:00/km\n" +
 
-      "8~10km\n" +
-      "남은 체력으로\n\n" +
+      "8~10km : 남은 체력으로\n\n" +
 
       "목표 : 59:59 이내\n" +
+
       "초반에 시간을 저축하려 하지 않기"
   }
 
@@ -911,7 +993,7 @@ const workouts = [
 
 
 /* =====================================================
-   날짜 관련
+   날짜 유틸
 ===================================================== */
 
 function koreaToday() {
@@ -928,20 +1010,44 @@ function koreaToday() {
 }
 
 
+function parseDate(date) {
+
+  return new Date(
+    date + "T12:00:00+09:00"
+  );
+}
+
+
+function dateAdd(date, days) {
+
+  const d =
+    parseDate(date);
+
+
+  d.setDate(
+    d.getDate() + days
+  );
+
+
+  return new Intl.DateTimeFormat(
+    "en-CA",
+    {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }
+  ).format(d);
+}
+
+
 function dayDiff(from, to) {
 
-  const a =
-    new Date(
-      from + "T00:00:00+09:00"
-    );
-
-  const b =
-    new Date(
-      to + "T00:00:00+09:00"
-    );
-
-  return Math.ceil(
-    (b - a) / 86400000
+  return Math.round(
+    (
+      parseDate(to) -
+      parseDate(from)
+    ) / 86400000
   );
 }
 
@@ -955,9 +1061,7 @@ function getWeekday(date) {
       timeZone: "Asia/Seoul"
     }
   ).format(
-    new Date(
-      date + "T12:00:00+09:00"
-    )
+    parseDate(date)
   );
 }
 
@@ -967,6 +1071,7 @@ function getMonthDay(date) {
   const [, month, day] =
     date.split("-");
 
+
   return (
     Number(month) +
     "/" +
@@ -975,11 +1080,49 @@ function getMonthDay(date) {
 }
 
 
+function weekKey(date) {
+
+  const d =
+    parseDate(date);
+
+
+  const monday =
+    new Date(d);
+
+
+  const day =
+    d.getDay();
+
+
+  monday.setDate(
+    d.getDate() +
+    (
+      day === 0
+        ? -6
+        : 1 - day
+    )
+  );
+
+
+  return new Intl.DateTimeFormat(
+    "ko-KR",
+    {
+      month: "long",
+      day: "numeric",
+      timeZone: "Asia/Seoul"
+    }
+  ).format(monday);
+}
+
+
 /* =====================================================
    LocalStorage
 ===================================================== */
 
-function readStorage(prefix, date) {
+function readStorage(
+  prefix,
+  date
+) {
 
   return (
     localStorage.getItem(
@@ -989,7 +1132,11 @@ function readStorage(prefix, date) {
 }
 
 
-function writeStorage(prefix, date, value) {
+function writeStorage(
+  prefix,
+  date,
+  value
+) {
 
   localStorage.setItem(
     prefix + date,
@@ -1009,11 +1156,58 @@ function isDone(date) {
 }
 
 
+function isLocked(date) {
+
+  return (
+    localStorage.getItem(
+      LOCK_KEY + date
+    ) === "1"
+  );
+}
+
+
+function autoEnabled() {
+
+  const value =
+    localStorage.getItem(
+      AUTO_KEY
+    );
+
+
+  return (
+    value === null
+      ? true
+      : value === "1"
+  );
+}
+
+
+function setAutoEnabled(value) {
+
+  localStorage.setItem(
+    AUTO_KEY,
+    value ? "1" : "0"
+  );
+}
+
+
+function toggleAutoWeather() {
+
+  setAutoEnabled(
+    !autoEnabled()
+  );
+
+  renderSchedule();
+}
+
+
 /* =====================================================
    날씨
 ===================================================== */
 
 let weatherMap = {};
+
+let raceWeatherMap = {};
 
 
 function weatherText(code) {
@@ -1031,7 +1225,10 @@ function weatherText(code) {
     return "🌫 안개";
 
   if (
-    [51,53,55,56,57].includes(code)
+    [
+      51,53,55,
+      56,57
+    ].includes(code)
   )
     return "🌦 이슬비";
 
@@ -1053,11 +1250,33 @@ function weatherText(code) {
     return "🌨 눈";
 
   if (
-    [95,96,99].includes(code)
+    [
+      95,96,99
+    ].includes(code)
   )
     return "⛈ 뇌우";
 
+
   return "🌡 날씨";
+}
+
+
+function badForOutdoor(weather) {
+
+  return (
+    !!weather &&
+    (
+      [95,96,99].includes(
+        weather.code
+      ) ||
+
+      weather.precipitation >= 70 ||
+
+      [65,67,82].includes(
+        weather.code
+      )
+    )
+  );
 }
 
 
@@ -1092,8 +1311,8 @@ function getWeatherAdvice(
     return {
       level: "danger",
       text:
-        "뇌우 예보: 야외 러닝 취소 권장. " +
-        "트레드밀 또는 다른 날로 이동하세요."
+        "뇌우 예보: 야외 러닝은 피하세요. " +
+        "자동 재배치 대상입니다."
     };
   }
 
@@ -1105,25 +1324,28 @@ function getWeatherAdvice(
     return {
       level: "danger",
       text:
-        "강수확률이 높습니다. " +
-        "품질훈련이면 실내 또는 다른 날 권장."
+        "강수확률 70% 이상: " +
+        "자동 재배치 대상입니다."
     };
   }
 
 
-  if (max >= 30) {
+  if (
+    max >= 30
+  ) {
 
     return {
       level: "warning",
       text:
-        "매우 더움: RPE 기준으로 진행. " +
-        "페이스를 20~40초/km 낮추거나 " +
-        "거리를 10~20% 줄이세요."
+        "매우 더움: RPE 기준. " +
+        "페이스 20~40초/km 완화 또는 거리 10~20% 축소."
     };
   }
 
 
-  if (max >= 28) {
+  if (
+    max >= 28
+  ) {
 
     return {
       level: "warning",
@@ -1134,23 +1356,28 @@ function getWeatherAdvice(
   }
 
 
-  if (wind >= 30) {
+  if (
+    wind >= 30
+  ) {
 
     return {
       level: "warning",
       text:
-        "강풍 가능성: 페이스보다 RPE를 우선하세요."
+        "강풍 가능성: " +
+        "페이스보다 RPE를 우선하세요."
     };
   }
 
 
-  if (precipitation >= 40) {
+  if (
+    precipitation >= 40
+  ) {
 
     return {
       level: "warning",
       text:
         "비 가능성 있음. " +
-        "젖은 노면에서 코너와 내리막 속도를 낮추세요."
+        "젖은 노면에서는 코너·내리막 속도를 낮추세요."
     };
   }
 
@@ -1192,72 +1419,15 @@ function getWeatherAdvice(
 }
 
 
-async function loadWeather(
-  force = false
-) {
-
-  const status =
-    document.getElementById(
-      "weatherStatus"
-    );
-
-
-  if (!force) {
-
-    const cached =
-      localStorage.getItem(
-        weatherCacheKey
-      );
-
-
-    if (cached) {
-
-      try {
-
-        const parsed =
-          JSON.parse(cached);
-
-        const age =
-          Date.now() -
-          parsed.savedAt;
-
-
-        /*
-          3시간 캐시
-        */
-
-        if (
-          age <
-          3 * 60 * 60 * 1000
-        ) {
-
-          weatherMap =
-            parsed.weatherMap || {};
-
-          status.textContent =
-            "✅ 최근 수원 예보 사용 중";
-
-          renderSchedule();
-
-          return;
-        }
-
-      } catch(e) {}
-    }
-  }
-
-
-  status.textContent =
-    "날씨 정보를 불러오는 중...";
-
+async function fetchForecast(location) {
 
   const url =
 
     "https://api.open-meteo.com/v1/forecast" +
 
-    `?latitude=${SUWON.latitude}` +
+    `?latitude=${location.latitude}` +
 
-    `&longitude=${SUWON.longitude}` +
+    `&longitude=${location.longitude}` +
 
     "&daily=" +
 
@@ -1274,66 +1444,158 @@ async function loadWeather(
     "&forecast_days=16";
 
 
-  try {
-
-    const response =
-      await fetch(url);
+  const response =
+    await fetch(url);
 
 
-    if (!response.ok)
-      throw new Error(
-        "weather fetch failed"
-      );
+  if (!response.ok) {
+
+    throw new Error(
+      "weather fetch failed"
+    );
+  }
 
 
-    const data =
-      await response.json();
+  const data =
+    await response.json();
 
 
-    weatherMap = {};
+  const map = {};
 
 
-    data.daily.time.forEach(
-      (date, index) => {
+  data.daily.time.forEach(
+    (date, index) => {
 
-        weatherMap[date] = {
+      map[date] = {
 
-          code:
-            data.daily
-              .weather_code[index],
+        code:
+          data.daily
+            .weather_code[index],
 
-          max:
-            data.daily
-              .temperature_2m_max[index],
+        max:
+          data.daily
+            .temperature_2m_max[index],
 
-          min:
-            data.daily
-              .temperature_2m_min[index],
+        min:
+          data.daily
+            .temperature_2m_min[index],
 
-          precipitation:
-            data.daily
-              .precipitation_probability_max[index],
+        precipitation:
+          data.daily
+            .precipitation_probability_max[index],
 
-          wind:
-            data.daily
-              .wind_speed_10m_max[index]
-        };
-      }
+        wind:
+          data.daily
+            .wind_speed_10m_max[index]
+      };
+
+    }
+  );
+
+
+  return map;
+}
+
+
+async function loadWeather(
+  force = false
+) {
+
+  const status =
+    document.getElementById(
+      "weatherStatus"
     );
 
 
-    localStorage.setItem(
-      weatherCacheKey,
+  if (!force) {
 
-      JSON.stringify({
-        savedAt: Date.now(),
-        weatherMap
-      })
+    const cached =
+      localStorage.getItem(
+        WEATHER_CACHE_KEY
+      );
+
+
+    if (cached) {
+
+      try {
+
+        const parsed =
+          JSON.parse(cached);
+
+
+        if (
+          Date.now() -
+          parsed.savedAt <
+          3 * 60 * 60 * 1000
+        ) {
+
+          weatherMap =
+            parsed.weatherMap || {};
+
+
+          raceWeatherMap =
+            parsed.raceWeatherMap || {};
+
+
+          status.textContent =
+            "✅ 최근 예보 사용 중 · 자동 일정 재계산 완료";
+
+
+          renderSchedule();
+
+          return;
+        }
+
+      } catch(e) {}
+    }
+  }
+
+
+  status.textContent =
+    "날씨 정보를 불러오는 중...";
+
+
+  try {
+
+    const [
+      suwon,
+      seoul
+    ] =
+      await Promise.all(
+        [
+          fetchForecast(SUWON),
+          fetchForecast(SEOUL)
+        ]
+      );
+
+
+    weatherMap =
+      suwon;
+
+
+    raceWeatherMap =
+      seoul;
+
+
+    localStorage.setItem(
+
+      WEATHER_CACHE_KEY,
+
+      JSON.stringify(
+        {
+          savedAt:
+            Date.now(),
+
+          weatherMap,
+
+          raceWeatherMap
+        }
+      )
     );
 
 
     status.textContent =
-      "✅ 수원 최신 예보 적용 완료";
+      "✅ 수원·서울 최신 예보 적용 · 자동 일정 재계산 완료";
 
 
     renderSchedule();
@@ -1341,10 +1603,565 @@ async function loadWeather(
   } catch(error) {
 
     status.textContent =
-      "⚠️ 날씨 정보를 불러오지 못했습니다.";
+      "⚠️ 날씨 정보를 불러오지 못했습니다. 원래 일정으로 표시합니다.";
+
 
     console.error(error);
+
+
+    renderSchedule();
   }
+}
+
+
+/* =====================================================
+   자동 일정 재배치
+===================================================== */
+
+function isRunningWorkout(
+  workout
+) {
+
+  return (
+    [
+      "easy",
+      "long",
+      "quality"
+    ].includes(
+      workout.type
+    )
+  );
+}
+
+
+function isHardWorkout(
+  workout
+) {
+
+  return (
+    [
+      "long",
+      "quality"
+    ].includes(
+      workout.type
+    )
+  );
+}
+
+
+function getWeatherFor(
+  workout,
+  date
+) {
+
+  return (
+    workout.type === "race"
+      ? raceWeatherMap[date]
+      : weatherMap[date]
+  );
+}
+
+
+function buildAdaptiveSchedule() {
+
+  const today =
+    koreaToday();
+
+
+  const enabled =
+    autoEnabled();
+
+
+  const entries =
+    workouts.map(
+      workout => ({
+        ...workout,
+
+        effectiveDate:
+          workout.date,
+
+        moved:
+          false,
+
+        moveReason:
+          "",
+
+        scheduleWarning:
+          ""
+      })
+    );
+
+
+  if (!enabled) {
+
+    return entries;
+  }
+
+
+  const restDates =
+    new Set(
+
+      workouts
+        .filter(
+          workout =>
+            workout.type === "rest"
+        )
+        .map(
+          workout =>
+            workout.date
+        )
+
+    );
+
+
+  const occupied =
+    new Map();
+
+
+  let previousRun =
+    null;
+
+
+  for (
+    const workout
+    of entries
+  ) {
+
+
+    /*
+      대회는 절대 이동하지 않음
+    */
+
+    if (
+      workout.type === "race"
+    ) {
+
+      workout.effectiveDate =
+        workout.date;
+
+
+      occupied.set(
+        workout.effectiveDate,
+        workout.date
+      );
+
+
+      previousRun = {
+        date:
+          workout.effectiveDate,
+
+        type:
+          workout.type
+      };
+
+
+      continue;
+    }
+
+
+    /*
+      명시적 휴식일
+    */
+
+    if (
+      workout.type === "rest"
+    ) {
+
+      workout.effectiveDate =
+        workout.date;
+
+
+      continue;
+    }
+
+
+    if (
+      !isRunningWorkout(
+        workout
+      )
+    ) {
+
+      continue;
+    }
+
+
+    /*
+      완료 훈련은 이동 금지
+    */
+
+    if (
+      isDone(
+        workout.date
+      )
+    ) {
+
+      workout.effectiveDate =
+
+        localStorage.getItem(
+          ACTUAL_DATE_KEY +
+          workout.date
+        ) ||
+
+        workout.date;
+
+
+      occupied.set(
+        workout.effectiveDate,
+        workout.date
+      );
+
+
+      previousRun = {
+        date:
+          workout.effectiveDate,
+
+        type:
+          workout.type
+      };
+
+
+      continue;
+    }
+
+
+    /*
+      사용자가 날짜 고정한 훈련
+    */
+
+    if (
+      isLocked(
+        workout.date
+      )
+    ) {
+
+      workout.effectiveDate =
+
+        localStorage.getItem(
+          LOCK_DATE_KEY +
+          workout.date
+        ) ||
+
+        workout.date;
+
+
+      occupied.set(
+        workout.effectiveDate,
+        workout.date
+      );
+
+
+      previousRun = {
+        date:
+          workout.effectiveDate,
+
+        type:
+          workout.type
+      };
+
+
+      continue;
+    }
+
+
+    /*
+      지난 훈련을 날씨 때문에
+      뒤늦게 이동시키지는 않음
+    */
+
+    if (
+      dayDiff(
+        workout.date,
+        today
+      ) > 0
+    ) {
+
+      workout.effectiveDate =
+        workout.date;
+
+
+      occupied.set(
+        workout.effectiveDate,
+        workout.date
+      );
+
+
+      previousRun = {
+        date:
+          workout.effectiveDate,
+
+        type:
+          workout.type
+      };
+
+
+      continue;
+    }
+
+
+    const originalWeather =
+      getWeatherFor(
+        workout,
+        workout.date
+      );
+
+
+    const weatherTriggered =
+      !!originalWeather &&
+      badForOutdoor(
+        originalWeather
+      );
+
+
+    let startDate =
+      workout.date;
+
+
+    /*
+      앞 훈련이 이동해서
+      날짜가 충돌하면
+      다음 날부터 탐색
+    */
+
+    if (
+      previousRun &&
+      dayDiff(
+        previousRun.date,
+        startDate
+      ) <= 0
+    ) {
+
+      startDate =
+        dateAdd(
+          previousRun.date,
+          1
+        );
+    }
+
+
+    let chosenDate =
+      null;
+
+
+    const reasons = [];
+
+
+    /*
+      최대 5일 뒤까지 탐색
+    */
+
+    for (
+      let offset = 0;
+      offset <= 5;
+      offset++
+    ) {
+
+      const candidate =
+        dateAdd(
+          startDate,
+          offset
+        );
+
+
+      /*
+        대회 이후로 이동 금지
+      */
+
+      if (
+        candidate >=
+        RACE_DATE
+      ) {
+
+        break;
+      }
+
+
+      /*
+        다른 훈련이 이미 있으면 제외
+      */
+
+      if (
+        occupied.has(
+          candidate
+        )
+      ) {
+
+        continue;
+      }
+
+
+      /*
+        명시적 휴식일 제외
+      */
+
+      if (
+        restDates.has(
+          candidate
+        )
+      ) {
+
+        continue;
+      }
+
+
+      const candidateWeather =
+        getWeatherFor(
+          workout,
+          candidate
+        );
+
+
+      /*
+        해당 날짜도 악천후면 패스
+      */
+
+      if (
+        candidateWeather &&
+        badForOutdoor(
+          candidateWeather
+        )
+      ) {
+
+        continue;
+      }
+
+
+      /*
+        QUALITY / LONG 전후
+        최소 하루 회복
+      */
+
+      if (
+        previousRun
+      ) {
+
+        const gap =
+          dayDiff(
+            previousRun.date,
+            candidate
+          );
+
+
+        if (
+          (
+            isHardWorkout(
+              workout
+            ) ||
+
+            [
+              "quality",
+              "long"
+            ].includes(
+              previousRun.type
+            )
+          ) &&
+
+          gap < 2
+        ) {
+
+          continue;
+        }
+      }
+
+
+      chosenDate =
+        candidate;
+
+
+      if (
+        weatherTriggered &&
+        candidate !==
+        workout.date
+      ) {
+
+        reasons.push(
+          "비/뇌우 예보"
+        );
+      }
+
+
+      if (
+        candidate !==
+        workout.date &&
+        !weatherTriggered
+      ) {
+
+        reasons.push(
+          "앞 일정 이동·회복 간격 확보"
+        );
+      }
+
+
+      break;
+    }
+
+
+    /*
+      이동 가능한 날을
+      못 찾은 경우 원래 일정 유지
+    */
+
+    if (
+      !chosenDate
+    ) {
+
+      chosenDate =
+        workout.date;
+
+
+      if (
+        weatherTriggered
+      ) {
+
+        workout.scheduleWarning =
+          "악천후가 예상되지만 안전한 자동 이동 날짜를 찾지 못했습니다. 직접 일정 조정이 필요합니다.";
+      }
+    }
+
+
+    workout.effectiveDate =
+      chosenDate;
+
+
+    workout.moved =
+      chosenDate !==
+      workout.date;
+
+
+    if (
+      workout.moved
+    ) {
+
+      workout.moveReason =
+
+        reasons.length
+
+          ? reasons.join(
+              " + "
+            )
+
+          : "일정 충돌 방지";
+    }
+
+
+    occupied.set(
+      workout.effectiveDate,
+      workout.date
+    );
+
+
+    previousRun = {
+
+      date:
+        workout.effectiveDate,
+
+      type:
+        workout.type
+    };
+
+  }
+
+
+  return entries;
 }
 
 
@@ -1393,7 +2210,7 @@ function timeToSeconds(value) {
 
 function calculatePace(date) {
 
-  const dist =
+  const distance =
     parseFloat(
       readStorage(
         STORAGE_KEYS.dist,
@@ -1402,26 +2219,27 @@ function calculatePace(date) {
     );
 
 
-  const time =
-    readStorage(
-      STORAGE_KEYS.time,
-      date
+  const seconds =
+    timeToSeconds(
+      readStorage(
+        STORAGE_KEYS.time,
+        date
+      )
     );
 
 
-  const seconds =
-    timeToSeconds(time);
-
-
   if (
-    !dist ||
+    !distance ||
     !seconds
-  )
+  ) {
+
     return "";
+  }
 
 
   const paceSeconds =
-    seconds / dist;
+    seconds /
+    distance;
 
 
   const minutes =
@@ -1435,7 +2253,10 @@ function calculatePace(date) {
       paceSeconds % 60
     )
       .toString()
-      .padStart(2, "0");
+      .padStart(
+        2,
+        "0"
+      );
 
 
   return (
@@ -1445,72 +2266,46 @@ function calculatePace(date) {
 
 
 /* =====================================================
-   UI
+   화면 관련
 ===================================================== */
 
-function typeLabel(item) {
+function typeLabel(
+  workout
+) {
 
-  switch(item.type) {
-
-    case "easy":
-      return "EASY";
-
-    case "long":
-      return "LONG";
-
-    case "quality":
-      return "QUALITY";
-
-    case "race":
-      return "RACE";
-
-    default:
-      return "REST";
-  }
-}
+  if (
+    workout.type === "easy"
+  )
+    return "EASY";
 
 
-function weekKey(date) {
-
-  const d =
-    new Date(
-      date + "T12:00:00+09:00"
-    );
+  if (
+    workout.type === "long"
+  )
+    return "LONG";
 
 
-  const monday =
-    new Date(d);
+  if (
+    workout.type === "quality"
+  )
+    return "QUALITY";
 
 
-  const day =
-    d.getDay();
+  if (
+    workout.type === "race"
+  )
+    return "RACE";
 
 
-  const diff =
-    day === 0
-      ? -6
-      : 1 - day;
-
-
-  monday.setDate(
-    d.getDate() + diff
-  );
-
-
-  return new Intl.DateTimeFormat(
-    "ko-KR",
-    {
-      month: "long",
-      day: "numeric",
-      timeZone: "Asia/Seoul"
-    }
-  ).format(monday);
+  return "REST";
 }
 
 
 function escapeHtml(str) {
 
-  return String(str || "")
+  return String(
+    str || ""
+  )
     .replaceAll(
       "&",
       "&amp;"
@@ -1554,8 +2349,11 @@ function recordField(
       </label>
 
       <input
+
         type="${type}"
+
         value="${escapeHtml(value)}"
+
         placeholder="${placeholder}"
 
         oninput="
@@ -1569,6 +2367,7 @@ function recordField(
             '${date}'
           );
         "
+
       >
 
     </div>
@@ -1576,6 +2375,88 @@ function recordField(
   `;
 }
 
+
+function setDone(
+  baseDate,
+  effectiveDate,
+  checked
+) {
+
+  writeStorage(
+    STORAGE_KEYS.done,
+    baseDate,
+    checked ? "1" : ""
+  );
+
+
+  if (
+    checked
+  ) {
+
+    localStorage.setItem(
+      ACTUAL_DATE_KEY +
+      baseDate,
+      effectiveDate
+    );
+
+  } else {
+
+    localStorage.removeItem(
+      ACTUAL_DATE_KEY +
+      baseDate
+    );
+  }
+
+
+  renderSchedule();
+}
+
+
+function setLocked(
+  baseDate,
+  effectiveDate,
+  checked
+) {
+
+  if (
+    checked
+  ) {
+
+    localStorage.setItem(
+      LOCK_KEY +
+      baseDate,
+      "1"
+    );
+
+
+    localStorage.setItem(
+      LOCK_DATE_KEY +
+      baseDate,
+      effectiveDate
+    );
+
+  } else {
+
+    localStorage.removeItem(
+      LOCK_KEY +
+      baseDate
+    );
+
+
+    localStorage.removeItem(
+      LOCK_DATE_KEY +
+      baseDate
+    );
+  }
+
+
+  renderSchedule();
+}
+
+
+/* =====================================================
+   일정 렌더링
+===================================================== */
 
 function renderSchedule() {
 
@@ -1589,346 +2470,547 @@ function renderSchedule() {
     koreaToday();
 
 
+  const adaptive =
+    buildAdaptiveSchedule()
+      .sort(
+        (a, b) =>
+
+          a.effectiveDate
+            .localeCompare(
+              b.effectiveDate
+            ) ||
+
+          a.date
+            .localeCompare(
+              b.date
+            )
+      );
+
+
   let html = "";
 
   let previousWeek = "";
 
 
-  workouts.forEach(item => {
-
-    const week =
-      weekKey(item.date);
+  adaptive.forEach(
+    workout => {
 
 
-    if (
-      week !==
-      previousWeek
-    ) {
+      const week =
+        weekKey(
+          workout.effectiveDate
+        );
+
+
+      if (
+        week !==
+        previousWeek
+      ) {
+
+        html += `
+
+          <div class="week-label">
+            ${week} 주
+          </div>
+
+        `;
+
+
+        previousWeek =
+          week;
+      }
+
+
+      const done =
+        isDone(
+          workout.date
+        );
+
+
+      const locked =
+        isLocked(
+          workout.date
+        );
+
+
+      const weather =
+        getWeatherFor(
+          workout,
+          workout.effectiveDate
+        );
+
+
+      const advice =
+        getWeatherAdvice(
+          weather,
+          workout
+        );
+
+
+      const classes = [
+
+        "workout",
+
+        workout.effectiveDate ===
+        today
+          ? "today"
+          : "",
+
+        done
+          ? "completed"
+          : "",
+
+        workout.type ===
+        "race"
+          ? "race"
+          : "",
+
+        workout.moved
+          ? "moved"
+          : ""
+
+      ].join(" ");
+
+
+      let weatherHtml = "";
+
+
+      if (
+        weather
+      ) {
+
+        weatherHtml = `
+
+          <div class="weather">
+
+            <div class="weather-line">
+
+              ${weatherText(
+                weather.code
+              )}
+
+              ·
+              ${weather.min}
+              ~
+              ${weather.max}℃
+
+              · 비
+              ${weather.precipitation}%
+
+              · 바람
+              ${Math.round(
+                weather.wind
+              )}km/h
+
+            </div>
+
+            <div class="
+              weather-advice
+              ${advice.level}
+            ">
+              ${advice.text}
+            </div>
+
+          </div>
+
+        `;
+
+      } else {
+
+        weatherHtml = `
+
+          <div class="weather">
+
+            <div class="weather-line">
+              🌤 예보 대기
+            </div>
+
+            <div class="weather-advice">
+              ${advice.text}
+            </div>
+
+          </div>
+
+        `;
+      }
+
+
+      let moveHtml =
+        "";
+
+
+      if (
+        workout.moved
+      ) {
+
+        moveHtml = `
+
+          <div class="move-banner">
+
+            🌧
+            ${getMonthDay(
+              workout.date
+            )}
+
+            →
+
+            ${getMonthDay(
+              workout.effectiveDate
+            )}
+
+            자동 이동
+
+            ·
+
+            ${workout.moveReason}
+
+          </div>
+
+        `;
+
+      } else if (
+        workout.scheduleWarning
+      ) {
+
+        moveHtml = `
+
+          <div class="move-banner">
+
+            ⚠️
+            ${workout.scheduleWarning}
+
+          </div>
+
+        `;
+      }
+
+
+      const pace =
+        calculatePace(
+          workout.date
+        );
+
 
       html += `
 
-        <div class="week-label">
-          ${week} 주
-        </div>
-
-      `;
-
-      previousWeek =
-        week;
-    }
+        <article
+          class="${classes}"
+          id="day-${workout.date}"
+        >
 
 
-    const done =
-      isDone(item.date);
+          <div class="workout-top">
 
 
-    const weather =
-      weatherMap[item.date];
+            <div class="date-box">
+
+              <div class="monthday">
+                ${getMonthDay(
+                  workout.effectiveDate
+                )}
+              </div>
 
 
-    const advice =
-      getWeatherAdvice(
-        weather,
-        item
-      );
-
-
-    const classes = [
-
-      "workout",
-
-      item.date === today
-        ? "today"
-        : "",
-
-      done
-        ? "completed"
-        : "",
-
-      item.type === "race"
-        ? "race"
-        : ""
-
-    ].join(" ");
-
-
-    let weatherHtml;
-
-
-    if (weather) {
-
-      weatherHtml = `
-
-        <div class="weather">
-
-          <div class="weather-line">
-
-            ${weatherText(
-              weather.code
-            )}
-
-            ·
-            ${weather.min}
-            ~
-            ${weather.max}℃
-
-            · 비
-            ${weather.precipitation}%
-
-            · 바람
-            ${Math.round(
-              weather.wind
-            )}km/h
-
-          </div>
-
-
-          <div class="
-            weather-advice
-            ${advice.level}
-          ">
-            ${advice.text}
-          </div>
-
-        </div>
-
-      `;
-
-    } else {
-
-      weatherHtml = `
-
-        <div class="weather">
-
-          <div class="weather-line">
-            🌤 예보 대기
-          </div>
-
-          <div class="weather-advice">
-            ${advice.text}
-          </div>
-
-        </div>
-
-      `;
-    }
-
-
-    const pace =
-      calculatePace(
-        item.date
-      );
-
-
-    html += `
-
-      <article
-        class="${classes}"
-        id="day-${item.date}"
-      >
-
-        <div class="workout-top">
-
-          <div class="date-box">
-
-            <div class="monthday">
-              ${getMonthDay(
-                item.date
-              )}
-            </div>
-
-            <div class="weekday">
-              ${getWeekday(
-                item.date
-              )}
-            </div>
-
-          </div>
-
-
-          <div class="workout-main">
-
-            <div class="workout-title">
-              ${item.title}
-            </div>
-
-
-            <div class="chips">
-
-              <span class="
-                chip
-                ${item.type}
-              ">
-                ${typeLabel(item)}
-              </span>
+              <div class="weekday">
+                ${getWeekday(
+                  workout.effectiveDate
+                )}
+              </div>
 
 
               ${
-                item.date === today
-                ?
-                '<span class="chip">TODAY</span>'
-                :
-                ""
+                workout.moved
+
+                  ? `
+                    <div class="original-date">
+                      원래
+                      ${getMonthDay(
+                        workout.date
+                      )}
+                    </div>
+                  `
+
+                  : ""
               }
 
             </div>
 
 
-            <div class="workout-desc">
-              ${item.desc}
+            <div class="workout-main">
+
+
+              <div class="workout-title">
+                ${workout.title}
+              </div>
+
+
+              <div class="chips">
+
+                <span class="
+                  chip
+                  ${workout.type}
+                ">
+                  ${typeLabel(
+                    workout
+                  )}
+                </span>
+
+
+                ${
+                  workout.effectiveDate ===
+                  today
+
+                    ? `
+                      <span class="chip">
+                        TODAY
+                      </span>
+                    `
+
+                    : ""
+                }
+
+
+                ${
+                  workout.moved
+
+                    ? `
+                      <span class="
+                        chip
+                        moved
+                      ">
+                        AUTO MOVED
+                      </span>
+                    `
+
+                    : ""
+                }
+
+
+                ${
+                  locked
+
+                    ? `
+                      <span class="
+                        chip
+                        locked
+                      ">
+                        LOCKED
+                      </span>
+                    `
+
+                    : ""
+                }
+
+              </div>
+
+
+              <div class="workout-desc">
+                ${workout.desc}
+              </div>
+
+
             </div>
 
           </div>
 
-        </div>
+
+          ${moveHtml}
+
+          ${weatherHtml}
 
 
-        ${weatherHtml}
+          <div class="complete-row">
 
 
-        <div class="complete-row">
-
-          <input
-            type="checkbox"
-            ${done ? "checked" : ""}
-
-            onchange="
-              writeStorage(
-                '${STORAGE_KEYS.done}',
-                '${item.date}',
-                this.checked
-                  ? '1'
-                  : ''
-              );
-
-              renderSchedule();
-            "
-          >
-
-          <span>
-            훈련 완료
-          </span>
-
-        </div>
-
-
-        <details>
-
-          <summary>
-            운동 기록 입력
-          </summary>
-
-
-          <div class="record-grid">
-
-
-            ${
-              recordField(
-                item.date,
-                "거리 (km)",
-                STORAGE_KEYS.dist,
-                "예: 5.00",
-                "number"
-              )
-            }
-
-
-            ${
-              recordField(
-                item.date,
-                "시간",
-                STORAGE_KEYS.time,
-                "예: 35:10"
-              )
-            }
-
-
-            ${
-              recordField(
-                item.date,
-                "RPE (1~10)",
-                STORAGE_KEYS.rpe,
-                "예: 5",
-                "number"
-              )
-            }
-
-
-            ${
-              recordField(
-                item.date,
-                "체중 (kg)",
-                STORAGE_KEYS.weight,
-                "선택",
-                "number"
-              )
-            }
-
-
-            ${
-              recordField(
-                item.date,
-                "통증 (0~10)",
-                STORAGE_KEYS.pain,
-                "예: 0",
-                "number"
-              )
-            }
-
-
-            <div class="field">
-
-              <label>
-                평균 페이스
-              </label>
+            <label class="check-wrap">
 
               <input
-                id="pace-${item.date}"
-                value="${pace}"
-                placeholder="자동 계산"
-                disabled
-              >
 
-            </div>
+                type="checkbox"
 
+                ${done ? "checked" : ""}
 
-            <div class="
-              field
-              record-note
-            ">
-
-              <label>
-                메모
-              </label>
-
-              <textarea
-                placeholder="
-신발, 무릎 상태, 날씨, 심박, 케이던스 등
-"
-                oninput="
-                  writeStorage(
-                    '${STORAGE_KEYS.note}',
-                    '${item.date}',
-                    this.value
+                onchange="
+                  setDone(
+                    '${workout.date}',
+                    '${workout.effectiveDate}',
+                    this.checked
                   )
                 "
-              >${escapeHtml(
-                readStorage(
-                  STORAGE_KEYS.note,
-                  item.date
-                )
-              )}</textarea>
 
-            </div>
+              >
+
+              <span>
+                훈련 완료
+              </span>
+
+            </label>
+
+
+            ${
+              isRunningWorkout(
+                workout
+              ) &&
+              !done
+
+                ? `
+
+                  <label class="lock-wrap">
+
+                    <input
+
+                      type="checkbox"
+
+                      ${locked ? "checked" : ""}
+
+                      onchange="
+                        setLocked(
+                          '${workout.date}',
+                          '${workout.effectiveDate}',
+                          this.checked
+                        )
+                      "
+
+                    >
+
+                    <span>
+                      🔒 날짜 고정
+                    </span>
+
+                  </label>
+
+                `
+
+                : ""
+            }
+
 
           </div>
 
-        </details>
 
-      </article>
+          <details>
 
-    `;
-  });
+
+            <summary>
+              운동 기록 입력
+            </summary>
+
+
+            <div class="record-grid">
+
+
+              ${
+                recordField(
+                  workout.date,
+                  "거리 (km)",
+                  STORAGE_KEYS.dist,
+                  "예: 5.00",
+                  "number"
+                )
+              }
+
+
+              ${
+                recordField(
+                  workout.date,
+                  "시간",
+                  STORAGE_KEYS.time,
+                  "예: 35:10"
+                )
+              }
+
+
+              ${
+                recordField(
+                  workout.date,
+                  "RPE (1~10)",
+                  STORAGE_KEYS.rpe,
+                  "예: 5",
+                  "number"
+                )
+              }
+
+
+              ${
+                recordField(
+                  workout.date,
+                  "체중 (kg)",
+                  STORAGE_KEYS.weight,
+                  "선택",
+                  "number"
+                )
+              }
+
+
+              ${
+                recordField(
+                  workout.date,
+                  "통증 (0~10)",
+                  STORAGE_KEYS.pain,
+                  "예: 0",
+                  "number"
+                )
+              }
+
+
+              <div class="field">
+
+                <label>
+                  평균 페이스
+                </label>
+
+                <input
+                  id="pace-${workout.date}"
+                  value="${pace}"
+                  placeholder="자동 계산"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="
+                field
+                record-note
+              ">
+
+                <label>
+                  메모
+                </label>
+
+                <textarea
+
+                  placeholder="신발, 무릎 상태, 날씨, 심박, 케이던스 등"
+
+                  oninput="
+                    writeStorage(
+                      '${STORAGE_KEYS.note}',
+                      '${workout.date}',
+                      this.value
+                    )
+                  "
+
+                >${escapeHtml(
+                  readStorage(
+                    STORAGE_KEYS.note,
+                    workout.date
+                  )
+                )}</textarea>
+
+              </div>
+
+
+            </div>
+
+
+          </details>
+
+
+        </article>
+
+      `;
+    }
+  );
 
 
   container.innerHTML =
@@ -1936,6 +3018,8 @@ function renderSchedule() {
 
 
   updateSummary();
+
+  updateAutoUI();
 }
 
 
@@ -1947,13 +3031,21 @@ function refreshPace(date) {
     );
 
 
-  if (element) {
+  if (
+    element
+  ) {
 
     element.value =
-      calculatePace(date);
+      calculatePace(
+        date
+      );
   }
 }
 
+
+/* =====================================================
+   요약
+===================================================== */
 
 function updateSummary() {
 
@@ -1975,14 +3067,18 @@ function updateSummary() {
     .textContent =
 
       days >= 0
+
         ? `D-${days}`
+
         : "완료";
 
 
   const done =
     workouts.filter(
-      item =>
-        isDone(item.date)
+      workout =>
+        isDone(
+          workout.date
+        )
     ).length;
 
 
@@ -1991,7 +3087,61 @@ function updateSummary() {
       "doneCount"
     )
     .textContent =
+
       `${done}/${workouts.length}`;
+}
+
+
+function updateAutoUI() {
+
+  const enabled =
+    autoEnabled();
+
+
+  const button =
+    document.getElementById(
+      "autoToggle"
+    );
+
+
+  const label =
+    document.getElementById(
+      "autoLabel"
+    );
+
+
+  if (
+    !button ||
+    !label
+  ) {
+
+    return;
+  }
+
+
+  button.textContent =
+
+    enabled
+      ? "AUTO ON"
+      : "AUTO OFF";
+
+
+  button.className =
+
+    `btn ${
+      enabled
+        ? "on"
+        : "off"
+    }`;
+
+
+  label.textContent =
+
+    enabled
+
+      ? "날씨 자동 재배치 활성화"
+
+      : "원래 일정 표시 중";
 }
 
 
@@ -2094,51 +3244,52 @@ function restoreData(event) {
     new FileReader();
 
 
-  reader.onload = () => {
+  reader.onload =
+    () => {
 
-    try {
+      try {
 
-      const data =
-        JSON.parse(
-          reader.result
-        );
+        const data =
+          JSON.parse(
+            reader.result
+          );
 
 
-      Object
-        .entries(data)
-        .forEach(
-          ([key, value]) => {
+        Object
+          .entries(data)
+          .forEach(
+            ([key, value]) => {
 
-            if (
-              key.startsWith(
-                "run58_"
-              )
-            ) {
+              if (
+                key.startsWith(
+                  "run58_"
+                )
+              ) {
 
-              localStorage.setItem(
-                key,
-                value
-              );
+                localStorage.setItem(
+                  key,
+                  value
+                );
+              }
+
             }
+          );
 
-          }
+
+        alert(
+          "기록을 복원했습니다."
         );
 
 
-      alert(
-        "기록을 복원했습니다."
-      );
+        location.reload();
 
+      } catch(e) {
 
-      location.reload();
-
-    } catch(e) {
-
-      alert(
-        "백업 파일을 읽을 수 없습니다."
-      );
-    }
-  };
+        alert(
+          "백업 파일을 읽을 수 없습니다."
+        );
+      }
+    };
 
 
   reader.readAsText(
@@ -2152,6 +3303,7 @@ function restoreData(event) {
 ===================================================== */
 
 renderSchedule();
+
 loadWeather();
 
 </script>
