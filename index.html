@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta name="theme-color" content="#070b14" />
 
-  <title>Disney Run 2026 - Sub 60 Training</title>
+  <title>STYLE RUN 2026 - SUB 60</title>
 
   <style>
     :root {
@@ -71,15 +71,15 @@
     }
 
     .hero-small {
-      color: var(--blue);
-      font-weight: 800;
+      color: var(--green);
+      font-weight: 900;
       font-size: 14px;
-      letter-spacing: .3px;
+      letter-spacing: .4px;
     }
 
     h1 {
       margin: 5px 0 4px;
-      font-size: clamp(29px, 8vw, 44px);
+      font-size: clamp(31px, 9vw, 46px);
       line-height: 1.05;
     }
 
@@ -96,26 +96,26 @@
     }
 
     .summary {
-      background: rgba(17, 24, 39, .88);
+      background: rgba(17, 24, 39, .9);
       border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 13px 10px;
+      padding: 13px 8px;
       text-align: center;
     }
 
     .summary .value {
-      font-size: 23px;
+      font-size: 22px;
       font-weight: 900;
     }
 
     .summary .label {
       margin-top: 2px;
       color: var(--sub);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .panel {
-      background: rgba(17,24,39,.92);
+      background: rgba(17, 24, 39, .92);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 16px;
@@ -131,16 +131,11 @@
       margin-bottom: 9px;
     }
 
-    .weather-now {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .weather-desc {
+    .weather-desc,
+    .legend {
       color: var(--sub);
-      font-size: 14px;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .btn {
@@ -161,10 +156,6 @@
       background: #0369a1;
     }
 
-    .btn.danger {
-      background: #7f1d1d;
-    }
-
     .section-title {
       margin: 24px 4px 10px;
       font-size: 21px;
@@ -180,7 +171,7 @@
 
     .workout {
       position: relative;
-      background: rgba(17,24,39,.94);
+      background: rgba(17, 24, 39, .94);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 15px;
@@ -208,19 +199,13 @@
     }
 
     .workout.race {
-      background:
-        linear-gradient(135deg,
-        rgba(96, 36, 133, .38),
-        rgba(17,24,39,.97));
-      border-color: #7e22ce;
-    }
-
-    .workout.a-race {
       border: 2px solid #e11d48;
       background:
-        linear-gradient(135deg,
-        rgba(190,24,93,.27),
-        rgba(17,24,39,.98));
+        linear-gradient(
+          135deg,
+          rgba(190,24,93,.28),
+          rgba(17,24,39,.98)
+        );
     }
 
     .workout-top {
@@ -259,7 +244,7 @@
     }
 
     .workout-desc {
-      margin-top: 4px;
+      margin-top: 5px;
       color: #dbeafe;
       white-space: pre-line;
       font-size: 14px;
@@ -269,7 +254,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 10px;
+      margin-top: 9px;
     }
 
     .chip {
@@ -279,15 +264,29 @@
       border-radius: 999px;
       background: #1e293b;
       color: #cbd5e1;
-      font-size: 12px;
-      font-weight: 750;
+      font-size: 11px;
+      font-weight: 800;
     }
 
-    .chip.easy { color: var(--green); }
-    .chip.quality { color: var(--yellow); }
-    .chip.long { color: var(--blue); }
-    .chip.race { color: #f0abfc; }
-    .chip.rest { color: var(--sub); }
+    .chip.easy {
+      color: var(--green);
+    }
+
+    .chip.quality {
+      color: var(--yellow);
+    }
+
+    .chip.long {
+      color: var(--blue);
+    }
+
+    .chip.race {
+      color: #f0abfc;
+    }
+
+    .chip.rest {
+      color: var(--sub);
+    }
 
     .weather {
       margin-top: 12px;
@@ -381,19 +380,6 @@
       grid-column: 1 / -1;
     }
 
-    .pace-result {
-      margin-top: 9px;
-      color: var(--blue);
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .legend {
-      color: var(--sub);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
     .target-box {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -409,7 +395,7 @@
 
     .target strong {
       display: block;
-      font-size: 19px;
+      font-size: 18px;
     }
 
     .target span {
@@ -431,17 +417,8 @@
     }
 
     @media (max-width: 460px) {
-      .summary-grid,
-      .target-box {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
       .summary .value {
         font-size: 18px;
-      }
-
-      .record-grid {
-        grid-template-columns: 1fr 1fr;
       }
     }
   </style>
@@ -452,19 +429,25 @@
 <div class="app">
 
   <section class="hero">
-    <div class="hero-small">🏰 DISNEY RUN INCHEON 2026</div>
 
-    <h1>10K · SUB 60</h1>
+    <div class="hero-small">
+      🏁 STYLE RUN 2026
+    </div>
+
+    <h1>
+      10K · SUB 60
+    </h1>
 
     <p>
-      A Race : 2026.10.24 Disney Run 10K<br>
-      B Race : 2026.10.18 Style Run 10K
+      2026.10.18 STYLE RUN 10K<br>
+      목표 기록 59:59 이내
     </p>
 
     <div class="summary-grid">
+
       <div class="summary">
         <div class="value" id="dday">-</div>
-        <div class="label">Disney Run</div>
+        <div class="label">STYLE RUN</div>
       </div>
 
       <div class="summary">
@@ -476,39 +459,46 @@
         <div class="value">5'59"</div>
         <div class="label">목표 페이스</div>
       </div>
+
     </div>
+
   </section>
 
 
   <section class="panel">
+
     <div class="panel-title">
       <span>🌤 수원 훈련 날씨</span>
-      <button class="btn" onclick="loadWeather(true)">
+
+      <button
+        class="btn"
+        onclick="loadWeather(true)"
+      >
         새로고침
       </button>
     </div>
 
-    <div class="weather-now">
-      <div>
-        <div id="weatherStatus">
-          날씨 정보를 불러오는 중...
-        </div>
-
-        <div class="weather-desc">
-          실제 예보가 제공되는 날짜에만 자동 표시됩니다.
-          장기 일정은 날짜가 가까워지면 자동으로 채워집니다.
-        </div>
-      </div>
+    <div id="weatherStatus">
+      날씨 정보를 불러오는 중...
     </div>
+
+    <div class="weather-desc">
+      Open-Meteo 수원 예보를 자동으로 가져옵니다.
+      예보 범위 밖의 날짜는 대기 상태로 표시되며,
+      날짜가 가까워지면 자동으로 채워집니다.
+    </div>
+
   </section>
 
 
   <section class="panel">
+
     <div class="panel-title">
-      🎯 훈련 강도 기준
+      🎯 훈련 페이스
     </div>
 
     <div class="target-box">
+
       <div class="target">
         <strong>7:10~7:40</strong>
         <span>Easy / km</span>
@@ -523,34 +513,50 @@
         <strong>5:55~6:05</strong>
         <span>Goal Pace</span>
       </div>
+
     </div>
 
     <p class="legend">
-      Easy는 기록을 노리는 날이 아닙니다.<br>
-      더운 날에는 목표 페이스보다 RPE 4~5를 우선합니다.<br>
-      무릎 통증이 2~3/10 이상이거나 달릴수록 증가하면 즉시 종료합니다.
+      Easy는 기록 도전이 아닙니다.<br>
+      더운 날에는 페이스보다 RPE를 우선합니다.<br>
+      무릎 통증이 2~3/10 이상이거나
+      달릴수록 증가하면 즉시 종료합니다.<br>
+      빠진 훈련은 보충하지 않습니다.
     </p>
+
   </section>
 
 
   <div class="section-title">
-    📅 훈련 일정
+    📅 STYLE RUN 훈련 일정
   </div>
 
   <div id="schedule"></div>
 
 
   <section class="panel">
+
     <div class="panel-title">
       💾 기록 백업
     </div>
 
     <div class="backup">
-      <button class="btn primary" onclick="exportData()">
-        백업 파일 저장
+
+      <button
+        class="btn primary"
+        onclick="exportData()"
+      >
+        백업 저장
       </button>
 
-      <button class="btn" onclick="document.getElementById('restoreFile').click()">
+      <button
+        class="btn"
+        onclick="
+          document
+            .getElementById('restoreFile')
+            .click()
+        "
+      >
         백업 복원
       </button>
 
@@ -560,30 +566,33 @@
         accept=".json"
         style="display:none"
         onchange="restoreData(event)"
-      />
+      >
+
     </div>
 
     <p class="legend">
-      GitHub의 index.html을 교체해도 동일한 주소에서 실행하면
-      Safari의 기존 localStorage 기록은 그대로 유지됩니다.
-      단, Safari 사이트 데이터를 삭제하면 기록도 삭제됩니다.
+      기존 앱에서 사용하던 run58_* localStorage 키를
+      그대로 유지합니다.
+      같은 GitHub Pages 주소라면 기존 기록도 유지됩니다.
     </p>
+
   </section>
 
 
   <div class="footer">
-    목표는 높게 · Easy는 Easy하게 · 통증은 무시하지 않기
+    목표는 Sub-60 · 훈련은 냉정하게 · 통증은 무시하지 않기
   </div>
 
 </div>
 
 
 <script>
-/* =========================================================
-   기본 설정
-========================================================= */
 
-const RACE_DATE = "2026-10-24";
+/* =====================================================
+   기본 설정
+===================================================== */
+
+const RACE_DATE = "2026-10-18";
 
 const SUWON = {
   latitude: 37.2636,
@@ -592,31 +601,40 @@ const SUWON = {
 
 
 /*
-  ★ 기존 앱과 호환을 위해 키 이름 유지
+  기존 데이터 호환성 유지
 */
 const STORAGE_KEYS = {
-  done:   "run58_done_",
-  note:   "run58_note_",
-  dist:   "run58_dist_",
-  time:   "run58_time_",
-  rpe:    "run58_rpe_",
-  weight: "run58_weight_",
-  pain:   "run58_pain_"
+
+  done:
+    "run58_done_",
+
+  note:
+    "run58_note_",
+
+  dist:
+    "run58_dist_",
+
+  time:
+    "run58_time_",
+
+  rpe:
+    "run58_rpe_",
+
+  weight:
+    "run58_weight_",
+
+  pain:
+    "run58_pain_"
 };
 
 
-const weatherCacheKey = "run58_weather_cache_v1";
+const weatherCacheKey =
+  "run58_weather_cache_v1";
 
 
-/* =========================================================
-   훈련표
-
-   A Race
-   10/24 Disney Run
-
-   B Race
-   10/18 Style Run
-========================================================= */
+/* =====================================================
+   STYLE RUN 훈련표
+===================================================== */
 
 const workouts = [
 
@@ -624,65 +642,81 @@ const workouts = [
     date: "2026-09-01",
     type: "rest",
     title: "회복 / 컨디션 확인",
-    desc: "완전 휴식 또는 평지 걷기 20~30분\n무릎 상태 확인"
+    desc:
+      "완전 휴식 또는 평지 걷기 20~30분\n" +
+      "무릎 및 다리 피로 확인"
   },
 
   {
     date: "2026-09-02",
     type: "easy",
     title: "Easy 3.5~4km",
-    desc: "7:20~7:40/km\nRPE 4~5\n처음 1km를 가장 천천히"
+    desc:
+      "7:15~7:35/km\n" +
+      "RPE 4~5\n" +
+      "첫 1km를 가장 천천히"
   },
 
   {
     date: "2026-09-04",
     type: "easy",
     title: "Easy 4km",
-    desc: "7:15~7:35/km\n페이스보다 일정한 리듬"
+    desc:
+      "7:10~7:30/km\n" +
+      "일정한 페이스 유지"
   },
 
   {
-    date: "2026-09-06",
+    date: "2026-09-07",
     type: "long",
-    title: "Easy 4.5km",
-    desc: "7:15~7:40/km\n끝났을 때 1km 더 뛸 여유 남기기"
+    title: "Long Easy 5km",
+    desc:
+      "7:15~7:40/km\n" +
+      "마지막까지 여유를 남기기"
   },
 
 
   {
-    date: "2026-09-08",
+    date: "2026-09-09",
     type: "easy",
     title: "Easy 4.5km",
-    desc: "7:10~7:35/km\n케이던스 160 전후 자연스럽게"
+    desc:
+      "7:10~7:35/km\n" +
+      "편안한 연속주"
   },
 
   {
-    date: "2026-09-10",
+    date: "2026-09-11",
     type: "quality",
     title: "4분 지속주 × 4",
     desc:
       "1km Easy\n" +
       "(4분 @ 6:30~6:40/km + 2분 회복) × 4\n" +
-      "마무리 Easy"
+      "Cooldown\n\n" +
+      "6분 초반까지 과속하지 않기"
   },
 
   {
-    date: "2026-09-13",
+    date: "2026-09-14",
     type: "long",
-    title: "Long Easy 5.5km",
-    desc: "7:15~7:45/km\n속도보다 거리 적응"
+    title: "Long Easy 6km",
+    desc:
+      "7:15~7:45/km\n" +
+      "속도가 아니라 거리 적응이 목적"
   },
 
 
   {
-    date: "2026-09-15",
+    date: "2026-09-16",
     type: "easy",
     title: "Easy 5km",
-    desc: "7:10~7:35/km\n편안한 연속주"
+    desc:
+      "7:10~7:35/km\n" +
+      "RPE 4~5"
   },
 
   {
-    date: "2026-09-17",
+    date: "2026-09-18",
     type: "quality",
     title: "1.5km Tempo × 2",
     desc:
@@ -694,199 +728,194 @@ const workouts = [
   },
 
   {
-    date: "2026-09-20",
+    date: "2026-09-21",
     type: "long",
-    title: "Long Easy 6.5km",
-    desc: "7:15~7:45/km\n마지막까지 같은 강도 유지"
+    title: "Long Easy 7km",
+    desc:
+      "7:15~7:45/km\n" +
+      "끝났을 때 완전히 탈진하지 않기"
   },
 
 
   {
-    date: "2026-09-22",
+    date: "2026-09-23",
     type: "easy",
     title: "Easy 5km",
-    desc: "7:10~7:35/km\n회복성 러닝"
+    desc:
+      "7:10~7:35/km\n" +
+      "회복성 러닝"
   },
 
   {
-    date: "2026-09-24",
+    date: "2026-09-25",
     type: "quality",
     title: "1km × 3",
     desc:
       "1km Easy\n" +
       "1km @ 6:05~6:15/km × 3\n" +
       "세트 사이 3분 걷기/조깅\n" +
-      "1km Cooldown"
+      "Cooldown\n\n" +
+      "목표: 세 세트 페이스를 최대한 일정하게"
   },
 
   {
-    date: "2026-09-27",
+    date: "2026-09-28",
     type: "long",
-    title: "Long Easy 7.5km",
-    desc: "7:15~7:45/km\n기록 도전 금지"
-  },
-
-
-  {
-    date: "2026-09-29",
-    type: "easy",
-    title: "Easy 5km",
-    desc: "7:05~7:30/km\n몸 상태 좋다고 과속하지 않기"
-  },
-
-  {
-    date: "2026-10-01",
-    type: "quality",
-    title: "Progression 5km",
+    title: "Long Easy 8km",
     desc:
-      "2km @ 약 7:10/km\n" +
-      "2km @ 약 6:40/km\n" +
-      "1km @ 약 6:20/km"
-  },
-
-  {
-    date: "2026-10-04",
-    type: "long",
-    title: "Long Easy 8~8.5km",
-    desc: "7:15~7:45/km\nSub-60보다 10km 적응이 목적"
+      "7:15~7:45/km\n" +
+      "기록 도전 금지"
   },
 
 
   {
-    date: "2026-10-06",
+    date: "2026-09-30",
     type: "easy",
-    title: "Easy 4~5km",
-    desc: "7:10~7:35/km\n가볍게 회복"
-  },
-
-  {
-    date: "2026-10-08",
-    type: "quality",
-    title: "1km × 4",
+    title: "Easy 4km",
     desc:
-      "1km Easy\n" +
-      "1km @ 6:00~6:10/km × 4\n" +
-      "세트 사이 2분30초~3분 회복\n" +
-      "Cooldown"
+      "7:10~7:35/km\n" +
+      "10/2 테스트 대비 가볍게"
+  },
+
+
+  {
+    date: "2026-10-02",
+    type: "quality",
+    title: "⭐ 5km 기록 테스트",
+    desc:
+      "워밍업 10~15분 후 5km 연속주\n\n" +
+      "28분대 → Sub-60 가능성 높음\n" +
+      "29:00~29:30 → Sub-60 도전 가능\n" +
+      "29:30~30:30 → 공격적인 목표\n" +
+      "30:30+ → 실전 페이스 재검토"
   },
 
   {
-    date: "2026-10-11",
+    date: "2026-10-05",
     type: "long",
-    title: "Long Easy 9~9.5km",
+    title: "Long Easy 8.5~9km",
     desc:
       "7:15~7:45/km\n" +
       "대회 전 가장 중요한 거리 적응\n" +
-      "절대 기록 도전하지 않기"
+      "기록 도전 금지"
+  },
+
+
+  {
+    date: "2026-10-07",
+    type: "easy",
+    title: "Easy 4~5km",
+    desc:
+      "7:10~7:35/km\n" +
+      "다리 피로 회복"
+  },
+
+  {
+    date: "2026-10-09",
+    type: "quality",
+    title: "⭐ Goal Pace 1km × 4",
+    desc:
+      "1km Easy\n" +
+      "1km @ 5:55~6:05/km × 4\n" +
+      "세트 사이 3분 회복\n" +
+      "Cooldown\n\n" +
+      "마지막 세트까지 페이스 유지가 핵심"
+  },
+
+  {
+    date: "2026-10-12",
+    type: "easy",
+    title: "Easy 6km",
+    desc:
+      "7:10~7:35/km\n" +
+      "마지막 중거리 훈련\n" +
+      "절대 강하게 뛰지 않기"
   },
 
 
   {
     date: "2026-10-13",
     type: "easy",
-    title: "Easy 5km",
-    desc: "7:10~7:35/km\n다리 피로 확인"
+    title: "Easy 4km + Strides",
+    desc:
+      "Easy 4km\n" +
+      "20초 가속주 × 4\n" +
+      "가속주 사이 60~90초 회복\n\n" +
+      "전력질주 금지"
+  },
+
+  {
+    date: "2026-10-14",
+    type: "rest",
+    title: "휴식",
+    desc:
+      "걷기는 가능\n" +
+      "다리 피로 회복"
   },
 
   {
     date: "2026-10-15",
-    type: "quality",
-    title: "Goal Pace Check",
-    desc:
-      "1km Easy\n" +
-      "3km @ 6:00~6:05/km\n" +
-      "1km Easy\n\n" +
-      "완전 탈진하지 않는 것이 성공 기준"
-  },
-
-
-  /*
-    STYLE RUN
-  */
-
-  {
-    date: "2026-10-18",
-    type: "race",
-    race: "B",
-    title: "🏁 STYLE RUN 10K",
-    desc:
-      "B레이스 · 전력질주 금지\n\n" +
-      "0~2km : 6:25~6:35/km\n" +
-      "2~7km : 6:15~6:25/km\n" +
-      "7~10km : 여유 있으면 6:00~6:15/km\n\n" +
-      "목표 : 약 62~65분\n" +
-      "Disney Run 실전 리허설"
-  },
-
-
-  {
-    date: "2026-10-19",
-    type: "rest",
-    title: "완전 휴식",
-    desc: "Style Run 회복\n러닝 금지"
-  },
-
-  {
-    date: "2026-10-20",
-    type: "rest",
-    title: "회복 걷기",
-    desc: "20~30분 아주 편하게\nRPE 2~3"
-  },
-
-  {
-    date: "2026-10-21",
-    type: "easy",
-    title: "Easy 3~4km",
-    desc:
-      "7:20~7:50/km\n" +
-      "다리가 무겁거나 통증 있으면 생략"
-  },
-
-  {
-    date: "2026-10-22",
     type: "quality",
     title: "Race Pace 자극",
     desc:
       "Easy 20분\n" +
       "1분 @ 5:55~6:05/km × 3\n" +
       "사이 2분 Easy\n\n" +
-      "훈련 효과보다 다리에 페이스 기억시키기"
+      "훈련 효과보다 페이스 감각 유지"
   },
 
   {
-    date: "2026-10-23",
+    date: "2026-10-16",
     type: "rest",
     title: "완전 휴식",
     desc:
-      "수분 · 수면 · 장비 준비\n" +
-      "새로운 음식/운동 금지"
+      "러닝 금지\n" +
+      "수면과 수분 섭취"
+  },
+
+  {
+    date: "2026-10-17",
+    type: "rest",
+    title: "대회 전날",
+    desc:
+      "완전 휴식 또는 15~20분 산책\n" +
+      "새로운 운동·음식 금지\n" +
+      "신발과 복장 준비"
   },
 
 
-  /*
-    DISNEY RUN
-  */
-
   {
-    date: "2026-10-24",
+    date: "2026-10-18",
     type: "race",
-    race: "A",
-    title: "🏰 DISNEY RUN INCHEON 10K",
+    title: "🏁 STYLE RUN 10K",
     desc:
-      "A레이스 · SUB 60 도전\n\n" +
-      "0~2km : 6:05 전후\n" +
-      "2~8km : 5:55~6:00/km\n" +
-      "8~10km : 남은 체력으로\n\n" +
-      "목표 : 59:59 이내"
+      "SUB 60 도전\n\n" +
+
+      "0~2km\n" +
+      "6:05/km 전후\n\n" +
+
+      "2~5km\n" +
+      "5:58~6:00/km\n\n" +
+
+      "5~8km\n" +
+      "5:55~6:00/km\n\n" +
+
+      "8~10km\n" +
+      "남은 체력으로\n\n" +
+
+      "목표 : 59:59 이내\n" +
+      "초반에 시간을 저축하려 하지 않기"
   }
+
 ];
 
 
-/* =========================================================
-   날짜
-========================================================= */
+/* =====================================================
+   날짜 관련
+===================================================== */
 
 function koreaToday() {
+
   return new Intl.DateTimeFormat(
     "en-CA",
     {
@@ -900,8 +929,16 @@ function koreaToday() {
 
 
 function dayDiff(from, to) {
-  const a = new Date(from + "T00:00:00+09:00");
-  const b = new Date(to + "T00:00:00+09:00");
+
+  const a =
+    new Date(
+      from + "T00:00:00+09:00"
+    );
+
+  const b =
+    new Date(
+      to + "T00:00:00+09:00"
+    );
 
   return Math.ceil(
     (b - a) / 86400000
@@ -910,6 +947,7 @@ function dayDiff(from, to) {
 
 
 function getWeekday(date) {
+
   return new Intl.DateTimeFormat(
     "ko-KR",
     {
@@ -917,47 +955,71 @@ function getWeekday(date) {
       timeZone: "Asia/Seoul"
     }
   ).format(
-    new Date(date + "T12:00:00+09:00")
+    new Date(
+      date + "T12:00:00+09:00"
+    )
   );
 }
 
 
 function getMonthDay(date) {
-  const [,m,d] = date.split("-");
 
-  return `${Number(m)}/${Number(d)}`;
+  const [, month, day] =
+    date.split("-");
+
+  return (
+    Number(month) +
+    "/" +
+    Number(day)
+  );
 }
 
 
-/* =========================================================
+/* =====================================================
    LocalStorage
-========================================================= */
+===================================================== */
 
 function readStorage(prefix, date) {
-  return localStorage.getItem(prefix + date) || "";
+
+  return (
+    localStorage.getItem(
+      prefix + date
+    ) || ""
+  );
 }
 
 
 function writeStorage(prefix, date, value) {
-  localStorage.setItem(prefix + date, value);
+
+  localStorage.setItem(
+    prefix + date,
+    value
+  );
 }
 
 
 function isDone(date) {
-  return readStorage(STORAGE_KEYS.done, date) === "1";
+
+  return (
+    readStorage(
+      STORAGE_KEYS.done,
+      date
+    ) === "1"
+  );
 }
 
 
-/* =========================================================
+/* =====================================================
    날씨
-========================================================= */
+===================================================== */
 
 let weatherMap = {};
 
 
 function weatherText(code) {
 
-  if (code === 0) return "☀️ 맑음";
+  if (code === 0)
+    return "☀️ 맑음";
 
   if ([1,2].includes(code))
     return "🌤 대체로 맑음";
@@ -968,29 +1030,51 @@ function weatherText(code) {
   if ([45,48].includes(code))
     return "🌫 안개";
 
-  if ([51,53,55,56,57].includes(code))
+  if (
+    [51,53,55,56,57].includes(code)
+  )
     return "🌦 이슬비";
 
-  if ([61,63,65,66,67,80,81,82].includes(code))
+  if (
+    [
+      61,63,65,
+      66,67,
+      80,81,82
+    ].includes(code)
+  )
     return "🌧 비";
 
-  if ([71,73,75,77,85,86].includes(code))
+  if (
+    [
+      71,73,75,
+      77,85,86
+    ].includes(code)
+  )
     return "🌨 눈";
 
-  if ([95,96,99].includes(code))
+  if (
+    [95,96,99].includes(code)
+  )
     return "⛈ 뇌우";
 
   return "🌡 날씨";
 }
 
 
-function getWeatherAdvice(weather, workout) {
+function getWeatherAdvice(
+  weather,
+  workout
+) {
 
-  if (!weather)
+  if (!weather) {
+
     return {
       level: "",
-      text: "예보 범위 밖입니다. 날짜가 가까워지면 자동으로 표시됩니다."
+      text:
+        "예보 범위 밖입니다. " +
+        "날짜가 가까워지면 자동으로 표시됩니다."
     };
+  }
 
 
   const {
@@ -1001,24 +1085,28 @@ function getWeatherAdvice(weather, workout) {
   } = weather;
 
 
-  if ([95,96,99].includes(code)) {
+  if (
+    [95,96,99].includes(code)
+  ) {
 
     return {
       level: "danger",
       text:
         "뇌우 예보: 야외 러닝 취소 권장. " +
-        "트레드밀 또는 다른 날로 이동."
+        "트레드밀 또는 다른 날로 이동하세요."
     };
   }
 
 
-  if (precipitation >= 70) {
+  if (
+    precipitation >= 70
+  ) {
 
     return {
       level: "danger",
       text:
         "강수확률이 높습니다. " +
-        "품질훈련이면 실내 또는 다른 날로 이동 권장."
+        "품질훈련이면 실내 또는 다른 날 권장."
     };
   }
 
@@ -1028,8 +1116,9 @@ function getWeatherAdvice(weather, workout) {
     return {
       level: "warning",
       text:
-        "매우 더움: RPE 기준으로 진행하고 " +
-        "페이스를 20~40초/km 낮추거나 거리를 10~20% 줄이세요."
+        "매우 더움: RPE 기준으로 진행. " +
+        "페이스를 20~40초/km 낮추거나 " +
+        "거리를 10~20% 줄이세요."
     };
   }
 
@@ -1039,7 +1128,8 @@ function getWeatherAdvice(weather, workout) {
     return {
       level: "warning",
       text:
-        "더운 날씨: 목표 페이스보다 15~30초/km 느려도 정상입니다."
+        "더운 날씨: 목표보다 " +
+        "15~30초/km 느려도 정상입니다."
     };
   }
 
@@ -1059,7 +1149,8 @@ function getWeatherAdvice(weather, workout) {
     return {
       level: "warning",
       text:
-        "비 가능성 있음. 노면이 젖으면 코너와 내리막에서 속도를 낮추세요."
+        "비 가능성 있음. " +
+        "젖은 노면에서 코너와 내리막 속도를 낮추세요."
     };
   }
 
@@ -1068,13 +1159,27 @@ function getWeatherAdvice(weather, workout) {
     workout.type === "quality" &&
     max >= 15 &&
     max <= 24 &&
-    precipitation < 30
+    precipitation < 30 &&
+    wind < 25
   ) {
 
     return {
       level: "",
       text:
         "✅ 품질훈련하기 좋은 조건입니다."
+    };
+  }
+
+
+  if (
+    workout.type === "race"
+  ) {
+
+    return {
+      level: "",
+      text:
+        "대회 날씨입니다. " +
+        "기온·강수·바람을 기준으로 최종 페이스를 결정하세요."
     };
   }
 
@@ -1087,16 +1192,23 @@ function getWeatherAdvice(weather, workout) {
 }
 
 
-async function loadWeather(force = false) {
+async function loadWeather(
+  force = false
+) {
 
   const status =
-    document.getElementById("weatherStatus");
+    document.getElementById(
+      "weatherStatus"
+    );
 
 
   if (!force) {
 
     const cached =
-      localStorage.getItem(weatherCacheKey);
+      localStorage.getItem(
+        weatherCacheKey
+      );
+
 
     if (cached) {
 
@@ -1106,18 +1218,24 @@ async function loadWeather(force = false) {
           JSON.parse(cached);
 
         const age =
-          Date.now() - parsed.savedAt;
+          Date.now() -
+          parsed.savedAt;
+
 
         /*
           3시간 캐시
         */
-        if (age < 3 * 60 * 60 * 1000) {
+
+        if (
+          age <
+          3 * 60 * 60 * 1000
+        ) {
 
           weatherMap =
             parsed.weatherMap || {};
 
           status.textContent =
-            "✅ 최근 날씨 예보 사용 중";
+            "✅ 최근 수원 예보 사용 중";
 
           renderSchedule();
 
@@ -1134,12 +1252,15 @@ async function loadWeather(force = false) {
 
 
   const url =
+
     "https://api.open-meteo.com/v1/forecast" +
 
     `?latitude=${SUWON.latitude}` +
+
     `&longitude=${SUWON.longitude}` +
 
     "&daily=" +
+
     [
       "weather_code",
       "temperature_2m_max",
@@ -1149,20 +1270,24 @@ async function loadWeather(force = false) {
     ].join(",") +
 
     "&timezone=Asia%2FSeoul" +
+
     "&forecast_days=16";
 
 
   try {
 
-    const res =
+    const response =
       await fetch(url);
 
-    if (!res.ok)
-      throw new Error("weather fetch failed");
+
+    if (!response.ok)
+      throw new Error(
+        "weather fetch failed"
+      );
 
 
     const data =
-      await res.json();
+      await response.json();
 
 
     weatherMap = {};
@@ -1174,19 +1299,24 @@ async function loadWeather(force = false) {
         weatherMap[date] = {
 
           code:
-            data.daily.weather_code[index],
+            data.daily
+              .weather_code[index],
 
           max:
-            data.daily.temperature_2m_max[index],
+            data.daily
+              .temperature_2m_max[index],
 
           min:
-            data.daily.temperature_2m_min[index],
+            data.daily
+              .temperature_2m_min[index],
 
           precipitation:
-            data.daily.precipitation_probability_max[index],
+            data.daily
+              .precipitation_probability_max[index],
 
           wind:
-            data.daily.wind_speed_10m_max[index]
+            data.daily
+              .wind_speed_10m_max[index]
         };
       }
     );
@@ -1194,6 +1324,7 @@ async function loadWeather(force = false) {
 
     localStorage.setItem(
       weatherCacheKey,
+
       JSON.stringify({
         savedAt: Date.now(),
         weatherMap
@@ -1207,7 +1338,7 @@ async function loadWeather(force = false) {
 
     renderSchedule();
 
-  } catch (error) {
+  } catch(error) {
 
     status.textContent =
       "⚠️ 날씨 정보를 불러오지 못했습니다.";
@@ -1217,14 +1348,15 @@ async function loadWeather(force = false) {
 }
 
 
-/* =========================================================
+/* =====================================================
    페이스 계산
-========================================================= */
+===================================================== */
 
 function timeToSeconds(value) {
 
   if (!value)
     return 0;
+
 
   const parts =
     value
@@ -1232,15 +1364,27 @@ function timeToSeconds(value) {
       .map(Number);
 
 
-  if (parts.length === 3)
-    return parts[0] * 3600 +
-           parts[1] * 60 +
-           parts[2];
+  if (
+    parts.length === 3
+  ) {
+
+    return (
+      parts[0] * 3600 +
+      parts[1] * 60 +
+      parts[2]
+    );
+  }
 
 
-  if (parts.length === 2)
-    return parts[0] * 60 +
-           parts[1];
+  if (
+    parts.length === 2
+  ) {
+
+    return (
+      parts[0] * 60 +
+      parts[1]
+    );
+  }
 
 
   return 0;
@@ -1265,35 +1409,44 @@ function calculatePace(date) {
     );
 
 
-  const sec =
+  const seconds =
     timeToSeconds(time);
 
 
-  if (!dist || !sec)
+  if (
+    !dist ||
+    !seconds
+  )
     return "";
 
 
-  const paceSec =
-    sec / dist;
+  const paceSeconds =
+    seconds / dist;
 
 
-  const min =
-    Math.floor(paceSec / 60);
+  const minutes =
+    Math.floor(
+      paceSeconds / 60
+    );
 
 
-  const seconds =
-    Math.round(paceSec % 60)
+  const sec =
+    Math.round(
+      paceSeconds % 60
+    )
       .toString()
       .padStart(2, "0");
 
 
-  return `${min}'${seconds}"/km`;
+  return (
+    `${minutes}'${sec}"/km`
+  );
 }
 
 
-/* =========================================================
-   렌더링
-========================================================= */
+/* =====================================================
+   UI
+===================================================== */
 
 function typeLabel(item) {
 
@@ -1309,9 +1462,7 @@ function typeLabel(item) {
       return "QUALITY";
 
     case "race":
-      return item.race === "A"
-        ? "A RACE"
-        : "B RACE";
+      return "RACE";
 
     default:
       return "REST";
@@ -1322,22 +1473,29 @@ function typeLabel(item) {
 function weekKey(date) {
 
   const d =
-    new Date(date + "T12:00:00+09:00");
+    new Date(
+      date + "T12:00:00+09:00"
+    );
+
 
   const monday =
     new Date(d);
 
+
   const day =
     d.getDay();
+
 
   const diff =
     day === 0
       ? -6
       : 1 - day;
 
+
   monday.setDate(
     d.getDate() + diff
   );
+
 
   return new Intl.DateTimeFormat(
     "ko-KR",
@@ -1350,6 +1508,28 @@ function weekKey(date) {
 }
 
 
+function escapeHtml(str) {
+
+  return String(str || "")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    );
+}
+
+
 function recordField(
   date,
   label,
@@ -1359,13 +1539,19 @@ function recordField(
 ) {
 
   const value =
-    readStorage(prefix, date);
+    readStorage(
+      prefix,
+      date
+    );
 
 
   return `
+
     <div class="field">
 
-      <label>${label}</label>
+      <label>
+        ${label}
+      </label>
 
       <input
         type="${type}"
@@ -1379,29 +1565,24 @@ function recordField(
             this.value
           );
 
-          refreshPace('${date}');
+          refreshPace(
+            '${date}'
+          );
         "
       >
 
     </div>
+
   `;
-}
-
-
-function escapeHtml(str) {
-
-  return String(str || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
 }
 
 
 function renderSchedule() {
 
   const container =
-    document.getElementById("schedule");
+    document.getElementById(
+      "schedule"
+    );
 
 
   const today =
@@ -1419,15 +1600,21 @@ function renderSchedule() {
       weekKey(item.date);
 
 
-    if (week !== previousWeek) {
+    if (
+      week !==
+      previousWeek
+    ) {
 
       html += `
+
         <div class="week-label">
           ${week} 주
         </div>
+
       `;
 
-      previousWeek = week;
+      previousWeek =
+        week;
     }
 
 
@@ -1439,7 +1626,7 @@ function renderSchedule() {
       weatherMap[item.date];
 
 
-    const weatherAdvice =
+    const advice =
       getWeatherAdvice(
         weather,
         item
@@ -1447,6 +1634,7 @@ function renderSchedule() {
 
 
     const classes = [
+
       "workout",
 
       item.date === today
@@ -1459,47 +1647,57 @@ function renderSchedule() {
 
       item.type === "race"
         ? "race"
-        : "",
-
-      item.race === "A"
-        ? "a-race"
         : ""
+
     ].join(" ");
 
 
-    let weatherHtml = "";
+    let weatherHtml;
 
 
     if (weather) {
 
       weatherHtml = `
+
         <div class="weather">
 
           <div class="weather-line">
 
-            ${weatherText(weather.code)}
+            ${weatherText(
+              weather.code
+            )}
 
-            · ${weather.min}~${weather.max}℃
+            ·
+            ${weather.min}
+            ~
+            ${weather.max}℃
 
-            · 비 ${weather.precipitation}%
+            · 비
+            ${weather.precipitation}%
 
-            · 바람 ${Math.round(weather.wind)}km/h
+            · 바람
+            ${Math.round(
+              weather.wind
+            )}km/h
 
           </div>
+
 
           <div class="
             weather-advice
-            ${weatherAdvice.level}
+            ${advice.level}
           ">
-            ${weatherAdvice.text}
+            ${advice.text}
           </div>
 
         </div>
+
       `;
 
     } else {
 
       weatherHtml = `
+
         <div class="weather">
 
           <div class="weather-line">
@@ -1507,19 +1705,23 @@ function renderSchedule() {
           </div>
 
           <div class="weather-advice">
-            ${weatherAdvice.text}
+            ${advice.text}
           </div>
 
         </div>
+
       `;
     }
 
 
     const pace =
-      calculatePace(item.date);
+      calculatePace(
+        item.date
+      );
 
 
     html += `
+
       <article
         class="${classes}"
         id="day-${item.date}"
@@ -1530,11 +1732,15 @@ function renderSchedule() {
           <div class="date-box">
 
             <div class="monthday">
-              ${getMonthDay(item.date)}
+              ${getMonthDay(
+                item.date
+              )}
             </div>
 
             <div class="weekday">
-              ${getWeekday(item.date)}
+              ${getWeekday(
+                item.date
+              )}
             </div>
 
           </div>
@@ -1546,18 +1752,23 @@ function renderSchedule() {
               ${item.title}
             </div>
 
+
             <div class="chips">
 
               <span class="
-                chip ${item.type}
+                chip
+                ${item.type}
               ">
                 ${typeLabel(item)}
               </span>
 
+
               ${
                 item.date === today
-                ? '<span class="chip">TODAY</span>'
-                : ""
+                ?
+                '<span class="chip">TODAY</span>'
+                :
+                ""
               }
 
             </div>
@@ -1585,7 +1796,9 @@ function renderSchedule() {
               writeStorage(
                 '${STORAGE_KEYS.done}',
                 '${item.date}',
-                this.checked ? '1' : ''
+                this.checked
+                  ? '1'
+                  : ''
               );
 
               renderSchedule();
@@ -1608,12 +1821,13 @@ function renderSchedule() {
 
           <div class="record-grid">
 
+
             ${
               recordField(
                 item.date,
                 "거리 (km)",
                 STORAGE_KEYS.dist,
-                "예: 3.32",
+                "예: 5.00",
                 "number"
               )
             }
@@ -1624,7 +1838,7 @@ function renderSchedule() {
                 item.date,
                 "시간",
                 STORAGE_KEYS.time,
-                "예: 23:18"
+                "예: 35:10"
               )
             }
 
@@ -1663,7 +1877,10 @@ function renderSchedule() {
 
 
             <div class="field">
-              <label>평균 페이스</label>
+
+              <label>
+                평균 페이스
+              </label>
 
               <input
                 id="pace-${item.date}"
@@ -1671,6 +1888,7 @@ function renderSchedule() {
                 placeholder="자동 계산"
                 disabled
               >
+
             </div>
 
 
@@ -1684,7 +1902,9 @@ function renderSchedule() {
               </label>
 
               <textarea
-                placeholder="무릎 상태, 날씨, 신발, 컨디션 등"
+                placeholder="
+신발, 무릎 상태, 날씨, 심박, 케이던스 등
+"
                 oninput="
                   writeStorage(
                     '${STORAGE_KEYS.note}',
@@ -1706,11 +1926,13 @@ function renderSchedule() {
         </details>
 
       </article>
+
     `;
   });
 
 
-  container.innerHTML = html;
+  container.innerHTML =
+    html;
 
 
   updateSummary();
@@ -1719,14 +1941,17 @@ function renderSchedule() {
 
 function refreshPace(date) {
 
-  const el =
+  const element =
     document.getElementById(
       `pace-${date}`
     );
 
-  if (el)
-    el.value =
+
+  if (element) {
+
+    element.value =
       calculatePace(date);
+  }
 }
 
 
@@ -1743,8 +1968,12 @@ function updateSummary() {
     );
 
 
-  document.getElementById("dday")
+  document
+    .getElementById(
+      "dday"
+    )
     .textContent =
+
       days >= 0
         ? `D-${days}`
         : "완료";
@@ -1752,20 +1981,23 @@ function updateSummary() {
 
   const done =
     workouts.filter(
-      w => isDone(w.date)
+      item =>
+        isDone(item.date)
     ).length;
 
 
-  document.getElementById(
-    "doneCount"
-  ).textContent =
-    `${done}/${workouts.length}`;
+  document
+    .getElementById(
+      "doneCount"
+    )
+    .textContent =
+      `${done}/${workouts.length}`;
 }
 
 
-/* =========================================================
-   백업 / 복원
-========================================================= */
+/* =====================================================
+   백업
+===================================================== */
 
 function exportData() {
 
@@ -1784,11 +2016,15 @@ function exportData() {
 
     if (
       key &&
-      key.startsWith("run58_")
+      key.startsWith(
+        "run58_"
+      )
     ) {
 
       data[key] =
-        localStorage.getItem(key);
+        localStorage.getItem(
+          key
+        );
     }
   }
 
@@ -1803,36 +2039,51 @@ function exportData() {
         )
       ],
       {
-        type: "application/json"
+        type:
+          "application/json"
       }
     );
 
 
   const url =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
 
 
   const a =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
 
-  a.href = url;
+  a.href =
+    url;
+
 
   a.download =
-    "disney-run-training-backup.json";
+    "style-run-training-backup.json";
 
 
   a.click();
 
 
-  URL.revokeObjectURL(url);
+  URL.revokeObjectURL(
+    url
+  );
 }
 
+
+/* =====================================================
+   복원
+===================================================== */
 
 function restoreData(event) {
 
   const file =
-    event.target.files[0];
+    event
+      .target
+      .files[0];
 
 
   if (!file)
@@ -1853,19 +2104,25 @@ function restoreData(event) {
         );
 
 
-      Object.entries(data)
-        .forEach(([key, value]) => {
+      Object
+        .entries(data)
+        .forEach(
+          ([key, value]) => {
 
-          if (
-            key.startsWith("run58_")
-          ) {
+            if (
+              key.startsWith(
+                "run58_"
+              )
+            ) {
 
-            localStorage.setItem(
-              key,
-              value
-            );
+              localStorage.setItem(
+                key,
+                value
+              );
+            }
+
           }
-        });
+        );
 
 
       alert(
@@ -1884,13 +2141,15 @@ function restoreData(event) {
   };
 
 
-  reader.readAsText(file);
+  reader.readAsText(
+    file
+  );
 }
 
 
-/* =========================================================
+/* =====================================================
    시작
-========================================================= */
+===================================================== */
 
 renderSchedule();
 loadWeather();
