@@ -16,6 +16,7 @@
     .panel{background:rgba(17,24,39,.92);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:12px 0}.panel-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:900;margin-bottom:9px}.weather-desc,.legend{color:var(--sub);font-size:13px;line-height:1.7}
     .btn{border:0;border-radius:12px;padding:10px 13px;background:#25324a;color:#fff;font-weight:800;cursor:pointer}.btn:active,.mini-btn:active{transform:scale(.98)}.btn.primary{background:#0369a1}.btn.on{background:#166534}.btn.off{background:#7f1d1d}
     .auto-box{margin-top:12px;padding:12px;border:1px solid #334155;border-radius:14px;background:#0b1220}.auto-status{display:flex;align-items:center;justify-content:space-between;gap:10px}.auto-status strong{font-size:14px}.auto-rules{margin-top:8px;color:var(--sub);font-size:12px;line-height:1.65}
+    .push-box{margin-top:12px;padding:12px;border:1px solid #334155;border-radius:14px;background:#0b1220}.push-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.push-copy{min-width:0}.push-title{font-size:14px;font-weight:900}.push-status{margin-top:3px;color:var(--sub);font-size:12px}.push-note{margin-top:8px;color:#64748b;font-size:11px;line-height:1.55}
     .section-title{margin:24px 4px 10px;font-size:21px;font-weight:900}.week-label{margin:26px 4px 9px;color:var(--blue);font-weight:900;font-size:15px}
     .workout{position:relative;background:rgba(17,24,39,.94);border:1px solid var(--line);border-radius:var(--radius);padding:15px;margin:9px 0;overflow:hidden}.workout.today{border:2px solid var(--blue)}.workout.completed{opacity:.72}.workout.completed::after{content:"✓";position:absolute;right:15px;top:13px;color:var(--green);font-size:25px;font-weight:900}.workout.race{border:2px solid #e11d48;background:linear-gradient(135deg,rgba(190,24,93,.28),rgba(17,24,39,.98))}.workout.moved{border-color:#b45309}.workout.skip{border-color:#be123c}
     .workout-top{display:flex;gap:10px;align-items:flex-start;padding-right:28px}.date-box{min-width:68px;text-align:center;background:var(--card2);border-radius:14px;padding:7px 6px}.date-box .monthday{font-weight:900;font-size:18px}.date-box .weekday{font-size:11px;color:var(--sub)}.date-box .original-date{margin-top:3px;font-size:9px;color:#fbbf24}.workout-main{flex:1;min-width:0}.workout-title{font-size:17px;font-weight:900}.workout-desc{margin-top:5px;color:#dbeafe;white-space:pre-line;font-size:14px}
@@ -58,6 +59,13 @@
         • 🤒/📅/📌 수동 미루기, 완료, 날짜 고정은 날씨가 좋아져도 자동 복귀하지 않음
       </div>
     </div>
+    <div class="push-box">
+      <div class="push-row">
+        <div class="push-copy"><div class="push-title">🔔 일정 변경 푸시</div><div id="pushStatus" class="push-status">푸시 알림을 확인하는 중...</div></div>
+        <button id="pushToggle" class="btn primary" onclick="togglePush()">알림 켜기</button>
+      </div>
+      <div class="push-note">실제 날씨 자동 재배치 결과가 이동·복귀할 때만 알림을 보냅니다. iPhone/iPad는 Safari에서 이 페이지를 홈 화면에 추가한 뒤 사용할 수 있습니다.</div>
+    </div>
   </section>
 
   <section class="panel">
@@ -84,6 +92,6 @@
   </section>
   <div class="footer">목표는 Sub-60 · 훈련은 냉정하게 · 통증은 무시하지 않기</div>
 </div>
-<script src="./app.js?v=20260901-worker1"></script>
+<script src="./app.js?v=20260901-push1"></script>
 </body>
 </html>

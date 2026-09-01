@@ -10,6 +10,7 @@ const LOCK_DATE_KEY="run58_lock_date_";
 const ACTUAL_DATE_KEY="run58_actual_date_";
 const DEFER_KEY="run58_defer_";
 const SEARCH_DAYS=7;
+let pushRegistration=null,pushSyncTimer=null;
 
 const workouts=[
   {date:"2026-09-01",type:"easy",title:"Easy 3.5~4km",desc:"7:15~7:35/km\nRPE 4~5\n첫 1km를 가장 천천히"},
@@ -153,6 +154,68 @@ function applyWorkerState(state){
     savedAt:Date.now(),fetchedAt:forecastFetchedAt,source:"worker",weatherMap,raceWeatherMap,hourlyWeatherMap,raceHourlyWeatherMap
   }));
 }
+
+function base64UrlBytes(value){
+  const padding="=".repeat((4-value.length%4)%4),base64=(value+padding).replaceAll("-","+").replaceAll("_","/");
+  return Uint8Array.from(atob(base64),c=>c.charCodeAt(0));
+}
+function collectPushUserState(){
+  const result={autoEnabled:autoEnabled(),done:{},locked:{},lockDates:{},actualDates:{},defers:{}};
+  workouts.forEach(w=>{
+    if(isDone(w.date))result.done[w.date]=true;
+    if(isLocked(w.date))result.locked[w.date]=true;
+    const lockDate=localStorage.getItem(LOCK_DATE_KEY+w.date);if(lockDate)result.lockDates[w.date]=lockDate;
+    const actualDate=localStorage.getItem(ACTUAL_DATE_KEY+w.date);if(actualDate)result.actualDates[w.date]=actualDate;
+    const defer=getDefer(w.date);if(defer)result.defers[w.date]=defer;
+  });
+  return result;
+}
+function setPushStatus(text,enabled=false){
+  const status=document.getElementById("pushStatus"),button=document.getElementById("pushToggle");
+  if(status)status.textContent=text;
+  if(button){button.textContent=enabled?"알림 끄기":"알림 켜기";button.className=`btn ${enabled?"on":"primary"}`}
+}
+async function syncPushSubscription(subscription){
+  const response=await fetch(`${WORKER_API_BASE}/api/push/subscriptions`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({subscription:subscription.toJSON(),userState:collectPushUserState()})});
+  if(!response.ok)throw new Error(`push sync failed: ${response.status}`);
+}
+async function initPush(){
+  if(!("serviceWorker" in navigator)||!("PushManager" in window)){setPushStatus("이 브라우저는 Web Push를 지원하지 않습니다.");return}
+  try{
+    pushRegistration=await navigator.serviceWorker.register("./sw.js?v=20260901-push1");
+    const subscription=await pushRegistration.pushManager.getSubscription();
+    if(subscription){await syncPushSubscription(subscription);setPushStatus("🔔 일정 이동·복귀 알림이 켜져 있습니다.",true)}
+    else if(Notification.permission==="denied")setPushStatus("알림이 차단되어 있습니다. 브라우저 설정에서 허용해 주세요.");
+    else setPushStatus("일정이 날씨 때문에 이동하거나 복귀할 때 알려드립니다.");
+  }catch(error){console.warn("Push initialization failed",error);setPushStatus("푸시 알림을 준비하지 못했습니다. 잠시 후 다시 시도해 주세요.")}
+}
+async function enablePush(){
+  if(!pushRegistration){await initPush();if(!pushRegistration)return}
+  try{
+    let subscription=await pushRegistration.pushManager.getSubscription();
+    if(!subscription){
+      const permission=await Notification.requestPermission();if(permission!=="granted"){setPushStatus("알림 권한이 허용되지 않았습니다.");return}
+      const keyResponse=await fetch(`${WORKER_API_BASE}/api/push/public-key`,{cache:"no-store"}),keyData=await keyResponse.json();
+      if(!keyResponse.ok||!keyData.available||!keyData.publicKey)throw new Error("VAPID key unavailable");
+      subscription=await pushRegistration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:base64UrlBytes(keyData.publicKey)});
+    }
+    await syncPushSubscription(subscription);setPushStatus("🔔 일정 이동·복귀 알림이 켜져 있습니다.",true);
+  }catch(error){console.error(error);setPushStatus("알림을 켜지 못했습니다. iPhone은 홈 화면에 추가한 뒤 다시 시도해 주세요.")}
+}
+async function disablePush(){
+  if(!pushRegistration)return;
+  const subscription=await pushRegistration.pushManager.getSubscription();
+  if(!subscription){setPushStatus("푸시 알림이 꺼져 있습니다.");return}
+  try{await fetch(`${WORKER_API_BASE}/api/push/subscriptions`,{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({endpoint:subscription.endpoint})})}catch(error){console.warn("Push removal sync failed",error)}
+  await subscription.unsubscribe();setPushStatus("푸시 알림이 꺼져 있습니다.");
+}
+async function togglePush(){
+  const subscription=pushRegistration?await pushRegistration.pushManager.getSubscription():null;
+  if(subscription)await disablePush();else await enablePush();
+}
+function schedulePushStateSync(){
+  clearTimeout(pushSyncTimer);pushSyncTimer=setTimeout(async()=>{try{const subscription=pushRegistration&&await pushRegistration.pushManager.getSubscription();if(subscription)await syncPushSubscription(subscription)}catch(error){console.warn("Push state sync failed",error)}},800);
+}
 async function fetchWorkerWeather(force=false){
   const url=`${WORKER_API_BASE}/api/weather${force?"?refresh=1":""}`;
   const response=await fetch(url,{cache:"no-store",headers:{Accept:"application/json"}});
@@ -282,7 +345,7 @@ function renderSchedule(){
     const deferButtons=isRunningWorkout(w)&&!done?`<div class="defer-actions"><button class="mini-btn sick" onclick="deferWorkout('${w.date}','${shownDate}','sick')">🤒 몸상태로 미루기</button><button class="mini-btn schedule" onclick="deferWorkout('${w.date}','${shownDate}','schedule')">📅 일정으로 미루기</button><button class="mini-btn custom" onclick="deferWorkout('${w.date}','${shownDate}','custom')">📌 날짜 지정</button>${manual?`<button class="mini-btn cancel" onclick="clearDefer('${w.date}')">↩ 미루기 취소</button>`:""}</div>`:"";
     html+=`<article class="${classes}" id="day-${w.date}"><div class="workout-top"><div class="date-box"><div class="monthday">${getMonthDay(shownDate)}</div><div class="weekday">${getWeekday(shownDate)}</div>${w.moved?`<div class="original-date">원래 ${getMonthDay(w.date)}</div>`:""}</div><div class="workout-main"><div class="workout-title">${w.title}</div><div class="chips"><span class="chip ${w.type}">${typeLabel(w)}</span>${shownDate===today?'<span class="chip">TODAY</span>':""}${w.moved?'<span class="chip moved">MOVED</span>':""}${manual?'<span class="chip manual">MANUAL</span>':""}${locked?'<span class="chip locked">LOCKED</span>':""}${w.suggestSkip?'<span class="chip skip">SKIP 권장</span>':""}</div><div class="workout-desc">${w.desc}</div></div></div>${manualHtml}${moveHtml}${warningHtml}${weatherHtml}<div class="complete-row"><label class="check-wrap"><input type="checkbox" ${done?"checked":""} onchange="setDone('${w.date}','${shownDate}',this.checked)"><span>훈련 완료</span></label>${isRunningWorkout(w)&&!done?`<label class="lock-wrap"><input type="checkbox" ${locked?"checked":""} onchange="setLocked('${w.date}','${shownDate}',this.checked)"><span>🔒 날짜 고정</span></label>`:""}</div>${deferButtons}<details><summary>운동 기록 입력</summary><div class="record-grid">${recordField(w.date,"거리 (km)",STORAGE_KEYS.dist,"예: 5.00","number")}${recordField(w.date,"시간",STORAGE_KEYS.time,"예: 35:10")}${recordField(w.date,"RPE (1~10)",STORAGE_KEYS.rpe,"예: 5","number")}${recordField(w.date,"체중 (kg)",STORAGE_KEYS.weight,"선택","number")}${recordField(w.date,"통증 (0~10)",STORAGE_KEYS.pain,"예: 0","number")}<div class="field"><label>평균 페이스</label><input id="pace-${w.date}" value="${pace}" placeholder="자동 계산" disabled></div><div class="field record-note"><label>메모</label><textarea placeholder="신발, 무릎 상태, 날씨, 심박, 케이던스 등" oninput="writeStorage('${STORAGE_KEYS.note}','${w.date}',this.value)">${escapeHtml(readStorage(STORAGE_KEYS.note,w.date))}</textarea></div></div></details></article>`;
   });
-  container.innerHTML=html;updateSummary();updateAutoUI();
+  container.innerHTML=html;updateSummary();updateAutoUI();schedulePushStateSync();
 }
 function refreshPace(date){const el=document.getElementById(`pace-${date}`);if(el)el.value=calculatePace(date)}
 function updateSummary(){const days=dayDiff(koreaToday(),RACE_DATE);document.getElementById("dday").textContent=days>=0?`D-${days}`:"완료";const done=workouts.filter(w=>isDone(w.date)).length;document.getElementById("doneCount").textContent=`${done}/${workouts.length}`}
@@ -297,3 +360,4 @@ setInterval(()=>{if(!document.hidden)loadWeather(false)},30*60*1000);
 
 renderSchedule();
 loadWeather(false);
+initPush();

@@ -7,7 +7,8 @@
     "crons": ["*/30 * * * *"]
   },
   "vars": {
-    "ALLOWED_ORIGIN": "https://dev-sjyong.github.io"
+    "ALLOWED_ORIGIN": "https://dev-sjyong.github.io",
+    "VAPID_SUBJECT": "https://dev-sjyong.github.io/10km-run/"
   },
   "kv_namespaces": [
     {
