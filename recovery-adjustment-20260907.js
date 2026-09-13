@@ -1,7 +1,8 @@
 (() => {
-  // 2026-09-09 ~ 2026-09-15: 주 4회 러닝 + 2회 가벼운 걷기 + 1회 완전 휴식 테스트
+  // 2026-09-14 ~ 2026-09-20: 주 4회 러닝 정착 주간
+  // 9/13 Long Easy는 피로로 미실시하여 9/14로 1회만 이동한다.
+  // 9/18 약속일은 러닝 없이 완전 휴식으로 확보한다.
   // 거리/시간은 범위가 아니라 고정값으로 지정한다.
-  // 9/8 복귀 러닝: 4.64km / 30:30 / 6:34/km / 평균 HR 161 / 후반 HR 173 / 상승 42m
   // Easy 기준은 고정 페이스보다 대화 가능 + RPE 3~4 + 후반 통제 우선.
 
   const adjustments = {
@@ -25,25 +26,50 @@
       title: "Easy 5km · 주 4회 테스트 ②",
       desc: "거리 5km 고정\n대화 가능한 강도 · RPE 3~4\n첫 1km는 의도적으로 여유 있게\n후반에도 호흡과 폼이 편해야 성공\n어지럼·탈수·컨디션 저하가 있으면 걷기로 대체"
     },
-    "2026-09-14": {
+    "2026-09-13": {
       type: "rest",
-      title: "완전 휴식 · 회복 체크",
-      desc: "러닝 없음\n주 4회 테스트 중 유일한 완전 휴식일\n다리 피로·수면·피부·식욕·수분 상태 확인\n가벼운 일상 활동 외 운동은 하지 않기"
+      title: "피로로 미실시 · 9/14로 이동",
+      desc: "오늘 Long Easy 6.5km는 피로로 미실시\n억지로 밤에 보충하지 않기\n6.5km는 9/14에 1회만 이동\n오늘은 수면·수분·회복 우선"
+    },
+    "2026-09-14": {
+      type: "long",
+      title: "Long Easy 6.5km · 주 4회 ①",
+      desc: "9/13 미실시한 Long Easy를 오늘로 이동\n거리 6.5km 고정\n대화 가능한 강도 · RPE 4 이하\n초반 2km는 7:00/km보다 빠르게 당기지 않기\n오르막은 페이스보다 호흡 유지\n마지막 가속 금지\n끝났을 때 1km 이상 더 뛸 수 있을 느낌으로 종료"
+    },
+    "2026-09-15": {
+      type: "rest",
+      title: "회복 · 가벼운 걷기 45분",
+      desc: "러닝 없음\n걷기 45분 고정 · RPE 1~2\n9/14 장거리 피로 제거가 목적\n다리 무거움·수면·피부·수분 상태 확인"
     },
     "2026-09-16": {
-      type: "quality",
-      title: "4분 지속주 × 3 · 테스트 후 재평가",
-      desc: "9/9~9/15 주 4회 테스트 결과를 먼저 평가\n회복이 안정적일 때만 진행\n1km Easy 워밍업\n(4분 @ 6:20~6:30/km + 2분 아주 느린 조깅/걷기) × 3\n1km Cooldown\n피로·피부 증상이 남으면 Easy 4.5km로 대체"
+      type: "easy",
+      title: "Easy 4.5km · 주 4회 ②",
+      desc: "거리 4.5km 고정\n대화 가능한 강도 · RPE 3~4\n현재 Easy는 7:00/km 숫자에 맞추지 말고 호흡 기준\n첫 2km 여유 있게\n기록 도전·마지막 가속 금지"
+    },
+    "2026-09-17": {
+      type: "easy",
+      title: "Recovery Easy 4km · 주 4회 ③",
+      desc: "거리 4km 고정\n전날보다 더 느리고 편하게 · RPE 3 이하\n연속 러닝 적응을 확인하는 날\n페이스 목표 없음\n다리가 무겁거나 피로가 뚜렷하면 45분 걷기로 변경"
     },
     "2026-09-18": {
-      type: "easy",
-      title: "Easy 5km",
-      desc: "거리 5km 고정\n대화 가능한 강도 · RPE 3~4\n9/16 피로가 남으면 훈련 자체를 Easy 4km로 변경\n회복성 러닝"
+      type: "rest",
+      title: "약속 · 완전 휴식",
+      desc: "러닝 없음\n약속 일정 우선\n훈련을 앞뒤로 몰아서 보충하지 않기\n수분 섭취와 수면만 챙기기"
+    },
+    "2026-09-19": {
+      type: "rest",
+      title: "회복 · 가벼운 걷기 45분",
+      desc: "러닝 없음\n걷기 45분 고정 · RPE 1~2\n전날 일정으로 피곤하면 걷기도 생략 가능\n9/20 Long Easy를 위해 다리 회복"
+    },
+    "2026-09-20": {
+      type: "long",
+      title: "Long Easy 7.5km · 주 4회 ④",
+      desc: "거리 7.5km 고정\n대화 가능한 강도 · RPE 4 이하\n기록 도전 금지\n초반 2km는 확실히 천천히\n6km 이후에도 호흡과 폼이 편해야 성공\n마지막 가속 금지"
     },
     "2026-09-21": {
-      type: "long",
-      title: "Long Easy 7.5km",
-      desc: "거리 7.5km 고정\n대화 가능한 강도 · RPE 4~5\n기록 도전 금지\n6km 이후에도 호흡과 폼이 무너지지 않는 것이 목표"
+      type: "rest",
+      title: "완전 휴식 · 주 4회 평가",
+      desc: "러닝 없음\n9/14~9/20 주 4회 결과 평가\n다리 피로·수면·피부·식욕·수분 상태 확인\n7.5km 다음날은 회복 우선"
     },
     "2026-09-23": {
       type: "easy",
@@ -134,18 +160,6 @@
       type: "rest",
       title: "가벼운 걷기 45분",
       desc: "45분 고정\n편한 산책 · RPE 1~2\n땀이 많이 나는 속도로 걷지 않기\n피부 반응과 다리 피로 확인"
-    },
-    {
-      date: "2026-09-13",
-      type: "long",
-      title: "Long Easy 6.5km · 주 4회 테스트 ③",
-      desc: "거리 6.5km 고정\n대화 가능한 강도 · RPE 4 이하\n페이스보다 편안하게 거리를 소화하는 것이 목표\n마지막까지 가속하지 않기\n끝났을 때 1km 이상 더 뛸 수 있을 느낌으로 종료"
-    },
-    {
-      date: "2026-09-15",
-      type: "easy",
-      title: "Easy 4.5km · 주 4회 테스트 ④",
-      desc: "거리 4.5km 고정\n대화 가능한 강도 · RPE 3~4\n이번 주 빈도 테스트의 마지막 러닝\n기록 도전·가속주 없음\n운동 직후와 다음날 다리/피부/피로를 기록해 주 4회 유지 여부 판단"
     }
   ];
 
@@ -158,6 +172,11 @@
     const existing = workouts.find(workout => workout.date === item.date);
     if (existing) Object.assign(existing, item);
     else workouts.push(item);
+  });
+
+  Object.entries(adjustments).forEach(([date, item]) => {
+    const existing = workouts.find(workout => workout.date === date);
+    if (!existing) workouts.push({ date, ...item });
   });
 
   workouts.sort((a, b) => a.date.localeCompare(b.date));
