@@ -41,6 +41,7 @@
   const RECOVERY_KEY="run58_recovery_wait_v1";
   const originalDeferWorkout=window.deferWorkout;
   const originalRenderSchedule=window.renderSchedule;
+  let initialTodayPositioned=false;
   function recoveryState(){try{return JSON.parse(localStorage.getItem(RECOVERY_KEY)||"null")}catch(e){return null}}
   function startRecovery(baseDate){
     const today=koreaToday();
@@ -50,6 +51,19 @@
   }
   window.finishRecovery=function(){localStorage.removeItem(RECOVERY_KEY);renderSchedule()};
   window.deferWorkout=function(baseDate,effectiveDate,reason){if(reason==="sick"){startRecovery(baseDate);return}return originalDeferWorkout(baseDate,effectiveDate,reason)};
+
+  function positionTodayAtTop(){
+    if(initialTodayPositioned)return;
+    const schedule=document.getElementById("schedule");if(!schedule)return;
+    const today=koreaToday();
+    const todayCard=document.getElementById("day-"+today)||schedule.querySelector(".workout.today");
+    if(!todayCard)return;
+    initialTodayPositioned=true;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const top=todayCard.getBoundingClientRect().top+window.scrollY-12;
+      window.scrollTo({top:Math.max(0,top),behavior:"auto"});
+    }));
+  }
 
   function decorateRecoveryUI(){
     document.querySelectorAll(".mini-btn.sick").forEach(btn=>{btn.textContent="🩹 회복 대기";btn.title="통증·부상·심한 피로 시 훈련을 뒤로 밀지 않고 회복 대기로 전환"});
@@ -66,6 +80,7 @@
         if(!card.querySelector(".recovery-wait-banner")){const b=document.createElement("div");b.className="warning-banner recovery-wait-banner";b.textContent="🩹 회복 대기 중 · 이 훈련은 지금 수행하거나 보충하지 않습니다.";const top=card.querySelector(".workout-top");if(top)top.insertAdjacentElement("afterend",b)}
       });
     }else if(panel)panel.remove();
+    positionTodayAtTop();
   }
   window.renderSchedule=function(){const r=originalRenderSchedule();queueMicrotask(decorateRecoveryUI);return r};
   renderSchedule();decorateRecoveryUI();
