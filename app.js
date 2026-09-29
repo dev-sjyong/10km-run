@@ -293,8 +293,8 @@ function buildAdaptiveSchedule(){
     if(w.type==="rest"||!isRunningWorkout(w))continue;
     if(isDone(w.date)){w.effectiveDate=localStorage.getItem(ACTUAL_DATE_KEY+w.date)||w.date;occupied.set(w.effectiveDate,w.date);previousRun={date:w.effectiveDate,type:w.type};continue}
     if(isLocked(w.date)){w.effectiveDate=localStorage.getItem(LOCK_DATE_KEY+w.date)||w.date;occupied.set(w.effectiveDate,w.date);previousRun={date:w.effectiveDate,type:w.type};continue}
-    const manual=w.manual,weatherTriggered=weatherAuto&&weatherBadForDate(w,w.date),past=dayDiff(w.date,today)>0;
-    if(past&&!manual&&!weatherTriggered){w.effectiveDate=w.date;occupied.set(w.date,w.date);previousRun={date:w.date,type:w.type};continue}
+    const manual=w.manual,past=dayDiff(w.date,today)>0,weatherTriggered=!past&&weatherAuto&&weatherBadForDate(w,w.date);
+    if(past&&!manual){w.effectiveDate=w.date;occupied.set(w.date,w.date);previousRun={date:w.date,type:w.type};continue}
     let startDate=w.date;const reasons=[];
     if(manual){startDate=maxDate(startDate,manual.notBefore);reasons.push(`${deferLabel(manual.reason)}로 미룸`)}
     if(previousRun){const required=minGapDays(previousRun.type,w.type),earliest=dateAdd(previousRun.date,required);if(earliest>startDate){startDate=earliest;reasons.push("앞 훈련과 회복 간격 확보")}}
