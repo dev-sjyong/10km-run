@@ -41,7 +41,8 @@
   const RECOVERY_KEY="run58_recovery_wait_v1";
   const originalDeferWorkout=window.deferWorkout;
   const originalRenderSchedule=window.renderSchedule;
-  let initialTodayPositioned=false;
+  const initialPositionStartedAt=Date.now();
+  let positionTimer=null;
   function recoveryState(){try{return JSON.parse(localStorage.getItem(RECOVERY_KEY)||"null")}catch(e){return null}}
   function startRecovery(baseDate){
     const today=koreaToday();
@@ -53,16 +54,18 @@
   window.deferWorkout=function(baseDate,effectiveDate,reason){if(reason==="sick"){startRecovery(baseDate);return}return originalDeferWorkout(baseDate,effectiveDate,reason)};
 
   function positionTodayAtTop(){
-    if(initialTodayPositioned)return;
+    if(Date.now()-initialPositionStartedAt>6000)return;
     const schedule=document.getElementById("schedule");if(!schedule)return;
-    const today=koreaToday();
-    const todayCard=document.getElementById("day-"+today)||schedule.querySelector(".workout.today");
-    if(!todayCard)return;
-    initialTodayPositioned=true;
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      const top=todayCard.getBoundingClientRect().top+window.scrollY-12;
+    const today=koreaToday(),cards=[...schedule.querySelectorAll(".workout")];
+    const target=cards.find(card=>card.dataset.shownDate===today)
+      ||cards.find(card=>(card.dataset.shownDate||"")>today)
+      ||cards[0];
+    if(!target)return;
+    clearTimeout(positionTimer);
+    positionTimer=setTimeout(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const top=target.getBoundingClientRect().top+window.scrollY-12;
       window.scrollTo({top:Math.max(0,top),behavior:"auto"});
-    }));
+    })),120);
   }
 
   function decorateRecoveryUI(){
