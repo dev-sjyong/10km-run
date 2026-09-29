@@ -6,7 +6,27 @@ const SUWON={latitude:37.2636,longitude:127.0286};
 const THUNDER_CODES=new Set([95,96,99]),STRONG_RAIN_CODES=new Set([65,67,82]);
 const RUN_INDEX_MOVE_BELOW=40,RUN_INDEX_NORMAL_MIN=60,RUN_DAY_START_HOUR=5,RUN_DAY_END_HOUR=22;
 const workouts=[
-  ["2026-09-01","easy","Easy 3.5~4km"],["2026-09-04","easy","Easy 4km"],["2026-09-07","long","Long Easy 5km"],["2026-09-09","easy","Easy 4.5km"],["2026-09-11","quality","4분 지속주 × 4"],["2026-09-14","long","Long Easy 6km"],["2026-09-16","easy","Easy 5km"],["2026-09-18","quality","1.5km Tempo × 2"],["2026-09-21","long","Long Easy 7km"],["2026-09-23","easy","Easy 5km"],["2026-09-25","quality","1km × 3"],["2026-09-28","long","Long Easy 8km"],["2026-09-30","easy","Easy 4km"],["2026-10-02","quality","⭐ 5km 기록 테스트"],["2026-10-05","long","Long Easy 8.5~9km"],["2026-10-07","easy","Easy 4~5km"],["2026-10-09","quality","⭐ Goal Pace 1km × 4"],["2026-10-12","easy","Easy 6km"],["2026-10-13","easy","Easy 4km + Strides"],["2026-10-14","rest","휴식"],["2026-10-15","quality","Race Pace 자극"],["2026-10-16","rest","완전 휴식"],["2026-10-17","rest","대회 전날"],["2026-10-18","race","🏁 STYLE RUN 10K"]
+  ["2026-09-16","easy","🩹 회복 대기 · Easy 4.5km 취소"],
+  ["2026-09-17","rest","🩹 회복 대기"],
+  ["2026-09-18","rest","약속 · 완전 휴식"],
+  ["2026-09-19","rest","🩹 회복 상태 확인"],
+  ["2026-09-20","rest","회복 · 가벼운 걷기"],
+  ["2026-09-21","easy","복귀 Easy 3km"],
+  ["2026-09-23","easy","Easy 4.5km"],
+  ["2026-09-25","quality","1km × 3 · 10K 페이스 접근"],
+  ["2026-09-27","rest","🩹 회복 마무리 · 러닝 없음"],
+  ["2026-09-28","easy","복귀 테스트 · Easy 3km"],
+  ["2026-09-30","easy","Easy 4km"],
+  ["2026-10-02","easy","Easy 5km"],
+  ["2026-10-04","long","Long Easy 6.5km"],
+  ["2026-10-06","easy","Easy 4.5km"],
+  ["2026-10-08","quality","10K Pace 1km × 3"],
+  ["2026-10-11","long","Long Easy 8km"],
+  ["2026-10-13","easy","Easy 4.5km · 테이퍼"],
+  ["2026-10-15","quality","Race Pace 자극 · 짧게"],
+  ["2026-10-16","rest","완전 휴식"],
+  ["2026-10-17","rest","대회 전날"],
+  ["2026-10-18","race","🏁 STYLE RUN 10K · SUB 60"]
 ].map(([date,type,title])=>({date,type,title}));
 
 function allowedOrigin(env,request){const origin=request.headers.get("Origin")||"",configured=env.ALLOWED_ORIGIN||"https://dev-sjyong.github.io";return origin===configured?origin:configured}
@@ -28,7 +48,7 @@ function bestAnyWindow(hours,required){let best=null;for(let i=0;i<=hours.length
 function assessRunWindows(hours,required){const normal=bestWindow(hours,required,RUN_INDEX_NORMAL_MIN);if(normal)return{canRun:true,mode:"normal",bestScore:normal.score,safeWindow:normal,advice:"정상 훈련 가능"};const reduced=bestWindow(hours,required,RUN_INDEX_MOVE_BELOW);if(reduced)return{canRun:true,mode:"reduced",bestScore:reduced.score,safeWindow:reduced,advice:"거리 10~20% 단축 · 목표 페이스 15~30초/km 완화 · RPE 우선"};const best=bestAnyWindow(hours,required);return{canRun:false,mode:"move",bestScore:best?.score??null,safeWindow:null,bestWindow:best,advice:"오늘 남은 적정 러닝 구간이 없어 자동 이동 대상"}}
 function hoursByDate(data){const map={};data.hourly.time.forEach((time,i)=>{const hour=Number(time.slice(11,13));if(hour<RUN_DAY_START_HOUR||hour>=RUN_DAY_END_HOUR)return;const date=time.slice(0,10);(map[date]??=[]).push(compactHour(data,i))});return map}
 function runningIndexMap(data){const result={};for(const[date,hours]of Object.entries(hoursByDate(data)))result[date]={easy:assessRunWindows(hours,1),hard:assessRunWindows(hours,2)};return result}
-async function fetchIndexForecast(){const params=new URLSearchParams({latitude:String(SUWON.latitude),longitude:String(SUWON.longitude),timezone:TIMEZONE,forecast_days:"16",hourly:["weather_code","temperature_2m","apparent_temperature","relative_humidity_2m","precipitation_probability","precipitation","wind_speed_10m"].join(",")}),r=await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);if(!r.ok)throw new Error(`Running index Open-Meteo error: ${r.status}`);return r.json()}
+async function fetchIndexForecast(){const params=new URLSearchParams({latitude:String(SUWON.latitude),longitude:String(SUWON.longitude),timezone:TIMEZONE,forecast_days:"16",past_days:"2",hourly:["weather_code","temperature_2m","apparent_temperature","relative_humidity_2m","precipitation_probability","precipitation","wind_speed_10m"].join(",")}),r=await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);if(!r.ok)throw new Error(`Running index Open-Meteo error: ${r.status}`);return r.json()}
 function enrichState(raw,indexData){const generatedAt=new Date(raw.generatedAt||Date.now()),now=kstParts(generatedAt),from=nextWholeHourKey(now),all=indexData.hourly.time.map((_,i)=>compactHour(indexData,i)),remaining=all.filter(h=>h.time.startsWith(`${now.date}T`)&&h.time>=from&&Number(h.time.slice(11,13))<RUN_DAY_END_HOUR),easy=assessRunWindows(remaining,1),hard=assessRunWindows(remaining,2);return{...raw,version:2,today:{...(raw.today||{}),date:now.date,assessedAt:now.text,assessmentFrom:from,rules:{...(raw.today?.rules||{}),runIndexMoveBelow:RUN_INDEX_MOVE_BELOW,runIndexNormalMin:RUN_INDEX_NORMAL_MIN,runDayEndHour:RUN_DAY_END_HOUR},easy,hard,runningIndex:{easy,hard},remainingHours:remaining},suwonRunIndex:runningIndexMap(indexData)}}
 async function readState(env){return env.WEATHER_STATE?.get(STATE_KEY,"json")||null}
 function isStale(state){return state?.version!==2||!state?.generatedAt||Date.now()-new Date(state.generatedAt).getTime()>STALE_MS}
