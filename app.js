@@ -324,6 +324,12 @@ function escapeHtml(v){return String(v||"").replaceAll("&","&amp;").replaceAll("
 function recordField(date,label,prefix,placeholder,type="text"){const v=readStorage(prefix,date);return`<div class="field"><label>${label}</label><input type="${type}" value="${escapeHtml(v)}" placeholder="${placeholder}" oninput="writeStorage('${prefix}','${date}',this.value);refreshPace('${date}')"></div>`}
 function setDone(baseDate,effectiveDate,checked){writeStorage(STORAGE_KEYS.done,baseDate,checked?"1":"");if(checked)localStorage.setItem(ACTUAL_DATE_KEY+baseDate,effectiveDate);else localStorage.removeItem(ACTUAL_DATE_KEY+baseDate);renderSchedule()}
 function setLocked(baseDate,effectiveDate,checked){if(checked){localStorage.setItem(LOCK_KEY+baseDate,"1");localStorage.setItem(LOCK_DATE_KEY+baseDate,effectiveDate)}else{localStorage.removeItem(LOCK_KEY+baseDate);localStorage.removeItem(LOCK_DATE_KEY+baseDate)}renderSchedule()}
+function cancelMove(baseDate){
+  localStorage.removeItem(DEFER_KEY+baseDate);
+  localStorage.setItem(LOCK_KEY+baseDate,"1");
+  localStorage.setItem(LOCK_DATE_KEY+baseDate,baseDate);
+  renderSchedule();
+}
 
 function displayScheduleSort(a,b,today){
   const ad=a.effectiveDate||a.date,bd=b.effectiveDate||b.date;
@@ -346,7 +352,7 @@ function renderSchedule(){
       weatherHtml=`<div class="weather"><div class="weather-line">📅 ${getMonthDay(shownDate)} 예보 · ${weatherText(weather.code)} · ${weather.min}~${weather.max}℃ · 하루 최대 비 ${weather.precipitation}% · 바람 ${Math.round(weather.wind)}km/h</div><div class="weather-advice ${advice.level}">${advice.text}</div>${windowHtml}</div>`;
     }else if(shownDate<today)weatherHtml=`<div class="weather"><div class="weather-line">📅 ${getMonthDay(shownDate)} · 지난 일정</div><div class="weather-advice">지난 날짜는 현재 예보 대상이 아닙니다.</div></div>`;
     else weatherHtml=`<div class="weather"><div class="weather-line">📅 ${getMonthDay(shownDate)} · 예보 범위 밖</div><div class="weather-advice">날짜가 가까워져 Open-Meteo 예보 범위에 들어오면 자동으로 표시됩니다.</div></div>`;
-    const moveHtml=w.moved?`<div class="move-banner">🔄 ${getMonthDay(w.date)} → ${getMonthDay(shownDate)} 이동 · ${w.moveReason}</div>`:"";
+    const moveHtml=w.moved?`<div class="move-banner">🔄 ${getMonthDay(w.date)} → ${getMonthDay(shownDate)} 이동 · ${w.moveReason}<div style="margin-top:8px"><button class="mini-btn cancel" type="button" onclick="cancelMove('${w.date}')">↩ 이동 취소 · ${getMonthDay(w.date)}로 복귀</button></div></div>`:"";
     const manualHtml=manual?`<div class="manual-banner">${deferLabel(manual.reason)} · ${getMonthDay(manual.notBefore)} 이후 가능한 날로 재배치</div>`:"";
     const warningHtml=w.scheduleWarning?`<div class="warning-banner">⚠️ ${w.scheduleWarning}</div>`:"";
     const pace=calculatePace(w.date);
