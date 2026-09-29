@@ -4,7 +4,27 @@ const STATE_KEY="weather_state_v1",SUB_PREFIX="push_subscription_v1:",TIMEZONE="
 const SUWON={name:"Suwon",latitude:37.2636,longitude:127.0286},SEOUL={name:"Jamsil",latitude:37.5145,longitude:127.1059};
 const THUNDER_CODES=new Set([95,96,99]),STRONG_RAIN_CODES=new Set([65,67,82]);
 const workouts=[
-  ["2026-09-01","easy","Easy 3.5~4km"],["2026-09-04","easy","Easy 4km"],["2026-09-07","long","Long Easy 5km"],["2026-09-09","easy","Easy 4.5km"],["2026-09-11","quality","4분 지속주 × 4"],["2026-09-14","long","Long Easy 6km"],["2026-09-16","easy","Easy 5km"],["2026-09-18","quality","1.5km Tempo × 2"],["2026-09-21","long","Long Easy 7km"],["2026-09-23","easy","Easy 5km"],["2026-09-25","quality","1km × 3"],["2026-09-28","long","Long Easy 8km"],["2026-09-30","easy","Easy 4km"],["2026-10-02","quality","⭐ 5km 기록 테스트"],["2026-10-05","long","Long Easy 8.5~9km"],["2026-10-07","easy","Easy 4~5km"],["2026-10-09","quality","⭐ Goal Pace 1km × 4"],["2026-10-12","easy","Easy 6km"],["2026-10-13","easy","Easy 4km + Strides"],["2026-10-14","rest","휴식"],["2026-10-15","quality","Race Pace 자극"],["2026-10-16","rest","완전 휴식"],["2026-10-17","rest","대회 전날"],["2026-10-18","race","🏁 STYLE RUN 10K"]
+  ["2026-09-16","easy","🩹 회복 대기 · Easy 4.5km 취소"],
+  ["2026-09-17","rest","🩹 회복 대기"],
+  ["2026-09-18","rest","약속 · 완전 휴식"],
+  ["2026-09-19","rest","🩹 회복 상태 확인"],
+  ["2026-09-20","rest","회복 · 가벼운 걷기"],
+  ["2026-09-21","easy","복귀 Easy 3km"],
+  ["2026-09-23","easy","Easy 4.5km"],
+  ["2026-09-25","quality","1km × 3 · 10K 페이스 접근"],
+  ["2026-09-27","rest","🩹 회복 마무리 · 러닝 없음"],
+  ["2026-09-28","easy","복귀 테스트 · Easy 3km"],
+  ["2026-09-30","easy","Easy 4km"],
+  ["2026-10-02","easy","Easy 5km"],
+  ["2026-10-04","long","Long Easy 6.5km"],
+  ["2026-10-06","easy","Easy 4.5km"],
+  ["2026-10-08","quality","10K Pace 1km × 3"],
+  ["2026-10-11","long","Long Easy 8km"],
+  ["2026-10-13","easy","Easy 4.5km · 테이퍼"],
+  ["2026-10-15","quality","Race Pace 자극 · 짧게"],
+  ["2026-10-16","rest","완전 휴식"],
+  ["2026-10-17","rest","대회 전날"],
+  ["2026-10-18","race","🏁 STYLE RUN 10K · SUB 60"]
 ].map(([date,type,title])=>({date,type,title}));
 
 function allowedOrigin(env,request){const origin=request.headers.get("Origin")||"",configured=env.ALLOWED_ORIGIN||"https://dev-sjyong.github.io";return origin===configured?origin:configured}
@@ -20,7 +40,7 @@ function isUnsafeHour(h){return THUNDER_CODES.has(h.code)||STRONG_RAIN_CODES.has
 function findSafeWindow(hours,required){for(let i=0;i<=hours.length-required;i++){let safe=true;for(let j=0;j<required;j++){const point=hours[i+j],previous=j?hours[i+j-1]:null;if(isUnsafeHour(point)||(previous&&point.time!==addHours(previous.time,1))){safe=false;break}}if(safe)return{start:hours[i].time,end:addHours(hours[i+required-1].time,1),hours:required}}return null}
 function compactHour(data,i){return{time:data.hourly.time[i],code:data.hourly.weather_code[i],temperature:data.hourly.temperature_2m[i],precipitationProbability:data.hourly.precipitation_probability[i]??0,precipitation:data.hourly.precipitation[i]??0,wind:data.hourly.wind_speed_10m[i]??0}}
 function dailyMap(data){const result={};data.daily.time.forEach((date,i)=>result[date]={code:data.daily.weather_code[i],max:data.daily.temperature_2m_max[i],min:data.daily.temperature_2m_min[i],precipitation:data.daily.precipitation_probability_max[i]??0,wind:data.daily.wind_speed_10m_max[i]??0});return result}
-async function fetchForecast(location){const params=new URLSearchParams({latitude:String(location.latitude),longitude:String(location.longitude),timezone:TIMEZONE,forecast_days:"16",hourly:["weather_code","temperature_2m","precipitation_probability","precipitation","wind_speed_10m"].join(","),daily:["weather_code","temperature_2m_max","temperature_2m_min","precipitation_probability_max","wind_speed_10m_max"].join(",")}),response=await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);if(!response.ok)throw new Error(`${location.name} Open-Meteo error: ${response.status}`);return response.json()}
+async function fetchForecast(location){const params=new URLSearchParams({latitude:String(location.latitude),longitude:String(location.longitude),timezone:TIMEZONE,forecast_days:"16",past_days:"2",hourly:["weather_code","temperature_2m","precipitation_probability","precipitation","wind_speed_10m"].join(","),daily:["weather_code","temperature_2m_max","temperature_2m_min","precipitation_probability_max","wind_speed_10m_max"].join(",")}),response=await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);if(!response.ok)throw new Error(`${location.name} Open-Meteo error: ${response.status}`);return response.json()}
 function buildTodayAssessment(data,generatedAt){const now=kstParts(generatedAt),from=nextWholeHourKey(now),remaining=data.hourly.time.map((_,i)=>compactHour(data,i)).filter(h=>h.time.startsWith(`${now.date}T`)&&h.time>=from),easy=findSafeWindow(remaining,1),hard=findSafeWindow(remaining,2);return{date:now.date,assessedAt:now.text,assessmentFrom:from,rules:{easyRequiredHours:1,hardRequiredHours:2,unsafePrecipitationProbability:70,unsafeHourlyPrecipitationMm:0.5,thunderCodes:[...THUNDER_CODES],strongRainCodes:[...STRONG_RAIN_CODES]},easy:{canRun:Boolean(easy),safeWindow:easy},hard:{canRun:Boolean(hard),safeWindow:hard},remainingHours:remaining}}
 async function buildState(){const generatedAt=new Date(),[suwon,seoul]=await Promise.all([fetchForecast(SUWON),fetchForecast(SEOUL)]);return{version:1,source:"Open-Meteo",generatedAt:generatedAt.toISOString(),generatedAtKst:kstParts(generatedAt).text,today:buildTodayAssessment(suwon,generatedAt),suwonDaily:dailyMap(suwon),seoulDaily:dailyMap(seoul)}}
 async function refreshState(env){if(!env.WEATHER_STATE)throw new Error("WEATHER_STATE KV binding is missing");const state=await buildState();await env.WEATHER_STATE.put(STATE_KEY,JSON.stringify(state));return state}
