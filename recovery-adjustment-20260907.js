@@ -12,9 +12,10 @@
     "2026-09-25": {type:"quality",title:"1km × 3 · 10K 페이스 접근",desc:"1.5km Easy 워밍업\n1km @ 6:05~6:15/km × 3\n세트 사이 3분 걷기/느린 조깅\n1km Cooldown\n통증이 완전히 사라진 상태에서만 실시"},
     "2026-09-27": {type:"rest",title:"🩹 회복 마무리 · 러닝 없음",desc:"내일 복귀런을 위한 마지막 회복일\n일상 보행에서 통증이 없을 때만 9/28 러닝 진행\n밀린 훈련 보충 금지"},
     "2026-09-28": {type:"easy",title:"복귀 테스트 · Easy 3km",desc:"3km @ 7:20~7:40/km\nRPE 3 이하 · 평지 위주\n통증이 조금이라도 다시 나타나면 즉시 종료\n거리 추가·가속 금지"},
-    "2026-09-30": {type:"easy",title:"Easy 4km",desc:"9/28 러닝 후 다음 날까지 통증 0일 때만 실시\n4km @ 7:15~7:35/km\nRPE 3~4 · 마지막 가속 금지"},
-    "2026-10-02": {type:"easy",title:"Easy 5km",desc:"5km @ 7:15~7:35/km\nRPE 3~4\n5K 기록 테스트는 이번 회복기에는 생략\n통증 없이 거리 적응이 우선"},
-    "2026-10-04": {type:"long",title:"Long Easy 6.5km",desc:"6.5km @ 7:15~7:40/km\nRPE 4 이하\n기록 도전·마지막 가속 금지"},
+    "2026-09-30": {type:"rest",title:"완전 휴식 · 관악산 전날",desc:"러닝 없음\n일상생활 걷기만\n내일 관악산을 위해 다리 피로를 남기지 않기\n강한 스트레칭·보충 운동 금지"},
+    "2026-10-01": {type:"hike",title:"⛰️ 관악산 등산",desc:"오늘의 주 운동은 관악산 등산\n속도·기록 욕심 금지\n특히 내리막에서 보폭을 줄이고 발 충격 관리\n발바닥·발 바깥쪽 통증이 나타나면 강도를 낮추거나 종료"},
+    "2026-10-02": {type:"rest",title:"등산 후 완전 휴식",desc:"러닝 없음\n일상생활 수준의 가벼운 활동만\n발·종아리·무릎 상태 확인\n밀린 9/30 러닝을 보충하지 않기"},
+    "2026-10-04": {type:"long",title:"Long Easy 6.5km",desc:"관악산 이후 발 통증 0이 계속 유지될 때만 실시\n6.5km @ 7:15~7:40/km\nRPE 4 이하\n기록 도전·마지막 가속 금지"},
     "2026-10-06": {type:"easy",title:"Easy 4.5km",desc:"4.5km @ 7:15~7:35/km\nRPE 3~4\n발 상태가 완전히 안정적일 때만 진행"},
     "2026-10-08": {type:"quality",title:"10K Pace 1km × 3",desc:"1.5km Easy 워밍업\n1km @ 6:05~6:15/km × 3\n세트 사이 3분 걷기/느린 조깅\n1km Cooldown\n발 통증 0이 계속 유지될 때만 실시"},
     "2026-10-11": {type:"long",title:"Long Easy 8km",desc:"8km @ 7:15~7:40/km\nRPE 4 이하\n대회 전 마지막 긴 러닝\n거리 추가·마지막 가속 금지"},
@@ -37,6 +38,29 @@
   for(let i=workouts.length-1;i>=0;i--){const w=workouts[i];if(w.date>="2026-09-16"&&w.date<="2026-10-31"&&!plannedDates.has(w.date))workouts.splice(i,1)}
   Object.entries(adjustments).forEach(([date,a])=>{const w=workouts.find(x=>x.date===date);if(w)Object.assign(w,a);else workouts.push({date,...a})});
   workouts.sort((a,b)=>a.date.localeCompare(b.date));
+
+  // Schedule revision migration: clear only stale move/lock overrides for the revised hiking block.
+  // Workout records, completion flags, weight, pain and notes are preserved.
+  const SCHEDULE_REVISION_KEY="run58_schedule_revision";
+  const SCHEDULE_REVISION="20260930-gwanaksan-v1";
+  const REVISION_DATES=["2026-09-30","2026-10-01","2026-10-02","2026-10-04"];
+  if(localStorage.getItem(SCHEDULE_REVISION_KEY)!==SCHEDULE_REVISION){
+    REVISION_DATES.forEach(date=>{
+      localStorage.removeItem(DEFER_KEY+date);
+      localStorage.removeItem(LOCK_KEY+date);
+      localStorage.removeItem(LOCK_DATE_KEY+date);
+    });
+    localStorage.setItem(SCHEDULE_REVISION_KEY,SCHEDULE_REVISION);
+  }
+
+  window.resetScheduleOverrides=function(){
+    Object.keys(localStorage).forEach(key=>{
+      if(key.startsWith(DEFER_KEY)||key.startsWith(LOCK_KEY)||key.startsWith(LOCK_DATE_KEY))localStorage.removeItem(key);
+    });
+    localStorage.setItem(SCHEDULE_REVISION_KEY,SCHEDULE_REVISION);
+    renderSchedule();
+    alert("일정 이동·날짜 고정 상태를 초기화했습니다. 운동 기록과 완료 기록은 유지됩니다.");
+  };
 
   const RECOVERY_KEY="run58_recovery_wait_v1";
   const originalDeferWorkout=window.deferWorkout;
