@@ -43,7 +43,7 @@
   // Workout records, completion flags, weight, pain and notes are preserved.
   const SCHEDULE_REVISION_KEY="run58_schedule_revision";
   const SCHEDULE_REVISION="20260930-gwanaksan-v1";
-  const REVISION_DATES=["2026-09-30","2026-10-01","2026-10-02","2026-10-04"];
+  const REVISION_DATES=["2026-09-28","2026-09-30","2026-10-01","2026-10-02","2026-10-04"];
   if(localStorage.getItem(SCHEDULE_REVISION_KEY)!==SCHEDULE_REVISION){
     REVISION_DATES.forEach(date=>{
       localStorage.removeItem(DEFER_KEY+date);
