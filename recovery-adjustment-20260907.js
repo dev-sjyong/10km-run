@@ -51,13 +51,16 @@
       localStorage.removeItem(LOCK_DATE_KEY+date);
     });
     localStorage.setItem(SCHEDULE_REVISION_KEY,SCHEDULE_REVISION);
+    setTimeout(()=>{try{schedulePushStateSync()}catch(_){}},1500);
   }
 
   window.resetScheduleOverrides=function(){
-    Object.keys(localStorage).forEach(key=>{
+    for(let i=localStorage.length-1;i>=0;i--){
+      const key=localStorage.key(i)||"";
       if(key.startsWith(DEFER_KEY)||key.startsWith(LOCK_KEY)||key.startsWith(LOCK_DATE_KEY))localStorage.removeItem(key);
-    });
+    }
     localStorage.setItem(SCHEDULE_REVISION_KEY,SCHEDULE_REVISION);
+    try{schedulePushStateSync()}catch(_){}
     renderSchedule();
     alert("일정 이동·날짜 고정 상태를 초기화했습니다. 운동 기록과 완료 기록은 유지됩니다.");
   };
