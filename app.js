@@ -319,7 +319,7 @@ function buildAdaptiveSchedule(){
 
 function timeToSeconds(v){if(!v)return 0;const p=v.split(":").map(Number);if(p.length===3)return p[0]*3600+p[1]*60+p[2];if(p.length===2)return p[0]*60+p[1];return 0}
 function calculatePace(date){const dist=parseFloat(readStorage(STORAGE_KEYS.dist,date)),sec=timeToSeconds(readStorage(STORAGE_KEYS.time,date));if(!dist||!sec)return"";const total=Math.round(sec/dist),m=Math.floor(total/60),s=String(total%60).padStart(2,"0");return`${m}'${s}\"/km`}
-function typeLabel(w){return w.type==="easy"?"EASY":w.type==="long"?"LONG":w.type==="quality"?"QUALITY":w.type==="race"?"RACE":"REST"}
+function typeLabel(w){return w.type==="easy"?"EASY":w.type==="long"?"LONG":w.type==="quality"?"QUALITY":w.type==="race"?"RACE":w.type==="hike"?"HIKE":"REST"}
 function escapeHtml(v){return String(v||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
 function recordField(date,label,prefix,placeholder,type="text"){const v=readStorage(prefix,date);return`<div class="field"><label>${label}</label><input type="${type}" value="${escapeHtml(v)}" placeholder="${placeholder}" oninput="writeStorage('${prefix}','${date}',this.value);refreshPace('${date}')"></div>`}
 function setDone(baseDate,effectiveDate,checked){writeStorage(STORAGE_KEYS.done,baseDate,checked?"1":"");if(checked)localStorage.setItem(ACTUAL_DATE_KEY+baseDate,effectiveDate);else localStorage.removeItem(ACTUAL_DATE_KEY+baseDate);renderSchedule()}
